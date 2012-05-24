@@ -1,18 +1,17 @@
 (function(window, undefined){
-	var entropy = function(selector){
+	var	entropy = function(selector){
 		return new entropy.query(selector);
 	};
 
-	var numObjects = 0;
+	var	numObjects = 0;
 	
 	entropy._collection = [];
 	
 	entropy.create = function(prototype, values){
-		var object = Object.create(prototype, values);
-		
-		var init = object.init || function(){};
+		var	object = Object.create(prototype, values),
+			init = object.init || function(){};
 
-		var wrap = {
+		var	wrap = {
 			object: object,
 
 			init: function(){
@@ -29,21 +28,34 @@
 		return wrap;
 	};
 	
-	entropy.query = (function(entropy){
-		var query = function(selector){
+	entropy.query = (function(S){
+		var	query = function(selector){
 			this.query(selector);
 		}
 		
-		var methods = query.prototype = new Array;
+		var	methods = query.prototype = new Array;
 		
 		methods.query = function(select){
 			select = select || '';
 			
 			if(typeof select === 'string'){
 				if(select === '*'){
-			 		this.push.apply(this, entropy._collection.slice());
+			 		this.push.apply(this, S._collection.slice());
 			 		
 			 		return this;
+				}
+
+				if(/^\[.+\]$/.test(select)){
+					var param = select.replace(/\[|\]/g, '');
+
+					var i, length = S._collection.length;
+					for(i = 0; i < length; i++){
+						if(S._collection[i].object[param]){
+							this.push(S._collection[i]);
+						}
+					}
+
+					return this;
 				}
 			}
 			
