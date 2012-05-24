@@ -66,6 +66,17 @@
 			
 			return this;
 		};
+
+		methods.run = function(){
+			var args = Array.prototype.slice.call(arguments),
+				method = args.splice(0, 1);
+
+			this.forEach(function(item, i){
+				if(item.object[method]){
+					item.object[method].apply(item.object, args);
+				}
+			});
+		};
 		
 		return query;
 	})(entropy);
