@@ -4,6 +4,8 @@
 	};
 
 	var	numObjects = 0;
+
+	entropy.version = 0.01;
 	
 	entropy._collection = [];
 	
@@ -35,18 +37,18 @@
 		
 		var	methods = query.prototype = new Array;
 		
-		methods.query = function(select){
-			select = select || '';
+		methods.query = function(selector){
+			selector = selector || '';
 			
-			if(typeof select === 'string'){
-				if(select === '*'){
+			if(typeof selector === 'string'){
+				if(selector === '*'){
 			 		this.push.apply(this, S._collection.slice());
 			 		
 			 		return this;
 				}
 
-				if(/^\[.+\]$/.test(select)){
-					var	param = select.replace(/\s|\[|\]/g, ''),
+				if(/^\[.+\]$/.test(selector)){
+					var	param = selector.replace(/\s|\[|\]/g, ''),
 						parts = param.split('=');
 
 					var i, length = S._collection.length;
@@ -65,6 +67,18 @@
 			}
 			
 			return this;
+		};
+
+		methods.each = function(object, method, context){
+			if(object.forEach){
+				object.forEach(method, context);
+			}else{
+				for(var key in object){
+					if(object.hasOwnProperty(key)){
+						method.call(context, object[key], object);
+					}
+				}
+			}
 		};
 
 		methods.run = function(){
