@@ -22,3 +22,7 @@ S.create('human', {
 		console.log(this.name, 'says', what, 'with his', this.speech);
 	}
 });
+
+S.register('*', function(){
+	this.push.apply(this, S._collection.slice());
+}, true);

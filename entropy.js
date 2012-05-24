@@ -32,6 +32,14 @@
 		
 		return item;
 	};
+
+	entropy.register = function(test, method, isBreaking){
+		plugins.push({
+			test: test,
+			method: method,
+			isBreaking: isBreaking
+		});
+	};
 	
 	entropy.query = (function(S){
 		var	query = function(selector){
@@ -39,23 +47,29 @@
 		}
 		
 		var	methods = query.prototype = new Array;
-
-		methods.register = function(test, method){
-			plugins.push({
-				test: test,
-				method: method
-			});
-		};
 		
 		methods.query = function(selector){
 			selector = selector || '';
 			
 			if(typeof selector === 'string'){
-				if(selector === '*'){
-			 		this.push.apply(this, S._collection.slice());
-			 		
-			 		return this;
+				var p, plugin,
+					length = plugins.length;
+				for(p = 0; p < length; p++){
+					plugin = plugins[p];
+
+					if(
+						typeof plugin.test === 'string' && selector === plugin.test
+					||	(plugin.test instanceof RegExp) && plugin.test.test(selector)
+					){
+						plugin.method.call(this);
+
+						if(plugin.isBreaking){
+							return this;
+						}
+					}
 				}
+
+				console.log('test');
 
 				if(/^\[.+\]$/.test(selector)){
 					var	param = selector.replace(/\s|\[|\]/g, ''),
