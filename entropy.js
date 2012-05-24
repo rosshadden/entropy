@@ -3,7 +3,8 @@
 		return new entropy.query(selector);
 	};
 
-	var	numObjects = 0;
+	var	numObjects = 0,
+		plugins = [];
 
 	entropy.version = 0.01;
 	
@@ -38,6 +39,13 @@
 		}
 		
 		var	methods = query.prototype = new Array;
+
+		methods.register = function(test, method){
+			plugins.push({
+				test: test,
+				method: method
+			});
+		};
 		
 		methods.query = function(selector){
 			selector = selector || '';
@@ -50,6 +58,24 @@
 				}
 
 				if(/^\[.+\]$/.test(selector)){
+					var	param = selector.replace(/\s|\[|\]/g, ''),
+						parts = param.split('=');
+
+					var i, length = S._collection.length;
+					for(i = 0; i < length; i++){
+						if(
+							parts.length === 1 && S._collection[i].object[parts[0]]
+						||	parts.length === 2 && S._collection[i].object[parts[0]] === parts[1]
+						){
+							this.push(S._collection[i]);
+							continue;
+						}
+					}
+
+					return this;
+				}
+
+/*				if(/^\[.+\]$/.test(selector)){
 					// var	params = selector.replace(/\s|\[|\]/g, ''),
 					var	parts, property,
 						properties = selector.match(/\[[\w=]+\]/gi);
@@ -72,7 +98,7 @@
 					}
 
 					return this;
-				}
+				}*/
 			}
 			
 			return this;
@@ -88,6 +114,8 @@
 					}
 				}
 			}
+
+			return this;
 		};
 
 		methods.run = function(){
@@ -99,6 +127,8 @@
 					item.object[method].apply(item.object, args);
 				}
 			});
+
+			return this;
 		};
 		
 		return query;

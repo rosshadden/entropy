@@ -16,6 +16,7 @@ S.create('dog', {
 
 S.create('human', {
 	name: 'Jake',
+	handedness: 'right',
 	speech: 'WORDS',
 	speak: function(what){
 		console.log(this.name, 'says', what, 'with his', this.speech);
