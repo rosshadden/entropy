@@ -61,32 +61,12 @@
 						typeof plugin.test === 'string' && selector === plugin.test
 					||	(plugin.test instanceof RegExp) && plugin.test.test(selector)
 					){
-						plugin.method.call(this);
+						plugin.method.call(this, selector);
 
 						if(plugin.isBreaking){
 							return this;
 						}
 					}
-				}
-
-				console.log('test');
-
-				if(/^\[.+\]$/.test(selector)){
-					var	param = selector.replace(/\s|\[|\]/g, ''),
-						parts = param.split('=');
-
-					var i, length = S._collection.length;
-					for(i = 0; i < length; i++){
-						if(
-							parts.length === 1 && S._collection[i].object[parts[0]]
-						||	parts.length === 2 && S._collection[i].object[parts[0]] === parts[1]
-						){
-							this.push(S._collection[i]);
-							continue;
-						}
-					}
-
-					return this;
 				}
 
 /*				if(/^\[.+\]$/.test(selector)){
