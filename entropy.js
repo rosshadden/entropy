@@ -46,12 +46,19 @@
 				}
 
 				if(/^\[.+\]$/.test(select)){
-					var param = select.replace(/\[|\]/g, '');
+					var	param = select.replace(/\s|\[|\]/g, ''),
+						parts = param.split('=');
 
 					var i, length = S._collection.length;
 					for(i = 0; i < length; i++){
-						if(S._collection[i].object[param]){
+						if(parts.length === 2 && S._collection[i].object[parts[0]] === parts[1]){
 							this.push(S._collection[i]);
+							continue;
+						}
+
+						if(parts.length === 1 && S._collection[i].object[parts[0]]){
+							this.push(S._collection[i]);
+							continue;
 						}
 					}
 
