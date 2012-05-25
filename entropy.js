@@ -1,10 +1,12 @@
 (function(window, undefined){
+	'use strict';
+
 	var	entropy = function(selector){
 		return new entropy.query(selector);
 	};
 
 	var	numObjects = 0,
-		plugins = [];
+		pluginList = entropy.plugins = {};
 
 	entropy.version = 0.01;
 	
@@ -33,12 +35,8 @@
 		return item;
 	};
 
-	entropy.register = function(test, method, isBreaking){
-		plugins.push({
-			test: test,
-			method: method,
-			isBreaking: isBreaking
-		});
+	entropy.register = function(selector, properties){
+		pluginList[selector] = properties;
 	};
 	
 	entropy.query = (function(S){
@@ -49,47 +47,71 @@
 		var	methods = query.prototype = new Array;
 		
 		methods.query = function(selector){
-			selector = selector || '';
-			
-			if(typeof selector === 'string'){
-				var p, plugin,
-					length = plugins.length;
-				for(p = 0; p < length; p++){
-					plugin = plugins[p];
+			selector = selector.replace(/\s/g, '') || '';
 
-					if(
-						typeof plugin.test === 'string' && selector === plugin.test
-					||	(plugin.test instanceof RegExp) && plugin.test.test(selector)
-					){
-						plugin.method.call(this, selector);
+			var self = this;
+			
+			var	lexer, plugin,
+				word = '',
+				results = [],
+				phrases = selector.split(',');
+
+			phrases.forEach(function(phrase, p){
+				var	relevant = [],
+					lexers = [];
+
+				for(var plugin in pluginList){
+					if(pluginList[plugin].test.test(phrase)){
+						relevant.push(plugin);
+
+						if(pluginList[plugin].start){
+							lexers.push(pluginList[plugin].start);
+						}
 					}
 				}
 
-/*				if(/^\[.+\]$/.test(selector)){
-					// var	params = selector.replace(/\s|\[|\]/g, ''),
-					var	parts, property,
-						properties = selector.match(/\[[\w=]+\]/gi);
+				if(typeof phrase === 'string'){
+					var originalPhrase = phrase;
 
-					var i, length = properties.length;
-					for(i = 0; i < length; i++){
-						property = properties[i].replace(/\s|\[|\]/g, '');
-						parts = property.split('=');
+					while(phrase.length > 0){
+						lexer = phrase[0];
+						phrase = phrase.substr(1);
 
-						var j, lenCollection = S._collection.length;
-						for(j = 0; j < lenCollection; j++){
-							if(
-								parts.length === 1 && S._collection[j].object[parts[0]]
-							||	parts.length === 2 && S._collection[j].object[parts[0]] === parts[1]
-							){
-								this.push(S._collection[j]);
-								continue;
+						var	isRegistered = relevant.indexOf(lexer) > -1,
+							isPhrase = phrase.length === 0;
+
+						if(isPhrase){
+							word += lexer;
+						}
+
+						if(isPhrase || isRegistered){
+							if(word.length === 0 || isRegistered){
+								plugin = pluginList[lexer];
+							}else if(word === originalPhrase){
+								plugin = pluginList.word;
 							}
+
+							if(word.length > 0){
+								plugin.method.call(self, word, results);
+							}
+
+							word = '';
+						}else{
+							word += lexer;
 						}
 					}
+				}
+			});
 
-					return this;
-				}*/
-			}
+			S._collection.forEach(function(item, i){
+				for(var result in results){
+					if(typeof results[result].test === 'function' && results[result].test() || results[result].test === true){
+						self.push(item);
+					}
+				}
+			});
+
+			console.log('results', results);
 			
 			return this;
 		};
@@ -127,21 +149,33 @@
 	window.entropy = window.S = entropy;
 })(window);
 
-S.register(/^\*/, function(){
-	this.push.apply(this, S._collection.slice());
+S.register('*', {
+	test: /^\*/,
+	start: '*',
+	method: function(word, results){
+		// this.push.apply(this, S._collection.slice());
+		results.push({
+			word: word,
+			test: true,
+			select: true
+		});
+	}
 });
 
-S.register(/^\w+$/, function(selector){
-	var self = this;
-	
-	S._collection.forEach(function(item, i){
-		if(item.type === selector){
-			self.push(S._collection[i]);
-		}
-	});
+S.register('word', {
+	test: /^\w+$/,
+	method: function(selector){
+		var self = this;
+		
+		S._collection.forEach(function(item, i){
+			if(item.type === selector){
+				self.push(S._collection[i]);
+			}
+		});
+	}
 });
 
-S.register(/!\w+/, function(selector){
+/*S.register(/!\w+/, function(selector){
 	var item = selector.substr(selector.indexOf('!') + 1).replace(/\s|\[|\]/g, '');
 
 	this.except = this.except || [];
@@ -175,4 +209,4 @@ S.register(/^\[.+\]$/, function(selector){
 			this.push(S._collection[i]);
 		}
 	}
-});
+});*/
