@@ -1,6 +1,16 @@
 S.register(/^\*/, function(){
 	this.push.apply(this, S._collection.slice());
-}, false);
+});
+
+S.register(/^\w+$/, function(selector){
+	var self = this;
+	
+	S._collection.forEach(function(item, i){
+		if(item.type === selector){
+			self.push(S._collection[i]);
+		}
+	});
+});
 
 S.register(/!\w+/, function(selector){
 	var item = selector.substr(selector.indexOf('!') + 1).replace(/\s|\[|\]/g, '');
@@ -34,7 +44,6 @@ S.register(/^\[.+\]$/, function(selector){
 		||	parts.length === 2 && S._collection[i].object[parts[0]] === parts[1]
 		){
 			this.push(S._collection[i]);
-			continue;
 		}
 	}
 });

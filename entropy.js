@@ -62,10 +62,6 @@
 					||	(plugin.test instanceof RegExp) && plugin.test.test(selector)
 					){
 						plugin.method.call(this, selector);
-
-						if(plugin.isBreaking){
-							return this;
-						}
 					}
 				}
 
