@@ -6,7 +6,7 @@
 	};
 
 	var	numObjects = 0,
-		pluginList = entropy.plugins = {};
+		helperList = entropy.helpers = {};
 
 	entropy.version = 0.01;
 	
@@ -36,7 +36,7 @@
 	};
 
 	entropy.register = function(selector, properties){
-		pluginList[selector] = properties;
+		helperList[selector] = properties;
 	};
 	
 	entropy.query = (function(S){
@@ -51,7 +51,7 @@
 
 			var self = this;
 			
-			var	lexer, plugin,
+			var	lexer, helper,
 				word = '',
 				results = [],
 				phrases = selector.split(',');
@@ -60,16 +60,16 @@
 				var	relevant = [],
 					lexers = [];
 
-				for(var plugin in pluginList){
-					if(pluginList[plugin].test.test(phrase)){
-						relevant.push(plugin);
+				for(var helper in helperList){
+					if(helperList[helper].test.test(phrase)){
+						relevant.push(helper);
 
-						if(pluginList[plugin].start){
-							lexers.push(pluginList[plugin].start);
+						if(helperList[helper].start){
+							lexers.push(helperList[helper].start);
 						}
 
-						if(pluginList[plugin].stop){
-							lexers.push(pluginList[plugin].stop);
+						if(helperList[helper].stop){
+							lexers.push(helperList[helper].stop);
 						}
 					}
 				}
@@ -92,13 +92,13 @@
 
 						if(isPhrase || isRegistered){
 							if(word.length === 0 || isRegistered){
-								plugin = pluginList[lexer];
+								helper = helperList[lexer];
 							}else if(word === originalPhrase){
-								plugin = pluginList.word;
+								helper = helperList.word;
 							}
 
 							if(word.length > 0){
-								results.push(plugin.method(word));
+								results.push(helper.method(word));
 							}
 
 							word = '';
