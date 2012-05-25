@@ -92,7 +92,7 @@
 							}
 
 							if(word.length > 0){
-								plugin.method.call(self, word, results);
+								results.push(plugin.method(word));
 							}
 
 							word = '';
@@ -152,24 +152,24 @@
 S.register('*', {
 	test: /^\*/,
 	start: '*',
-	method: function(word, results){
-		results.push({
+	method: function(word){
+		return {
 			word: word,
 			test: true,
 			select: true
-		});
+		};
 	}
 });
 
 S.register('word', {
 	test: /^\w+$/,
-	method: function(word, results){
-		results.push({
+	method: function(word){
+		return {
 			word: word,
 			test: function(item, result, results){
 				return item.type === result.word;
 			}
-		});
+		};
 	}
 });
 
