@@ -67,8 +67,14 @@
 						if(pluginList[plugin].start){
 							lexers.push(pluginList[plugin].start);
 						}
+
+						if(pluginList[plugin].stop){
+							lexers.push(pluginList[plugin].stop);
+						}
 					}
 				}
+
+				console.log(relevant, lexers);
 
 				if(typeof phrase === 'string'){
 					var originalPhrase = phrase;
@@ -77,7 +83,7 @@
 						lexer = phrase[0];
 						phrase = phrase.substr(1);
 
-						var	isRegistered = relevant.indexOf(lexer) > -1,
+						var	isRegistered = lexers.indexOf(lexer) > -1,
 							isPhrase = phrase.length === 0;
 
 						if(isPhrase){
@@ -110,8 +116,6 @@
 					}
 				}
 			});
-
-			console.log('results', results);
 			
 			return this;
 		};
@@ -149,6 +153,7 @@
 	window.entropy = window.S = entropy;
 })(window);
 
+//	S('*');
 S.register('*', {
 	test: /^\*/,
 	start: '*',
@@ -161,6 +166,7 @@ S.register('*', {
 	}
 });
 
+//	S('dog');
 S.register('word', {
 	test: /^\w+$/,
 	method: function(word){
@@ -173,10 +179,13 @@ S.register('word', {
 	}
 });
 
+//	THESE ARE NOT WORKING YET:
+
+//	S('!dog');
 S.register('!', {
 	test: /!\w+/,
 	start: '!',
-	method: function(word, results){
+	method: function(word){
 		var item = word.substr(word.indexOf('!') + 1).replace(/\s|\[|\]/g, '');
 
 		this.except = this.except || [];
@@ -196,23 +205,31 @@ S.register('!', {
 	}
 });
 
+//	S('[name]');
+//	S('[name=Fred]');
 S.register('param', {
 	test: /^\[.+\]$/,
 	start: '[',
-	end: ']',
-	method: function(word, results){
+	stop: ']',
+	method: function(word){
 		var	param = word.replace(/\s|\[|\]/g, ''),
 			parts = param.split('=');
 
-		this.testing = 'qwer';
-
-		var i, length = S._collection.length;
+		/*var i, length = S._collection.length;
 		for(i = 0; i < length; i++){
 			if(
 				parts.length === 1 && S._collection[i].object[parts[0]]
 			||	parts.length === 2 && S._collection[i].object[parts[0]] === parts[1]
 			){
 				this.push(S._collection[i]);
+			}
+		}*/
+		console.log('word', word);
+		return {
+			word: word,
+			test: function(item, result, results){
+				console.log(item, result, results);
+				return false;
 			}
 		}
 	}
