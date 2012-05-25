@@ -105,7 +105,7 @@
 
 			S._collection.forEach(function(item, i){
 				for(var result in results){
-					if(typeof results[result].test === 'function' && results[result].test() || results[result].test === true){
+					if(typeof results[result].test === 'function' && results[result].test(item, results[result], results) || results[result].test === true){
 						self.push(item);
 					}
 				}
@@ -153,7 +153,6 @@ S.register('*', {
 	test: /^\*/,
 	start: '*',
 	method: function(word, results){
-		// this.push.apply(this, S._collection.slice());
 		results.push({
 			word: word,
 			test: true,
@@ -164,49 +163,57 @@ S.register('*', {
 
 S.register('word', {
 	test: /^\w+$/,
-	method: function(selector){
-		var self = this;
-		
-		S._collection.forEach(function(item, i){
-			if(item.type === selector){
-				self.push(S._collection[i]);
+	method: function(word, results){
+		results.push({
+			word: word,
+			test: function(item, result, results){
+				return item.type === result.word;
 			}
 		});
 	}
 });
 
-/*S.register(/!\w+/, function(selector){
-	var item = selector.substr(selector.indexOf('!') + 1).replace(/\s|\[|\]/g, '');
+S.register('!', {
+	test: /!\w+/,
+	start: '!',
+	method: function(word, results){
+		var item = word.substr(word.indexOf('!') + 1).replace(/\s|\[|\]/g, '');
 
-	this.except = this.except || [];
+		this.except = this.except || [];
 
-	this.except.push(item);
+		this.except.push(item);
 
-	var i = 0;
-	while(i < this.length){
-		if(this[i].type === item){
-			this.splice(i, 1);
+		var i = 0;
+		while(i < this.length){
+			if(this[i].type === item){
+				this.splice(i, 1);
 
-			i -= 1;
+				i -= 1;
+			}
+
+			i += 1;
 		}
-
-		i += 1;
 	}
 });
 
-S.register(/^\[.+\]$/, function(selector){
-	var	param = selector.replace(/\s|\[|\]/g, ''),
-		parts = param.split('=');
+S.register('param', {
+	test: /^\[.+\]$/,
+	start: '[',
+	end: ']',
+	method: function(word, results){
+		var	param = word.replace(/\s|\[|\]/g, ''),
+			parts = param.split('=');
 
-	this.testing = 'qwer';
+		this.testing = 'qwer';
 
-	var i, length = S._collection.length;
-	for(i = 0; i < length; i++){
-		if(
-			parts.length === 1 && S._collection[i].object[parts[0]]
-		||	parts.length === 2 && S._collection[i].object[parts[0]] === parts[1]
-		){
-			this.push(S._collection[i]);
+		var i, length = S._collection.length;
+		for(i = 0; i < length; i++){
+			if(
+				parts.length === 1 && S._collection[i].object[parts[0]]
+			||	parts.length === 2 && S._collection[i].object[parts[0]] === parts[1]
+			){
+				this.push(S._collection[i]);
+			}
 		}
 	}
-});*/
+});
