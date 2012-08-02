@@ -1,4 +1,4 @@
-S.add({
+var a = S.add({
 	"header": {
 		"class": "com.nationwide.schemas.soasolutions.systeminfo_4.CommandResponseBase",
 		"systemInfo": {

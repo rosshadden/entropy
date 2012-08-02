@@ -41,7 +41,8 @@
 	};
 
 	entropy.copy = (function(){
-		var root, current;
+		var root, current,
+			path = [];
 
 		return function(object, isNested){
 			var i, output, length;
@@ -68,11 +69,20 @@
 						configurable: false
 					});
 
-					root = object;
+					root = output;
 				}
 
 				for(i in object){
+					root.manifest.push({
+						name: i,
+						path: path.slice()
+					});
+
+					path.push(i);
+
 					output[i] = this.copy(object[i], true);
+
+					path.pop();
 				}
 
 				return output;
