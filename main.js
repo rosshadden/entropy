@@ -1229,4 +1229,4 @@ var a = S.add({
 	}
 });
 
-console.log(S.list()[0].manifest);
+console.log(a);

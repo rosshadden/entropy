@@ -29,7 +29,7 @@
 			object = args[1];
 		}
 
-		var copy = this._collection.push(this.copy(object));
+		var copy = this._collection.push(new this.Object(object));
 
 		numObjects += 1;
 
@@ -38,6 +38,18 @@
 
 	entropy.list = function(){
 		return this._collection;
+	};
+
+	entropy.Object = function(input){
+		var object = entropy.copy(input);
+
+		object.has = function(query){
+			return object.manifest.some(function(item, i){
+				return query === item.name;
+			});
+		};
+
+		return object;
 	};
 
 	entropy.copy = (function(){
