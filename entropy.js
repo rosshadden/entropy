@@ -1,236 +1,86 @@
 (function(window, undefined){
 	'use strict';
 
-	var	entropy = function(selector){
-		return new entropy.query(selector);
-	};
+	var	entropy = function(){};
 
-	var	numObjects = 0,
-		helperList = entropy.helpers = {};
+	var	numObjects = 0;
 
 	entropy.version = 0.01;
-	
+
 	entropy._collection = [];
-	
-	entropy.create = function(type, prototype, values){
-		var	object = Object.create(prototype, values),
-			init = object.init || function(){};
 
-		var	item = {
-			type: type,
+	entropy.add = function(){
+		var name, object;
 
-			object: object,
+		var args = Array.prototype.slice.call(arguments);
 
-			init: function(){
-				entropy._collection.push(this);
-				
-				init.call(this);
-			}
-		};
+		if(args.length === 0){
+			name = 'none';
+			object = {};
+		}
+
+		if(args.length === 1){
+			name = 'none';
+			object = args[0];
+		}
+
+		if(args.length === 2){
+			name = args[0];
+			object = args[1];
+		}
+
+		var copy = this._collection.push(this.copy(object));
 
 		numObjects += 1;
-		
-		entropy._collection.push(item);
-		
-		return item;
+
+		return this._collection[copy - 1];
 	};
 
-	entropy.register = function(selector, properties){
-		helperList[selector] = properties;
+	entropy.list = function(){
+		return this._collection;
 	};
-	
-	entropy.query = (function(S){
-		var	query = function(selector){
-			this.query(selector);
-		}
-		
-		var	methods = query.prototype = new Array;
-		
-		methods.query = function(selector){
-			selector = selector.replace(/\s/g, '') || '';
 
-			var self = this;
-			
-			var	lexer, helper,
-				word = '',
-				results = [],
-				phrases = selector.split(',');
+	entropy.copy = (function(){
+		var root, current;
 
-			phrases.forEach(function(phrase, p){
-				var	relevant = [],
-					lexers = [];
+		return function(object, isNested){
+			var i, output, length;
 
-				for(var helper in helperList){
-					if(helperList[helper].test.test(phrase)){
-						relevant.push(helper);
+			if(Object.prototype.toString.call(object) === '[object Array]'){
+				output = [];
+				i = 0;
+				length = object.length;
 
-						if(helperList[helper].start){
-							lexers.push(helperList[helper].start);
-						}
-
-						if(helperList[helper].stop){
-							lexers.push(helperList[helper].stop);
-						}
-					}
+				for(; i < length; i++){
+					output[i] = this.copy(object[i], true);
 				}
 
-				console.log(relevant, lexers);
-
-				if(typeof phrase === 'string'){
-					var originalPhrase = phrase;
-
-					while(phrase.length > 0){
-						lexer = phrase[0];
-						phrase = phrase.substr(1);
-
-						var	isRegistered = lexers.indexOf(lexer) > -1,
-							isPhrase = phrase.length === 0;
-
-						if(isPhrase){
-							word += lexer;
-						}
-
-						if(isPhrase || isRegistered){
-							if(word.length === 0 || isRegistered){
-								helper = helperList[lexer];
-							}else if(word === originalPhrase){
-								helper = helperList.word;
-							}
-
-							if(word.length > 0){
-								results.push(helper.method(word));
-							}
-
-							word = '';
-						}else{
-							word += lexer;
-						}
-					}
-				}
-			});
-
-			S._collection.forEach(function(item, i){
-				for(var result in results){
-					if(typeof results[result].test === 'function' && results[result].test(item, results[result], results) || results[result].test === true){
-						self.push(item);
-					}
-				}
-			});
-			
-			return this;
-		};
-
-		methods.each = function(object, method, context){
-			if(object.forEach){
-				object.forEach(method, context);
-			}else{
-				for(var key in object){
-					if(object.hasOwnProperty(key)){
-						method.call(context, object[key], object);
-					}
-				}
+				return output;
 			}
 
-			return this;
-		};
+			if(typeof object === 'object'){
+				output = {};
 
-		methods.run = function(){
-			var args = Array.prototype.slice.call(arguments),
-				method = args.splice(0, 1);
+				if(!isNested){
+					Object.defineProperty(output, 'manifest', {
+						value: [],
+						enumerable: false,
+						configurable: false
+					});
 
-			this.forEach(function(item, i){
-				if(item.object[method]){
-					item.object[method].apply(item.object, args);
+					root = object;
 				}
-			});
 
-			return this;
+				for(i in object){
+					output[i] = this.copy(object[i], true);
+				}
+
+				return output;
+			}
+
+			return object;
 		};
-		
-		return query;
-	})(entropy);
-	
+	})();
+
 	window.entropy = window.S = entropy;
 })(window);
-
-//	S('*');
-S.register('*', {
-	test: /^\*/,
-	start: '*',
-	method: function(word){
-		return {
-			word: word,
-			test: true,
-			select: true
-		};
-	}
-});
-
-//	S('dog');
-S.register('word', {
-	test: /^\w+$/,
-	method: function(word){
-		return {
-			word: word,
-			test: function(item, result, results){
-				return item.type === result.word;
-			}
-		};
-	}
-});
-
-//	THESE ARE NOT WORKING YET:
-
-//	S('!dog');
-S.register('!', {
-	test: /!\w+/,
-	start: '!',
-	method: function(word){
-		var item = word.substr(word.indexOf('!') + 1).replace(/\s|\[|\]/g, '');
-
-		this.except = this.except || [];
-
-		this.except.push(item);
-
-		var i = 0;
-		while(i < this.length){
-			if(this[i].type === item){
-				this.splice(i, 1);
-
-				i -= 1;
-			}
-
-			i += 1;
-		}
-	}
-});
-
-//	S('[name]');
-//	S('[name=Fred]');
-S.register('param', {
-	test: /^\[.+\]$/,
-	start: '[',
-	stop: ']',
-	method: function(word){
-		var	param = word.replace(/\s|\[|\]/g, ''),
-			parts = param.split('=');
-
-		/*var i, length = S._collection.length;
-		for(i = 0; i < length; i++){
-			if(
-				parts.length === 1 && S._collection[i].object[parts[0]]
-			||	parts.length === 2 && S._collection[i].object[parts[0]] === parts[1]
-			){
-				this.push(S._collection[i]);
-			}
-		}*/
-		console.log('word', word);
-		return {
-			word: word,
-			test: function(item, result, results){
-				console.log(item, result, results);
-				return false;
-			}
-		}
-	}
-});
