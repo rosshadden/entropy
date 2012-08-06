@@ -245,7 +245,6 @@ S.register(/#(\w+)/g, function(object, string, $1){
 
 //	Property presence.
 //	S('[name]');
-S.register(/\[\w+\]/g, function(object, string, $1){
-	console.log(arguments);
+S.register(/\[(\w+)\]/g, function(object, string, $1){
 	return object.hasOwnProperty($1);
 });
