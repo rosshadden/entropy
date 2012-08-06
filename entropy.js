@@ -63,9 +63,9 @@
 		return this._collection[copy - 1];
 	};
 
-	entropy.register = function(test, handler){
+	entropy.register = function(expression, handler){
 		plugins.push({
-			test: test,
+			expression: expression,
 			handler: handler
 		});
 	};
@@ -152,7 +152,7 @@
 		};
 	})();
 
-	entropy.query = (function(S){
+	entropy.query = (function(entropy){
 		var	query = function(selector){
 			this.query(selector);
 		};
@@ -160,6 +160,36 @@
 		var	methods = query.prototype = new Array;
 
 		methods.query = function(selector){
+			var self = this;
+
+			self.data = {};
+
+			entropy.plugins.forEach(function(plugin, p){
+				if(plugin.expression.test(selector)){
+					selector = selector.replace(plugin.expression, function(){
+						self.data[plugin.expression] = self.slice.call(arguments);
+
+						return '';
+					});
+				}
+			});
+
+			var	object,
+				o = 0, length = entropy._collection.length;
+			for(; o < length; o++){
+				object = entropy._collection[o];
+
+				if(entropy.plugins.some(function(plugin, p){
+					if(plugin.handler.apply(self, [object].concat(self.data[plugin.expression]).slice(0, -2))){
+						self.push(object);
+
+						return true;
+					}
+				})){
+					continue;
+				}
+			}
+
 			return this;
 		};
 
@@ -178,7 +208,7 @@
 		};
 
 		methods.run = function(){
-			var args = Array.prototype.slice.call(arguments),
+			var args = this.slice.call(arguments),
 				method = args.splice(0, 1);
 
 			this.forEach(function(item, i){
@@ -197,7 +227,6 @@
 })(window);
 
 //	S('#dog');
-S.register(/^(#\w+)$/, function(){
-	console.log('id', arguments);
-	return '';
+S.register(/(#\w+)/, function(object, string, $1){
+	return object.id === $1.substr(1);
 });

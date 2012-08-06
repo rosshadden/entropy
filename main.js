@@ -1,4 +1,5 @@
 S.create('dog', {
+	asdf: 'qwer',
 	name: 'Fred',
 	speech: 'bark',
 	speak: function(what){
@@ -23,7 +24,16 @@ S.create('human', {
 	}
 });
 
-var a = S.add({
+S.add({
+	id: 'asdf',
+	name: 'Fred',
+	speech: 'bark',
+	speak: function(what){
+		console.log(this.name, 'says', what, 'with his', this.speech);
+	}
+});
+
+S.add({
 	"header": {
 		"class": "com.nationwide.schemas.soasolutions.systeminfo_4.CommandResponseBase",
 		"systemInfo": {
@@ -1253,5 +1263,3 @@ var a = S.add({
 		}
 	}
 });
-
-console.log(a);
