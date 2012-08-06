@@ -49,6 +49,20 @@
 			});
 		};
 
+		object.find = function(query){
+			return object.manifest.filter(function(item, i){
+				return query === item.name;
+			});
+		};
+
+		object.map = function(path){
+			var current = object;
+
+			path.forEach(function(level, l){
+				current = current[level];
+			});
+		};
+
 		return object;
 	};
 
