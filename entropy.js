@@ -37,26 +37,26 @@
 	};
 
 	entropy.add = function(){
-		var name, object;
+		var id, object;
 
 		var args = Array.prototype.slice.call(arguments);
 
 		if(args.length === 0){
-			name = 'none';
+			id = '';
 			object = {};
 		}
 
 		if(args.length === 1){
-			name = 'none';
+			id = '';
 			object = args[0];
 		}
 
 		if(args.length === 2){
-			name = args[0];
+			id = args[0];
 			object = args[1];
 		}
 
-		var copy = this._collection.push(new this.Object(object));
+		var copy = this._collection.push(new this.Object(id, object));
 
 		numObjects += 1;
 
@@ -68,14 +68,19 @@
 			expression: expression,
 			handler: handler
 		});
+
+		//	TODO: Sort by (''+expression).length.
 	};
 
 	entropy.list = function(){
 		return this._collection;
 	};
 
-	entropy.Object = function(input){
-		var object = entropy.copy(input);
+	entropy.Object = function(id, input){
+		var object = {
+			id: id,
+			object: entropy.copy(input)
+		};
 
 		object.has = function(query){
 			return object.manifest.some(function(item, i){
@@ -162,12 +167,16 @@
 		methods.query = function(selector){
 			var self = this;
 
-			self.data = {};
+			self.plugins = [];
 
 			entropy.plugins.forEach(function(plugin, p){
 				if(plugin.expression.test(selector)){
 					selector = selector.replace(plugin.expression, function(){
-						self.data[plugin.expression] = self.slice.call(arguments);
+						self.plugins.push({
+							matches: self.slice.call(arguments).slice(0, -2),
+							expression: plugin.expression,
+							handler: plugin.handler
+						});
 
 						return '';
 					});
@@ -179,8 +188,8 @@
 			for(; o < length; o++){
 				object = entropy._collection[o];
 
-				if(entropy.plugins.some(function(plugin, p){
-					if(plugin.handler.apply(self, [object].concat(self.data[plugin.expression]).slice(0, -2))){
+				if(self.plugins.some(function(plugin, p){
+					if(plugin.handler.apply(object, [object.object].concat(plugin.matches))){
 						self.push(object);
 
 						return true;
@@ -226,7 +235,17 @@
 	window.entropy = window.S = entropy;
 })(window);
 
+//	SELECTORS
+
+//	ID.
 //	S('#dog');
-S.register(/(#\w+)/, function(object, string, $1){
-	return object.id === $1.substr(1);
+S.register(/#(\w+)/g, function(object, string, $1){
+	return this.id === $1;
+});
+
+//	Property presence.
+//	S('[name]');
+S.register(/\[\w+\]/g, function(object, string, $1){
+	console.log(arguments);
+	return object.hasOwnProperty($1);
 });
