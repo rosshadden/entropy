@@ -8,34 +8,12 @@
 	var	numObjects = 0,
 		plugins = entropy.plugins = [];
 
-	entropy.version = 0.01;
+	entropy.version = 0.1;
 
 	entropy._collection = [];
 
-	//	TODO: Merge with S.add.
-	entropy.create = function(type, prototype, values){
-		var	object = Object.create(prototype, values),
-			init = object.init || function(){};
-
-		var	item = {
-			type: type,
-
-			object: object,
-
-			init: function(){
-				entropy._collection.push(this);
-
-				init.call(this);
-			}
-		};
-
-		numObjects += 1;
-
-		entropy._collection.push(item);
-
-		return item;
-	};
-
+	//	Adds a new object to Entropy.
+	//	Optionally accepts an ID string as the first argument.
 	entropy.add = function(){
 		var id, object;
 
@@ -245,4 +223,12 @@ S.register(/#(\w+)/g, function(object, string, $1){
 //	S('[name]');
 S.register(/\[(\w+)\]/g, function(object, string, $1){
 	return object.hasOwnProperty($1);
+});
+
+//	Property presence.
+//	S('[name]');
+S.register(/(\w+)/g, function(object, string, $1){
+	var type = Object.prototype.toString.call(object).replace(/\[object (\w+)\]/, '$1');
+
+	return type.toLowerCase() === $1.toLowerCase();
 });

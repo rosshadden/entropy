@@ -1,36 +1,37 @@
-// S.create('dog', {
-// 	asdf: 'qwer',
-// 	name: 'Fred',
-// 	speech: 'bark',
-// 	speak: function(what){
-// 		console.log(this.name, 'says', what, 'with his', this.speech);
-// 	}
-// });
-
-// S.create('dog', {
-// 	name: 'Bob',
-// 	speech: 'bark',
-// 	speak: function(what){
-// 		console.log(this.name, 'says', what, 'with his', this.speech);
-// 	}
-// });
-
-// S.create('human', {
-// 	name: 'Jake',
-// 	handedness: 'right',
-// 	speech: 'WORDS',
-// 	speak: function(what){
-// 		console.log(this.name, 'says', what, 'with his', this.speech);
-// 	}
-// });
-
-S.add('asdf', {
+S.add('dog1', {
 	name: 'Fred',
 	speech: 'bark',
 	speak: function(what){
 		console.log(this.name, 'says', what, 'with his', this.speech);
 	}
 });
+
+S.add('dog2', {
+	name: 'Bob',
+	speech: 'bark',
+	speak: function(what){
+		console.log(this.name, 'says', what, 'with his', this.speech);
+	}
+});
+
+S.add('human', {
+	name: 'Jake',
+	handedness: 'right',
+	speech: 'WORDS',
+	speak: function(what){
+		console.log(this.name, 'says', what, 'with his', this.speech);
+	}
+});
+
+S.add({
+	name: 'Tyler',
+	speech: 'bark',
+	speak: function(what){
+		console.log(this.name, 'says', what, 'with his', this.speech);
+	}
+});
+
+S.add('lottery', [2, 4, 16, 256, 65536]);
 
 S.add({
 	"header": {
