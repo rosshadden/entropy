@@ -241,9 +241,9 @@ S.register(/\[(\w+)\]/g, function(object, expression, $1){
 	return object.hasOwnProperty($1);
 });
 
-//	Property presence.
+//	Property equivalence.
 //	S('[name]');
-S.register(/\[\s*(\w+)\s*(=|\^=|\$=|\*=)(=?)\s*["|'](\w+)\s*["|']\]/g, function(object, expression, $property, $operator, $isStrict, $value){
+S.register(/\[\s*(\w+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)(\w+)\s*\4\]/g, function(object, expression, $property, $operator, $isStrict, $quote, $value){
 	var	test = ($isStrict) ? object[$property] : (''+object[$property]).toLowerCase(),
 		control = ($isStrict) ? $value : (''+$value).toLowerCase();
 
