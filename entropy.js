@@ -231,53 +231,52 @@
 
 //	ID.
 //	S('#dog');
-S.register(/#(\w+)/g, function(object, string, $1){
+S.register(/#(\w+)/g, function(object, expression, $1){
 	return this.id === $1;
 });
 
 //	Property presence.
 //	S('[name]');
-S.register(/\[(\w+)\]/g, function(object, string, $1){
+S.register(/\[(\w+)\]/g, function(object, expression, $1){
 	return object.hasOwnProperty($1);
 });
 
 //	Property presence.
 //	S('[name]');
-S.register(/\s*\[\s*(\w+)\s*(=|==|\^=|\$=|\*=)\s*(\w+)\s*\]\s*/g, function(object, string, $property, $operator, $value){
+S.register(/\[\s*(\w+)\s*(=|\^=|\$=|\*=)(=?)\s*["|'](\w+)\s*["|']\]/g, function(object, expression, $property, $operator, $isStrict, $value){
+	var	test = ($isStrict) ? object[$property] : (''+object[$property]).toLowerCase(),
+		control = ($isStrict) ? $value : (''+$value).toLowerCase();
+
 	var cases = {
-		//	Case-insensitive equality:
-		'=': function(test, control){
-			return (''+test).toLowerCase() == (''+control).toLowerCase();
-		},
-		//	Case-sensitive equality:
-		'==': function(test, control){
+		//	Equality:
+		'=': function(){
 			return test == control;
 		},
 		//	Starts with:
-		'^=': function(test, control){
+		'^=': function(){
 			var regex = new RegExp('^' + control);
 			return regex.test(test, 'i');
 		},
 		//	Ends with:
-		'$=': function(test, control){
+		'$=': function(){
 			var regex = new RegExp(control + '$');
 			return regex.test(test, 'i');
 		},
 		//	Contains:
-		'*=': function(test, control){
+		'*=': function(){
 			var regex = new RegExp(control);
 			return regex.test(test, 'i');
 		}
 	};
 
 	//	Run the relevant function based on the operator, and return pass/fail.
-	return cases[$operator](object[$property], $value);
+	return cases[$operator]();
 });
 
 //	Type.
 //	S('Array');
 //	Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).
-S.register(/(\w+)/g, function(object, string, $1){
+S.register(/(\w+)/g, function(object, expression, $1){
 	var type = Object.prototype.toString.call(object).replace(/\[object (\w+)\]/, '$1');
 
 	return type.toLowerCase() === $1.toLowerCase();
