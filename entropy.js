@@ -188,14 +188,12 @@
 			for(; o < length; o++){
 				object = entropy._collection[o];
 
-				if(self.plugins.some(function(plugin, p){
+				if(self.plugins.every(function(plugin, p){
 					if(plugin.handler.apply(object, [object.object].concat(plugin.matches))){
-						self.push(object);
-
 						return true;
 					}
 				})){
-					continue;
+					self.push(object);
 				}
 			}
 
