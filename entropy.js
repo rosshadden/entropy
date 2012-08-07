@@ -41,14 +41,30 @@
 		return this._collection[copy - 1];
 	};
 
-	entropy.register = function(expression, handler){
-		plugins.push({
-			expression: expression,
-			handler: handler
-		});
+	entropy.register = (function(){
+		//	Sort in descending length order.
+		var sort = function(a, b){
+			var lengthA = (''+a.expression).length,
+				lengthB = (''+b.expression).length;
 
-		//	TODO: Sort by (''+expression).length.
-	};
+			if(lengthA < lengthB){
+				return 1;
+			}
+			if(lengthA > lengthB){
+				return -1;
+			}
+			return 0;
+		};
+
+		return function(expression, handler){
+			plugins.push({
+				expression: expression,
+				handler: handler
+			});
+
+			plugins.sort(sort);
+		};
+	})();
 
 	entropy.list = function(){
 		return this._collection;
