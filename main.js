@@ -7,7 +7,7 @@ S.add('dog1', {
 });
 
 S.add('dog2', {
-	name: 'Bob',
+	name: 'Jim',
 	speech: 'bark',
 	speak: function(what){
 		console.log(this.name, 'says', what, 'with his', this.speech);

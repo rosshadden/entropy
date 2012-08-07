@@ -227,6 +227,40 @@ S.register(/\[(\w+)\]/g, function(object, string, $1){
 
 //	Property presence.
 //	S('[name]');
+S.register(/\s*\[\s*(\w+)\s*(=|==|\^=|\$=|\*=)\s*(\w+)\s*\]\s*/g, function(object, string, $property, $operator, $value){
+	var cases = {
+		//	Case-insensitive equality:
+		'=': function(test, control){
+			return (''+test).toLowerCase() == (''+control).toLowerCase();
+		},
+		//	Case-sensitive equality:
+		'==': function(test, control){
+			return test == control;
+		},
+		//	Starts with:
+		'^=': function(test, control){
+			var regex = new RegExp('^' + control);
+			return regex.test(test, 'i');
+		},
+		//	Ends with:
+		'$=': function(test, control){
+			var regex = new RegExp(control + '$');
+			return regex.test(test, 'i');
+		},
+		//	Contains:
+		'*=': function(test, control){
+			var regex = new RegExp(control);
+			return regex.test(test, 'i');
+		}
+	};
+
+	//	Run the relevant function based on the operator, and return pass/fail.
+	return cases[$operator](object[$property], $value);
+});
+
+//	Type.
+//	S('Array');
+//	Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).
 S.register(/(\w+)/g, function(object, string, $1){
 	var type = Object.prototype.toString.call(object).replace(/\[object (\w+)\]/, '$1');
 
