@@ -34,7 +34,7 @@
 			object = args[1];
 		}
 
-		var copy = this._collection.push(new this.Object(id, object));
+		var copy = this._collection.push(new this.Entity(id, object));
 
 		numObjects += 1;
 
@@ -70,34 +70,42 @@
 		return this._collection;
 	};
 
-	entropy.Object = function(id, input){
-		var object = {
-			id: id,
-			object: entropy.copy(input)
+	entropy.Entity = (function(){
+		var Entity = function(id, object){
+			this.create(id, object);
 		};
 
-		object.has = function(query){
-			return object.manifest.some(function(item, i){
+		var methods = Entity.prototype = new Object;
+
+		methods.create = function(id, object){
+			this.id = id;
+			this.contents = entropy.copy.call(this, object);
+
+			return this;
+		};
+
+		methods.has = function(query){
+			return this.manifest.some(function(item, i){
 				return query === item.name;
 			});
 		};
 
-		object.find = function(query){
-			return object.manifest.filter(function(item, i){
+		methods.find = function(query){
+			return this.manifest.filter(function(item, i){
 				return query === item.name;
 			});
 		};
 
-		object.map = function(path){
-			var current = object;
+		methods.map = function(path){
+			var current = this;
 
 			path.forEach(function(level, l){
 				current = current[level];
 			});
 		};
 
-		return object;
-	};
+		return Entity;
+	})();
 
 	entropy.copy = (function(){
 		var root, current,
@@ -112,7 +120,7 @@
 				length = object.length;
 
 				for(; i < length; i++){
-					output[i] = this.copy(object[i], true);
+					output[i] = entropy.copy(object[i], true);
 				}
 
 				return output;
@@ -139,7 +147,7 @@
 
 					path.push(i);
 
-					output[i] = this.copy(object[i], true);
+					output[i] = entropy.copy(object[i], true);
 
 					path.pop();
 				}
@@ -183,7 +191,7 @@
 				object = entropy._collection[o];
 
 				if(self.plugins.every(function(plugin, p){
-					if(plugin.handler.apply(object, [object.object].concat(plugin.matches))){
+					if(plugin.handler.apply(object, [object.contents].concat(plugin.matches))){
 						return true;
 					}
 				})){
