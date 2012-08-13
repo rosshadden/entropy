@@ -173,10 +173,6 @@
 
 			if(~[undefined, ''].indexOf(selector)){
 				return self;
-			}else if(~['*', 'all'].indexOf(selector)){
-				entropy._collection.forEach(function(item, i){
-					self.push(item);
-				});
 			}else{
 				entropy.plugins.forEach(function(plugin, p){
 					if(plugin.expression.test(selector)){
@@ -251,16 +247,22 @@
 
 //	SELECTORS
 
+//	All.
+//	S('*'), S('all');
+S.register(/^\*|all$/, function(object, expression){
+	return true;
+});
+
 //	ID.
 //	S('#dog');
-S.register(/#(\w+)/g, function(object, expression, $1){
-	return this.id === $1;
+S.register(/#(\w+)/g, function(object, expression, $id){
+	return this.id === $id;
 });
 
 //	Property presence.
 //	S('[name]');
-S.register(/\[(\w+)\]/g, function(object, expression, $1){
-	return object.hasOwnProperty($1);
+S.register(/\[(\w+)\]/g, function(object, expression, $property){
+	return object.hasOwnProperty($property);
 });
 
 //	Property equivalence.
@@ -298,8 +300,8 @@ S.register(/\[\s*(\w+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)(\w+)\s*\4\]/g, function(o
 //	Type.
 //	S('Array');
 //	Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).
-S.register(/(\w+)/g, function(object, expression, $1){
+S.register(/(\w+)/g, function(object, expression, $type){
 	var type = Object.prototype.toString.call(object).replace(/\[object (\w+)\]/, '$1');
 
-	return type.toLowerCase() === $1.toLowerCase();
+	return type.toLowerCase() === $type.toLowerCase();
 });
