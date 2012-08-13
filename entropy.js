@@ -90,7 +90,7 @@
 			});
 		};
 
-		methods.find = function(query){
+		methods.find = methods.filter = function(query){
 			return this.manifest.filter(function(item, i){
 				return query === item.name;
 			});
@@ -200,6 +200,14 @@
 			}
 
 			return this;
+		};
+
+		methods.get = function(index){
+			return this[index];
+		};
+
+		methods.eq = function(index){
+			return this.slice(index, index + 1);
 		};
 
 		methods.each = function(object, method, context){
