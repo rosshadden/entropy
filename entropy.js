@@ -222,6 +222,12 @@
 			return this.query(selector);
 		};
 
+		methods.remove = function(index){
+			this.splice(index, 1);
+
+			return this;
+		};
+
 		methods.each = methods.forEach;
 
 		methods.run = function(){
@@ -229,8 +235,8 @@
 				method = args.splice(0, 1);
 
 			this.forEach(function(item, i){
-				if(item.object[method]){
-					item.object[method].apply(item.object, args);
+				if(item.contents[method]){
+					item.contents[method].apply(item.contents, args);
 				}
 			});
 
