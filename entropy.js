@@ -130,13 +130,13 @@
 				output = {};
 
 				if(!isNested){
-					Object.defineProperty(output, 'manifest', {
+					root = this;
+
+					Object.defineProperty(root, 'manifest', {
 						value: [],
 						enumerable: false,
 						configurable: false
 					});
-
-					root = output;
 				}
 
 				for(i in object){
