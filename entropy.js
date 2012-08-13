@@ -171,31 +171,39 @@
 
 			self.plugins = [];
 
-			entropy.plugins.forEach(function(plugin, p){
-				if(plugin.expression.test(selector)){
-					selector = selector.replace(plugin.expression, function(){
-						self.plugins.push({
-							matches: self.slice.call(arguments).slice(0, -2),
-							expression: plugin.expression,
-							handler: plugin.handler
+			if(~[undefined, ''].indexOf(selector)){
+				return self;
+			}else if(~['*', 'all'].indexOf(selector)){
+				entropy._collection.forEach(function(item, i){
+					self.push(item);
+				});
+			}else{
+				entropy.plugins.forEach(function(plugin, p){
+					if(plugin.expression.test(selector)){
+						selector = selector.replace(plugin.expression, function(){
+							self.plugins.push({
+								matches: self.slice.call(arguments).slice(0, -2),
+								expression: plugin.expression,
+								handler: plugin.handler
+							});
+
+							return '';
 						});
-
-						return '';
-					});
-				}
-			});
-
-			var	object,
-				o = 0, length = entropy._collection.length;
-			for(; o < length; o++){
-				object = entropy._collection[o];
-
-				if(self.plugins.every(function(plugin, p){
-					if(plugin.handler.apply(object, [object.contents].concat(plugin.matches))){
-						return true;
 					}
-				})){
-					self.push(object);
+				});
+
+				var	object,
+					o = 0, length = entropy._collection.length;
+				for(; o < length; o++){
+					object = entropy._collection[o];
+
+					if(self.plugins.every(function(plugin, p){
+						if(plugin.handler.apply(object, [object.contents].concat(plugin.matches))){
+							return true;
+						}
+					})){
+						self.push(object);
+					}
 				}
 			}
 
