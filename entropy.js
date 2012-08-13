@@ -207,7 +207,7 @@
 				}
 			}
 
-			return this;
+			return self;
 		};
 
 		methods.get = function(index){
@@ -218,19 +218,11 @@
 			return this.slice(index, index + 1);
 		};
 
-		methods.each = function(object, method, context){
-			if(object.forEach){
-				object.forEach(method, context);
-			}else{
-				for(var key in object){
-					if(object.hasOwnProperty(key)){
-						method.call(context, object[key], object);
-					}
-				}
-			}
-
-			return this;
+		methods.add = methods.concat = function(selector){
+			return this.query(selector);
 		};
+
+		methods.each = methods.forEach;
 
 		methods.run = function(){
 			var args = this.slice.call(arguments),
