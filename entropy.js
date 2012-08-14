@@ -114,13 +114,34 @@
 		return function(object, isNested){
 			var i, output, length;
 
+			if(!isNested){
+				root = this;
+
+				Object.defineProperty(root, 'manifest', {
+					value: [],
+					enumerable: false,
+					configurable: false
+				});
+			}
+
 			if(Object.prototype.toString.call(object) === '[object Array]'){
 				output = [];
 				i = 0;
 				length = object.length;
 
 				for(; i < length; i++){
+					root.manifest.push({
+						name: i,
+						path: path.slice(),
+						type: typeof object[i],
+						value: object[i]
+					});
+
+					path.push(i);
+
 					output[i] = entropy.copy(object[i], true);
+
+					path.pop();
 				}
 
 				return output;
@@ -129,20 +150,12 @@
 			if(typeof object === 'object'){
 				output = {};
 
-				if(!isNested){
-					root = this;
-
-					Object.defineProperty(root, 'manifest', {
-						value: [],
-						enumerable: false,
-						configurable: false
-					});
-				}
-
 				for(i in object){
 					root.manifest.push({
 						name: i,
-						path: path.slice()
+						path: path.slice(),
+						type: typeof object[i],
+						value: object[i]
 					});
 
 					path.push(i);
