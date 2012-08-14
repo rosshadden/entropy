@@ -79,6 +79,13 @@
 
 		methods.create = function(id, object){
 			this.id = id;
+
+			Object.defineProperty(this, 'manifest', {
+				value: [],
+				enumerable: false,
+				configurable: false
+			});
+
 			this.contents = entropy.copy.call(this, object);
 
 			return this;
@@ -116,15 +123,11 @@
 
 			if(!isNested){
 				root = this;
-
-				Object.defineProperty(root, 'manifest', {
-					value: [],
-					enumerable: false,
-					configurable: false
-				});
 			}
 
 			if(Object.prototype.toString.call(object) === '[object Array]'){
+				root.manifest[root.manifest.length - 1].type = 'array';
+
 				output = [];
 				i = 0;
 				length = object.length;
