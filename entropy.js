@@ -97,6 +97,16 @@
 			});
 		};
 
+		methods.children = function(query){
+			var output = [];
+
+			for(var child in this.contents){
+				output.push(this.contents[child]);
+			}
+
+			return output;
+		};
+
 		methods.find = methods.filter = function(query){
 			return this.manifest.filter(function(item, i){
 				return query === item.name;
