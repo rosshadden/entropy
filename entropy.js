@@ -136,7 +136,9 @@
 			}
 
 			if(Object.prototype.toString.call(object) === '[object Array]'){
-				root.manifest[root.manifest.length - 1].type = 'array';
+				if(isNested){
+					root.manifest[root.manifest.length - 1].type = 'array';
+				}
 
 				output = [];
 				i = 0;
