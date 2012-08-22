@@ -289,7 +289,7 @@ S.register(/#(\w+)/g, function(object, expression, $id){
 
 //	Property presence.
 //	S('[name]');
-S.register(/\[(\w+)\]/g, function(object, expression, $property){
+S.register(/\[\s*([^\s]+)\s*\]/g, function(object, expression, $property){
 	return object.hasOwnProperty($property);
 });
 
