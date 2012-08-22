@@ -295,7 +295,7 @@ S.register(/\[(\w+)\]/g, function(object, expression, $property){
 
 //	Property equivalence.
 //	S('[name]');
-S.register(/\[\s*(\w+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)(\w+)\s*\4\]/g, function(object, expression, $property, $operator, $isStrict, $quote, $value){
+S.register(/\[\s*(\w+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\s*\4\]/g, function(object, expression, $property, $operator, $isStrict, $quote, $value){
 	var	test = ($isStrict) ? object[$property] : (''+object[$property]).toLowerCase(),
 		control = ($isStrict) ? $value : (''+$value).toLowerCase();
 
