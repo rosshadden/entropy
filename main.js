@@ -14,6 +14,10 @@ S.add('dog2', {
 	}
 });
 
+S.add('isCool', true);
+
+S.add('today', new Date);
+
 S.add('human', {
 	name: 'Jake',
 	handedness: 'right',

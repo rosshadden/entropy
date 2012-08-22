@@ -239,7 +239,9 @@
 		};
 
 		methods.eq = function(index){
-			return this.slice(index, index + 1);
+			this.splice(index, index + 1);
+
+			return this;
 		};
 
 		methods.add = methods.concat = function(selector){
