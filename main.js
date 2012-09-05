@@ -1,4 +1,4 @@
-S.add('dog1', {
+S.add('dog1', 'mammal dog', {
 	name: 'Fred',
 	speech: 'bark',
 	speak: function(what){
@@ -6,7 +6,7 @@ S.add('dog1', {
 	}
 });
 
-S.add('dog2', {
+S.add('dog2', ['mammal', 'dog'], {
 	name: 'Jim',
 	speech: 'bark',
 	speak: function(what){
@@ -18,7 +18,7 @@ S.add('isCool', true);
 
 S.add('today', new Date);
 
-S.add('human', {
+S.add('Jake', 'mammal human', {
 	name: 'Jake',
 	handedness: 'right',
 	speech: 'WORDS',

@@ -15,26 +15,41 @@
 	//	Adds a new object to Entropy.
 	//	Optionally accepts an ID string as the first argument.
 	entropy.add = function(){
-		var id, object;
+		var id, object,
+			classes = [];
 
 		var args = Array.prototype.slice.call(arguments);
 
+		//	Adds an empty object (for some reason?).
 		if(args.length === 0){
 			id = '';
 			object = {};
 		}
 
+		//	Adds the passed in object, with no ID or classes.
 		if(args.length === 1){
 			id = '';
 			object = args[0];
 		}
 
+		//	Adds an object with an ID.
 		if(args.length === 2){
 			id = args[0];
 			object = args[1];
 		}
 
-		var copy = this._collection.push(new this.Entity(id, object));
+		//	Adds an object with an ID and some classes.
+		if(args.length === 3){
+			id = args[0];
+			classes = args[1];
+			object = args[2];
+
+			if(typeof classes === 'string'){
+				classes = classes.split(' ');
+			}
+		}
+
+		var copy = this._collection.push(new this.Entity(id, classes, object));
 
 		numObjects += 1;
 
@@ -219,15 +234,15 @@
 	})(entropy);
 
 	entropy.Entity = (function(){
-		var Entity = function(id, object){
-			this.create(id, object);
+		var Entity = function(id, classes, object){
+			this.create(id, classes, object);
 		};
 
 		var methods = Entity.prototype = new Object;
 
-		methods.create = function(id, object){
+		methods.create = function(id, classes, object){
 			this.id = id;
-			this.classes = [];
+			this.classes = classes;
 
 			Object.defineProperty(this, 'manifest', {
 				value: [],
