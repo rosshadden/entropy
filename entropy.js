@@ -70,60 +70,6 @@
 		return this._collection;
 	};
 
-	entropy.Entity = (function(){
-		var Entity = function(id, object){
-			this.create(id, object);
-		};
-
-		var methods = Entity.prototype = new Object;
-
-		methods.create = function(id, object){
-			this.id = id;
-
-			Object.defineProperty(this, 'manifest', {
-				value: [],
-				enumerable: false,
-				configurable: false
-			});
-
-			this.contents = entropy.copy.call(this, object);
-
-			return this;
-		};
-
-		methods.has = function(query){
-			return this.manifest.some(function(item, i){
-				return query === item.name;
-			});
-		};
-
-		methods.children = function(query){
-			var output = [];
-
-			for(var child in this.contents){
-				output.push(this.contents[child]);
-			}
-
-			return output;
-		};
-
-		methods.find = methods.filter = function(query){
-			return this.manifest.filter(function(item, i){
-				return query === item.name;
-			});
-		};
-
-		methods.map = function(path){
-			var current = this;
-
-			path.forEach(function(level, l){
-				current = current[level];
-			});
-		};
-
-		return Entity;
-	})();
-
 	entropy.copy = (function(){
 		var root, current,
 			path = [];
@@ -221,7 +167,7 @@
 				for(; o < length; o++){
 					object = entropy._collection[o];
 
-					if(self.plugins.every(function(plugin, p){
+					if(self.plugins.length > 0 && self.plugins.every(function(plugin, p){
 						if(plugin.handler.apply(object, [object.contents].concat(plugin.matches))){
 							return true;
 						}
@@ -271,6 +217,81 @@
 
 		return query;
 	})(entropy);
+
+	entropy.Entity = (function(){
+		var Entity = function(id, object){
+			this.create(id, object);
+		};
+
+		var methods = Entity.prototype = new Object;
+
+		methods.create = function(id, object){
+			this.id = id;
+			this.classes = [];
+
+			Object.defineProperty(this, 'manifest', {
+				value: [],
+				enumerable: false,
+				configurable: false
+			});
+
+			this.contents = entropy.copy.call(this, object);
+
+			return this;
+		};
+
+		methods.addClass = function(klass){
+			var index = this.classes.indexOf(klass);
+
+			if(!~index){
+				this.classes.push(klass);
+			}
+
+			return this;
+		};
+
+		methods.removeClass = function(klass){
+			var index = this.classes.indexOf(klass);
+
+			if(~index){
+				this.classes.splice(index, 1);
+			}
+
+			return this;
+		};
+
+		methods.has = function(query){
+			return this.manifest.some(function(item, i){
+				return query === item.name;
+			});
+		};
+
+		methods.children = function(query){
+			var output = [];
+
+			for(var child in this.contents){
+				output.push(this.contents[child]);
+			}
+
+			return output;
+		};
+
+		methods.find = methods.filter = function(query){
+			return this.manifest.filter(function(item, i){
+				return query === item.name;
+			});
+		};
+
+		methods.map = function(path){
+			var current = this;
+
+			path.forEach(function(level, l){
+				current = current[level];
+			});
+		};
+
+		return Entity;
+	})();
 
 	window.entropy = window.S = entropy;
 })(window);
@@ -327,10 +348,17 @@ S.register(/\[\s*(\w+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]/g, function(o
 	return cases[$operator]();
 });
 
+//	Class.
+//	S('mammal');
+S.register(/(\w+)/g, function(object, expression, $klass){
+	return ~this.classes.indexOf($klass);
+});
+
+
 //	Type.
-//	S('Array');
+//	S('@Array');
 //	Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).
-S.register(/(\w+)/g, function(object, expression, $type){
+S.register(/@(\w+)/g, function(object, expression, $type){
 	var type = Object.prototype.toString.call(object).replace(/\[object (\w+)\]/, '$1');
 
 	return type.toLowerCase() === $type.toLowerCase();
