@@ -321,19 +321,27 @@ S.register(/^\*|all$/, function(object, expression){
 
 //	ID.
 //	S('#dog');
-S.register(/#(\w+)/g, function(object, expression, $id){
+S.register(/#([\w\-_]+)/g, function(object, expression, $id){
 	return this.id === $id;
 });
 
 //	Property presence.
-//	S('[name]');
+//	S('[property]');
 S.register(/\[\s*([^\s]+)\s*\]/g, function(object, expression, $property){
 	return object.hasOwnProperty($property);
 });
 
 //	Property equivalence.
-//	S('[name]');
-S.register(/\[\s*(\w+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]/g, function(object, expression, $property, $operator, $isStrict, $quote, $value){
+//	let property = 'VaLuE':
+//	S('[property="value"]');
+//	S('[property=="VaLuE"]');
+//	S("[property^='va']");
+//	S("[property^=='Va']");
+//	S("[property*='lu']");
+//	S("[property*=='Lu']");
+//	S('[property$=ue]');
+//	S('[property$==uE]');
+S.register(/\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]/g, function(object, expression, $property, $operator, $isStrict, $quote, $value){
 	var	test = ($isStrict) ? object[$property] : (''+object[$property]).toLowerCase(),
 		control = ($isStrict) ? $value : (''+$value).toLowerCase();
 
@@ -365,7 +373,7 @@ S.register(/\[\s*(\w+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]/g, function(o
 
 //	Class.
 //	S('mammal');
-S.register(/(\w+)/g, function(object, expression, $klass){
+S.register(/\.([\w\-_]+)/g, function(object, expression, $klass){
 	return ~this.classes.indexOf($klass);
 });
 
