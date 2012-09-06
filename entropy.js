@@ -268,21 +268,31 @@
 		};
 
 		methods.addClass = function(klass){
-			var index = this.classes.indexOf(klass);
+			var	self = this,
+				parts = klass.split(' ');
 
-			if(!~index){
-				this.classes.push(klass);
-			}
+			parts.forEach(function(part, p){
+				var index = self.classes.indexOf(part);
+
+				if(!~index){
+					self.classes.push(part);
+				}
+			});
 
 			return this;
 		};
 
 		methods.removeClass = function(klass){
-			var index = this.classes.indexOf(klass);
+			var	self = this,
+				parts = klass.split(' ');
 
-			if(~index){
-				this.classes.splice(index, 1);
-			}
+			parts.forEach(function(part, p){
+				var index = self.classes.indexOf(part);
+
+				if(~index){
+					self.classes.splice(index, 1);
+				}
+			});
 
 			return this;
 		};
