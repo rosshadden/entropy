@@ -395,7 +395,7 @@ S.register(/\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]/g, funct
 
 //	Class.
 //	S('.mammal');
-S.register(/[\#]{0}\.?([\w\-_]+)/g, function(object, expression, $klass){
+S.register(/\.?([\w\-_]+)/g, function(object, expression, $klass){
 	return ~this.classes.indexOf($klass);
 });
 
