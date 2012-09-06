@@ -230,6 +230,18 @@
 			return this;
 		};
 
+		['addClass', 'removeClass'].forEach(function(method, m){
+			methods[method] = function(){
+				var args = this.slice.call(arguments);
+
+				this.forEach(function(item, i){
+					item[method].apply(item, args);
+				});
+
+				return this;
+			};
+		});
+
 		return query;
 	})(entropy);
 
