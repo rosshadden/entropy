@@ -321,7 +321,7 @@ S.register(/^\*|all$/, function(object, expression){
 
 //	ID.
 //	S('#Jake');
-S.register(/[#]?([\w\-_]+)/g, function(object, expression, $id){
+S.register(/[#]([\w\-_]+)/g, function(object, expression, $id){
 	return this.id === $id;
 });
 
@@ -373,7 +373,7 @@ S.register(/\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]/g, funct
 
 //	Class.
 //	S('.mammal');
-S.register(/\.([\w\-_]+)/g, function(object, expression, $klass){
+S.register(/[\#]{0}\.?([\w\-_]+)/g, function(object, expression, $klass){
 	return ~this.classes.indexOf($klass);
 });
 
