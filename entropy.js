@@ -163,33 +163,39 @@
 			if(~[undefined, ''].indexOf(selector)){
 				return self;
 			}else{
-				entropy.plugins.forEach(function(plugin, p){
-					if(plugin.expression.test(selector)){
-						selector = selector.replace(plugin.expression, function(){
-							self.plugins.push({
-								matches: self.slice.call(arguments).slice(0, -2),
-								expression: plugin.expression,
-								handler: plugin.handler
-							});
+				selector = selector.split(' ');
 
-							return '';
-						});
+				selector.forEach(function(chunk, c){
+					entropy.plugins.forEach(function(plugin, p){
+						if(plugin.expression.test(chunk)){
+							chunk = chunk.replace(plugin.expression, function(value){
+								self.plugins.push({
+									matches: self.slice.call(arguments).slice(0, -2),
+									expression: plugin.expression,
+									handler: plugin.handler
+								});
+
+								return (plugin.isConsuming) ? '' : value;
+							});
+						}
+					});
+
+					var	object,
+						o = 0, length = entropy._collection.length;
+					for(; o < length; o++){
+						object = entropy._collection[o];
+
+						if(self.plugins.length > 0 && self.plugins.every(function(plugin, p){
+							if(plugin.handler.apply(object, [object.contents].concat(plugin.matches))){
+								return true;
+							}
+						})){
+							if(!~self.indexOf(object)){
+								self.push(object);
+							}
+						}
 					}
 				});
-
-				var	object,
-					o = 0, length = entropy._collection.length;
-				for(; o < length; o++){
-					object = entropy._collection[o];
-
-					if(self.plugins.length > 0 && self.plugins.every(function(plugin, p){
-						if(plugin.handler.apply(object, [object.contents].concat(plugin.matches))){
-							return true;
-						}
-					})){
-						self.push(object);
-					}
-				}
 			}
 
 			return self;
@@ -337,13 +343,13 @@
 
 //	All.
 //	S('*'), S('all');
-S.register(/^\*|all$/, function(object, expression){
+S.register(/^\*$|^all$/, function(object, expression){
 	return true;
 });
 
 //	ID.
 //	S('#Jake');
-S.register(/[#]([\w\-_]+)/g, function(object, expression, $id){
+S.register(/^[#]([\w\-_]+)$/g, function(object, expression, $id){
 	return this.id === $id;
 });
 
@@ -395,7 +401,7 @@ S.register(/\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]/g, funct
 
 //	Class.
 //	S('.mammal');
-S.register(/\.?([\w\-_]+)/g, function(object, expression, $klass){
+S.register(/^\.?([\w\-_]+)$/g, function(object, expression, $klass){
 	return ~this.classes.indexOf($klass);
 });
 
