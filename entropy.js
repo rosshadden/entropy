@@ -349,7 +349,7 @@ S.register(/^\*$|^all$/, function(object, expression){
 
 //	ID.
 //	S('#Jake');
-S.register(/^[#]([\w\-_]+)$/g, function(object, expression, $id){
+S.register(/^#([\w\-_]+)$/g, function(object, expression, $id){
 	return this.id === $id;
 });
 
