@@ -175,6 +175,8 @@
 									handler: plugin.handler
 								});
 
+								//	Just in case a plugin thinks it needs to consume?
+								//	Not sure how I feel about this.  May remove.
 								return (plugin.isConsuming) ? '' : value;
 							});
 						}
@@ -361,7 +363,7 @@ S.register(/^#([\w\-_]+)$/g, function(object, expression, $id){
 
 //	Property presence.
 //	S('[property]');
-S.register(/\[\s*([^\s]+)\s*\]/g, function(object, expression, $property){
+S.register(/^\[\s*([\w+-]+)\s*\]$/g, function(object, expression, $property){
 	return object.hasOwnProperty($property);
 });
 
@@ -375,7 +377,7 @@ S.register(/\[\s*([^\s]+)\s*\]/g, function(object, expression, $property){
 //	S("[property*=='Lu']");
 //	S('[property$=ue]');
 //	S('[property$==uE]');
-S.register(/\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]/g, function(object, expression, $property, $operator, $isStrict, $quote, $value){
+S.register(/^\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/g, function(object, expression, $property, $operator, $isStrict, $quote, $value){
 	var	test = ($isStrict) ? object[$property] : (''+object[$property]).toLowerCase(),
 		control = ($isStrict) ? $value : (''+$value).toLowerCase();
 
@@ -415,7 +417,7 @@ S.register(/^\.?([\w\-_]+)$/g, function(object, expression, $klass){
 //	Type.
 //	S('@Array');
 //	Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).
-S.register(/@(\w+)/g, function(object, expression, $type){
+S.register(/^@(\w+)$/g, function(object, expression, $type){
 	var type = Object.prototype.toString.call(object).replace(/\[object (\w+)\]/, '$1');
 
 	return type.toLowerCase() === $type.toLowerCase();
