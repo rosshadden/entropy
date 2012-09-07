@@ -273,27 +273,33 @@
 			return this;
 		};
 
-		methods.addClass = function(klass){
-			var	self = this,
-				parts = klass.split(' ');
+		methods.addClass = function(classes){
+			var	self = this;
 
-			parts.forEach(function(part, p){
-				var index = self.classes.indexOf(part);
+			if(typeof classes === 'string'){
+				classes = classes.split(' ');
+			}
+
+			classes.forEach(function(klass, k){
+				var index = self.classes.indexOf(klass);
 
 				if(!~index){
-					self.classes.push(part);
+					self.classes.push(klass);
 				}
 			});
 
 			return this;
 		};
 
-		methods.removeClass = function(klass){
-			var	self = this,
-				parts = klass.split(' ');
+		methods.removeClass = function(classes){
+			var	self = this;
 
-			parts.forEach(function(part, p){
-				var index = self.classes.indexOf(part);
+			if(typeof classes === 'string'){
+				classes = classes.split(' ');
+			}
+
+			classes.forEach(function(klass, k){
+				var index = self.classes.indexOf(klass);
 
 				if(~index){
 					self.classes.splice(index, 1);
