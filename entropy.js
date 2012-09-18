@@ -333,7 +333,7 @@
 			});
 		};
 
-		methods.map = function(path){
+		methods.walkLineage = function(path){
 			var current = this;
 
 			path.forEach(function(level, l){
