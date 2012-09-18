@@ -55,11 +55,15 @@
 			}
 		}
 
-		var copy = this._collection.push(new this.Entity(id, classes, object));
+		if(this('#' + id).length === 0){
+			var copy = this._collection.push(new this.Entity(id, classes, object));
 
-		numObjects += 1;
+			numObjects += 1;
 
-		return this._collection[copy - 1];
+			return this._collection[copy - 1];
+		}else{
+			throw new Error('Item with the given ID already exists.');
+		}
 	};
 
 	entropy.register = (function(){
