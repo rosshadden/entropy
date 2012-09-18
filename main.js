@@ -24,7 +24,12 @@ S.add('Jake', 'mammal human', {
 	speech: 'WORDS',
 	speak: function(what){
 		console.log(this.name, 'says', what, 'with his', this.speech);
-	}
+	},
+	friends: [{
+		name: 'Steve'
+	},{
+		name: 'Peter'
+	}]
 });
 
 S.add({
@@ -37,7 +42,7 @@ S.add({
 
 S.add('lottery', [2, 4, 16, 256, 65536]);
 
-S.add('huge', {
+S.add('response', 'huge stupid irritating', {
 	"header": {
 		"class": "com.nationwide.schemas.soasolutions.systeminfo_4.CommandResponseBase",
 		"systemInfo": {
