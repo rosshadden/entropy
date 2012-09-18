@@ -2,13 +2,19 @@
 	'use strict';
 
 	var	entropy = function(selector){
-		return new entropy.query(selector);
+		if(arguments.length === 1 && typeof selector === 'string'){
+			return new entropy.query(selector);
+		}
+
+		//	This means the item(s) passed in are added to the Entropy collection.
+		//	Maybe we should just wrap the item(s), and not add them?
+		return entropy.add.apply(entropy, arguments);
 	};
 
 	var	numObjects = 0,
 		plugins = entropy.plugins = [];
 
-	entropy.version = 0.1;
+	entropy.version = 0.15;
 
 	entropy._collection = [];
 
