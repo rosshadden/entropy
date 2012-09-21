@@ -108,7 +108,7 @@
 
 			if(Object.prototype.toString.call(object) === '[object Array]'){
 				if(isNested){
-					root.manifest[root.manifest.length - 1].type = 'array';
+					root['.manifest'][root['.manifest'].length - 1].type = 'array';
 				}
 
 				output = [];
@@ -116,7 +116,7 @@
 				length = object.length;
 
 				for(; i < length; i++){
-					root.manifest.push({
+					root['.manifest'].push({
 						name: i,
 						path: path.slice(),
 						type: typeof object[i],
@@ -137,7 +137,7 @@
 				output = {};
 
 				for(i in object){
-					root.manifest.push({
+					root['.manifest'].push({
 						name: i,
 						path: path.slice(),
 						type: typeof object[i],
@@ -274,7 +274,7 @@
 			this.id = id;
 			this.classes = classes;
 
-			Object.defineProperty(this, 'manifest', {
+			Object.defineProperty(this, '.manifest', {
 				value: [],
 				enumerable: false,
 				configurable: false
@@ -322,7 +322,7 @@
 		};
 
 		methods.has = function(query){
-			return this.manifest.some(function(item, i){
+			return this['.manifest'].some(function(item, i){
 				return query === item.name;
 			});
 		};
@@ -338,7 +338,7 @@
 		};
 
 		methods.find = methods.filter = function(query){
-			return this.manifest.filter(function(item, i){
+			return this['.manifest'].filter(function(item, i){
 				return query === item.name;
 			});
 		};
