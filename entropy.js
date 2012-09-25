@@ -6,6 +6,10 @@
 			return new entropy.query(selector);
 		}
 
+		if(selector instanceof entropy.Entity){
+			return new entropy.entropize(selector);
+		}
+
 		//	This means the item(s) passed in are added to the Entropy collection.
 		//	Maybe we should just wrap the item(s), and not add them?
 		return entropy.add.apply(entropy, arguments);
@@ -16,56 +20,8 @@
 
 	entropy.version = 0.15;
 
-	entropy._collection = [];
-	entropy._entities = [];
-
-	//	Adds a new object to Entropy.
-	//	Optionally accepts an ID string as the first argument.
-	entropy.add = function(){
-		var id, object,
-			classes = [];
-
-		var args = Array.prototype.slice.call(arguments);
-
-		//	Adds an empty object (for some reason?).
-		if(args.length === 0){
-			id = '';
-			object = {};
-		}
-
-		//	Adds the passed in object, with no ID or classes.
-		if(args.length === 1){
-			id = '';
-			object = args[0];
-		}
-
-		//	Adds an object with an ID.
-		if(args.length === 2){
-			id = args[0];
-			object = args[1];
-		}
-
-		//	Adds an object with an ID and some classes.
-		if(args.length === 3){
-			id = args[0];
-			classes = args[1];
-			object = args[2];
-
-			if(typeof classes === 'string'){
-				classes = classes.split(' ');
-			}
-		}
-
-		//	Push the thing to the other thing.
-		if(this('#' + id).length === 0){
-			var entity = this._collection.push(new this.Entity(id, classes, object));
-
-			numObjects += 1;
-
-			return this._collection[entity - 1];
-		}else{
-			throw new Error('Item with the given ID already exists.');
-		}
+	entropy.entropize = function(entity){
+		console.log(entity);
 	};
 
 	entropy.register = (function(){
@@ -92,10 +48,6 @@
 			plugins.sort(sort);
 		};
 	})();
-
-	entropy.list = function(){
-		return this._collection;
-	};
 
 	entropy.copy = (function(){
 		var root, current,
@@ -160,136 +112,85 @@
 		};
 	})();
 
-	entropy.query = (function(entropy){
-		var	query = function(selector){
-			this.query(selector);
+	entropy.Entity = (function(entropy){
+		var Entity = function(id, classes, object, path){
+			this._collection = [];
+			this._entities = [];
+
+			this.create(id, classes, object, path);
 		};
 
-		var	methods = query.prototype = new Array;
+		var entity = Entity.prototype = {};
 
-		methods.query = function(selector){
-			var self = this;
-
-			self.plugins = [];
-
-			if(~[undefined, ''].indexOf(selector)){
-				return self;
-			}else{
-				selector = selector.split(' ');
-
-				selector.forEach(function(chunk, c){
-					entropy.plugins.forEach(function(plugin, p){
-						if(plugin.expression.test(chunk)){
-							chunk = chunk.replace(plugin.expression, function(value){
-								self.plugins.push({
-									matches: self.slice.call(arguments).slice(0, -2),
-									expression: plugin.expression,
-									handler: plugin.handler
-								});
-
-								//	Just in case a plugin thinks it needs to consume?
-								//	Not sure how I feel about this.  May remove.
-								return (plugin.isConsuming) ? '' : value;
-							});
-						}
-					});
-
-					var	object,
-						o = 0, length = entropy._collection.length;
-					for(; o < length; o++){
-						object = entropy._collection[o];
-
-						if(self.plugins.length > 0 && self.plugins.every(function(plugin, p){
-							if(plugin.handler.apply(object, [object.contents].concat(plugin.matches))){
-								return true;
-							}
-						})){
-							if(!~self.indexOf(object)){
-								self.push(object);
-							}
-						}
-					}
-				});
-			}
-
-			return self;
-		};
-
-		methods.get = function(index){
-			return this[index];
-		};
-
-		methods.eq = function(index){
-			this.splice(index, index + 1);
-
-			return this;
-		};
-
-		methods.add = methods.concat = function(selector){
-			return this.query(selector);
-		};
-
-		methods.remove = function(index){
-			this.splice(index, 1);
-
-			return this;
-		};
-
-		methods.each = methods.forEach;
-
-		methods.run = function(){
-			var args = this.slice.call(arguments),
-				method = args.splice(0, 1);
-
-			this.forEach(function(item, i){
-				if(item.contents[method]){
-					item.contents[method].apply(item.contents, args);
-				}
-			});
-
-			return this;
-		};
-
-		['addClass', 'removeClass'].forEach(function(method, m){
-			methods[method] = function(){
-				var args = this.slice.call(arguments);
-
-				this.forEach(function(item, i){
-					item[method].apply(item, args);
-				});
-
-				return this;
-			};
-		});
-
-		return query;
-	})(entropy);
-
-	entropy.Entity = (function(){
-		var Entity = function(id, classes, object){
-			this.create(id, classes, object);
-		};
-
-		var methods = Entity.prototype = {};
-
-		methods.create = function(id, classes, object){
-			var index = entropy._entities.push(this) - 1;
-
+		entity.create = function(id, classes, object, path){
 			this.id = id;
 			this.classes = classes;
 
-			Object.defineProperty(this, '.manifest', {
-				value: [],
-				enumerable: false,
-				configurable: false
-			});
+			if(typeof path === 'undefined'){
+				Object.defineProperty(this, '.manifest', {
+					value: [],
+					enumerable: false,
+					configurable: false
+				});
 
-			this.contents = entropy.copy.call(this, object);
+				this.contents = entropy.copy.call(this, object);
+			}else{
+				console.log('HAS AN ANCESTOR!');
+			}
 
 			return this;
 		};
 
-		methods.addClass = function(classes){
+		//	Adds a new object to Entropy.
+		//	Optionally accepts an ID string as the first argument.
+		entity.add = function(){
+			var id, object,
+				classes = [];
+
+			var args = Array.prototype.slice.call(arguments);
+
+			//	Adds an empty object (for some reason?).
+			if(args.length === 0){
+				id = '';
+				object = {};
+			}
+
+			//	Adds the passed in object, with no ID or classes.
+			if(args.length === 1){
+				id = '';
+				object = args[0];
+			}
+
+			//	Adds an object with an ID.
+			if(args.length === 2){
+				id = args[0];
+				object = args[1];
+			}
+
+			//	Adds an object with an ID and some classes.
+			if(args.length === 3){
+				id = args[0];
+				classes = args[1];
+				object = args[2];
+
+				if(typeof classes === 'string'){
+					classes = classes.split(' ');
+				}
+			}
+
+			//	Push the thing to the other thing.
+			// if(this('#' + id).length === 0){
+				var entity = this._collection.push(new entropy.Entity(id, classes, object));
+
+				numObjects += 1;
+
+				return this._collection[entity - 1];
+			// }else{
+				// throw new Error('Item with the given ID already exists.');
+			// }
+		};
+
+		entity.addClass = function(classes){
 			var	self = this;
 
 			if(typeof classes === 'string'){
@@ -307,7 +208,7 @@
 			return this;
 		};
 
-		methods.removeClass = function(classes){
+		entity.removeClass = function(classes){
 			var	self = this;
 
 			if(typeof classes === 'string'){
@@ -325,13 +226,13 @@
 			return this;
 		};
 
-		methods.has = function(query){
+		entity.has = function(query){
 			return this['.manifest'].some(function(item, i){
 				return query === item.name;
 			});
 		};
 
-		methods.children = function(query){
+		entity.children = function(query){
 			var output = [];
 
 			for(var child in this.contents){
@@ -341,13 +242,15 @@
 			return output;
 		};
 
-		methods.find = methods.filter = function(query){
-			return this['.manifest'].filter(function(item, i){
-				return query === item.name;
-			});
+		entity.list = function(){
+			return this._collection;
 		};
 
-		methods.walkLineage = function(path){
+		entity.find = function(selector){
+			return new this.query(selector, this);
+		};
+
+		entity.walkLineage = function(path){
 			var current = this;
 
 			path.forEach(function(level, l){
@@ -355,29 +258,138 @@
 			});
 		};
 
-		return Entity;
-	})();
+		entity.query = (function(entropy){
+			var entity;
 
-	window.entropy = window.S = entropy;
+			var	query = function(selector, theEntity){
+				entity = theEntity;
+				return methods.query(selector);
+			};
+
+			var	methods = query.prototype = new Array;
+
+			methods.query = function(selector){
+				var self = this;
+
+				self.plugins = [];
+
+				if(~[undefined, ''].indexOf(selector)){
+					return self;
+				}else{
+					selector = selector.split(' ');
+
+					selector.forEach(function(chunk, c){
+						entropy.plugins.forEach(function(plugin, p){
+							if(plugin.expression.test(chunk)){
+								chunk = chunk.replace(plugin.expression, function(value){
+									self.plugins.push({
+										matches: self.slice.call(arguments).slice(0, -2),
+										expression: plugin.expression,
+										handler: plugin.handler
+									});
+
+									//	Just in case a plugin thinks it needs to consume?
+									//	Not sure how I feel about this.  May remove.
+									return (plugin.isConsuming) ? '' : value;
+								});
+							}
+						});
+
+						var	object,
+							o = 0, length = entity._collection.length;
+						for(; o < length; o++){
+							object = entity._collection[o];
+
+							if(self.plugins.length > 0 && self.plugins.every(function(plugin, p){
+								if(plugin.handler.apply(object, [object.contents].concat(plugin.matches))){
+									return true;
+								}
+							})){
+								if(!~self.indexOf(object)){
+									self.push(object);
+								}
+							}
+						}
+					});
+				}
+
+				return self;
+			};
+
+			methods.get = function(index){
+				return this[index];
+			};
+
+			methods.eq = function(index){
+				this.splice(index, index + 1);
+
+				return this;
+			};
+
+			methods.add = methods.concat = function(selector){
+				return this.query(selector);
+			};
+
+			methods.remove = function(index){
+				this.splice(index, 1);
+
+				return this;
+			};
+
+			methods.each = methods.forEach;
+
+			methods.run = function(){
+				var args = this.slice.call(arguments),
+					method = args.splice(0, 1);
+
+				this.forEach(function(item, i){
+					if(item.contents[method]){
+						item.contents[method].apply(item.contents, args);
+					}
+				});
+
+				return this;
+			};
+
+			['addClass', 'removeClass'].forEach(function(method, m){
+				methods[method] = function(){
+					var args = this.slice.call(arguments);
+
+					this.forEach(function(item, i){
+						item[method].apply(item, args);
+					});
+
+					return this;
+				};
+			});
+
+			return query;
+		})(entropy);
+
+		return Entity;
+	})(entropy);
+
+	window.entropy = entropy;
+	window.S = new entropy.Entity;
 })(window);
 
 //	SELECTORS
 
 //	All.
 //	S('*'), S('all');
-S.register(/^\*$|^all$/, function(object, expression){
+entropy.register(/^\*$|^all$/, function(object, expression){
 	return true;
 });
 
 //	ID.
 //	S('#Jake');
-S.register(/^#([\w\-_]+)$/g, function(object, expression, $id){
+entropy.register(/^#([\w\-_]+)$/g, function(object, expression, $id){
 	return this.id === $id;
 });
 
 //	Property presence.
 //	S('[property]');
-S.register(/^\[\s*([\w+-]+)\s*\]$/g, function(object, expression, $property){
+entropy.register(/^\[\s*([\w+-]+)\s*\]$/g, function(object, expression, $property){
 	return object.hasOwnProperty($property);
 });
 
@@ -391,7 +403,7 @@ S.register(/^\[\s*([\w+-]+)\s*\]$/g, function(object, expression, $property){
 //	S("[property*=='Lu']");
 //	S('[property$=ue]');
 //	S('[property$==uE]');
-S.register(/^\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/g, function(object, expression, $property, $operator, $isStrict, $quote, $value){
+entropy.register(/^\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/g, function(object, expression, $property, $operator, $isStrict, $quote, $value){
 	var	test = ($isStrict) ? object[$property] : (''+object[$property]).toLowerCase(),
 		control = ($isStrict) ? $value : (''+$value).toLowerCase();
 
@@ -423,7 +435,7 @@ S.register(/^\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/g, fun
 
 //	Class.
 //	S('.mammal');
-S.register(/^\.?([\w\-_]+)$/g, function(object, expression, $klass){
+entropy.register(/^\.?([\w\-_]+)$/g, function(object, expression, $klass){
 	return ~this.classes.indexOf($klass);
 });
 
@@ -431,7 +443,7 @@ S.register(/^\.?([\w\-_]+)$/g, function(object, expression, $klass){
 //	Type.
 //	S('@Array');
 //	Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).
-S.register(/^@(\w+)$/g, function(object, expression, $type){
+entropy.register(/^@(\w+)$/g, function(object, expression, $type){
 	var type = Object.prototype.toString.call(object).replace(/\[object (\w+)\]/, '$1');
 
 	return type.toLowerCase() === $type.toLowerCase();
