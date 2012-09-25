@@ -17,6 +17,7 @@
 	entropy.version = 0.15;
 
 	entropy._collection = [];
+	entropy._entities = [];
 
 	//	Adds a new object to Entropy.
 	//	Optionally accepts an ID string as the first argument.
@@ -55,12 +56,13 @@
 			}
 		}
 
+		//	Push the thing to the other thing.
 		if(this('#' + id).length === 0){
-			var copy = this._collection.push(new this.Entity(id, classes, object));
+			var entity = this._collection.push(new this.Entity(id, classes, object));
 
 			numObjects += 1;
 
-			return this._collection[copy - 1];
+			return this._collection[entity - 1];
 		}else{
 			throw new Error('Item with the given ID already exists.');
 		}
@@ -268,9 +270,11 @@
 			this.create(id, classes, object);
 		};
 
-		var methods = Entity.prototype = new Object;
+		var methods = Entity.prototype = {};
 
 		methods.create = function(id, classes, object){
+			var index = entropy._entities.push(this) - 1;
+
 			this.id = id;
 			this.classes = classes;
 
