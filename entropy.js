@@ -20,7 +20,9 @@ window.entropy = window.S = (function(){
 			Object.getOwnPropertyNames(source).forEach(function(key){
 				dest[key] = source[key];
 			});
-		}
+		},
+
+		array: Array.prototype
 	};
 
 	var Entity = Object.create(Function.prototype);
@@ -41,8 +43,57 @@ window.entropy = window.S = (function(){
 
 		create: utilities.functionFactory(Entity),
 
-		add: function(what){
-			this['.set'].push(what);
+		add: function(){
+			var id, contents,
+				classes = [];
+
+			var args = Array.prototype.slice.call(arguments);
+
+			//	Adds an empty object (for some reason?).
+			if(args.length === 0){
+				id = '';
+				contents = {};
+			}
+
+			//	Adds the passed in object, with no ID or classes.
+			if(args.length === 1){
+				id = '';
+				contents = args[0];
+			}
+
+			//	Adds an object with an ID.
+			if(args.length === 2){
+				id = args[0];
+				contents = args[1];
+			}
+
+			//	Adds an object with an ID and some classes.
+			if(args.length === 3){
+				id = args[0];
+				classes = args[1];
+				contents = args[2];
+
+				if(typeof classes === 'string'){
+					classes = classes.split(' ');
+				}
+			}
+
+			//	Check for existence of a duplicate ID.
+			var doesExist = this['.set'].some(function(item){
+				return (id === '') ? false : id === item.id;
+			});
+
+			//	If ID does not exist in the set, add it.
+			//	Otherwise, bitch about it.
+			if(!doesExist){
+				this['.set'].push({
+					id: id,
+					classes: classes,
+					contents: contents
+				});
+			}else{
+				throw new Error('Item with the given ID already exists.');
+			}
 
 			return this;
 		},
