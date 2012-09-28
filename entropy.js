@@ -41,7 +41,8 @@ window.entropy = window.S = (function(){
 		},
 
 		//	Called when you invoke the instance as a function.
-		call: function(){
+		//	This runs a query against the set of the instance.
+		call: function(selector){
 			return this;
 		},
 
