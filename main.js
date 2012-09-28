@@ -1,4 +1,4 @@
-S.add('dog1', 'mammal dog', {
+/*S.add('dog1', 'mammal dog', {
 	name: 'Fred',
 	speech: 'bark',
 	speak: function(what){
@@ -1272,3 +1272,4 @@ S.add('response', 'huge stupid irritating', {
 		}
 	}
 });
+*/
