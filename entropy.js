@@ -123,6 +123,8 @@ window.entropy = window.S = (function(){
 		entropy['.plugins'] = [];
 
 		entropy.register = (function(){
+			var plugins = entropy['.plugins'];
+
 			//	Sort in descending length order.
 			var sort = function(a, b){
 				var lengthA = (''+a.expression).length,
