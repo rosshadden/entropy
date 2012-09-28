@@ -22,12 +22,71 @@ window.entropy = window.S = (function(){
 			Object.getOwnPropertyNames(source).forEach(function(key){
 				dest[key] = source[key];
 			});
-		},
-
-		array: Array.prototype
+		}
 	};
 
-	utilities.createEntity = utilities.functionFactory(Entity);
+	utilities.copy = (function(){
+		var root, current,
+			path = [];
+
+		return function(object, isNested){
+			var i, output, length;
+
+			if(!isNested){
+				root = this;
+			}
+
+			if(Object.prototype.toString.call(object) === '[object Array]'){
+				if(isNested){
+					root['.manifest'][root['.manifest'].length - 1].type = 'array';
+				}
+
+				output = [];
+				i = 0;
+				length = object.length;
+
+				for(; i < length; i++){
+					root['.manifest'].push({
+						name: i,
+						path: path.slice(),
+						type: typeof object[i],
+						value: object[i]
+					});
+
+					path.push(i);
+
+					output[i] = utilities.copy(object[i], true);
+
+					path.pop();
+				}
+
+				return output;
+			}
+
+			if(typeof object === 'object'){
+				output = {};
+
+				for(i in object){
+					root['.manifest'].push({
+						name: i,
+						path: path.slice(),
+						type: typeof object[i],
+						value: object[i]
+					});
+
+					path.push(i);
+
+					output[i] = utilities.copy(object[i], true);
+
+					path.pop();
+				}
+
+				return output;
+			}
+
+			return object;
+		};
+	})();
 
 	utilities.extend(Entity, {
 		constructor: function(id, classes, contents){
@@ -50,9 +109,9 @@ window.entropy = window.S = (function(){
 			return 'Entity';
 		},
 
-		create: utilities.createEntity,
+		create: utilities.functionFactory(Entity),
 
-		add: function(){
+		makeEntity: function(){
 			var id, contents,
 				classes = [];
 
@@ -87,25 +146,36 @@ window.entropy = window.S = (function(){
 				}
 			}
 
-			//	Check for existence of a duplicate ID.
-			var doesExist = this['.set'].some(function(item){
-				return (id === '') ? false : id === item.id;
+			var entity =  Entity.create(id, classes, contents);
+
+			entity.id = id;
+			entity.classes = classes;
+
+			Object.defineProperty(entity, '.manifest', {
+				value: [],
+				enumerable: false,
+				configurable: false
 			});
 
-			//	If ID does not exist in the set, add it.
-			//	Otherwise, bitch about it.
-			if(!doesExist){
-				// this['.set'].push({
-				// 	id: id,
-				// 	classes: classes,
-				// 	contents: contents
-				// });
+			entity.contents = utilities.copy.call(entity, contents);
 
-				var entity = Entity.create(id, classes, contents);
-				this['.set'].push(entity);
-			}else{
-				throw new Error('Item with the given ID already exists.');
-			}
+			// //	Check for existence of a duplicate ID.
+			// var doesExist = this['.set'].some(function(item){
+			// 	return (id === '') ? false : id === item.id;
+			// });
+
+			// //	If ID does not exist in the set, add it.
+			// //	Otherwise, bitch about it.
+			// if(doesExist){
+			// 	throw new Error('Item with the given ID already exists.');
+			// }
+
+			return entity;
+		},
+
+		add: function(){
+			var entity = Entity.makeEntity.apply(this, arguments);
+			this['.set'].push(entity);
 
 			return this;
 		},
