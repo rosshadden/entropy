@@ -1,51 +1,63 @@
-var functionFactory = function(proto){
-	return function(){
-		var f = function(){
-			return f.call.apply(f, arguments);
-		};
+window.entropy = window.S = (function(){
+	var utilities = {
+		functionFactory: function(proto){
+			return function(){
+				var f = function(){
+					return f.call.apply(f, arguments);
+				};
 
-		Object.keys(proto).forEach(function(key){
-			f[key] = proto[key];
-		});
+				Object.keys(proto).forEach(function(key){
+					f[key] = proto[key];
+				});
 
-		f.constructor.apply(f, arguments);
+				f.constructor.apply(f, arguments);
 
-		return f;
+				return f;
+			};
+		},
+
+		extend: function(dest, source){
+			Object.getOwnPropertyNames(source).forEach(function(key){
+				dest[key] = source[key];
+			});
+		}
 	};
-};
 
-Object.extend = function(dest, source){
-	Object.getOwnPropertyNames(source).forEach(function(key){
-		dest[key] = source[key];
+	var Entity = Object.create(Function.prototype);
+
+	utilities.extend(Entity, {
+		constructor: function(){
+			this['.set'] = [];
+		},
+
+		call: function(){
+			//	This get's called when you invoke the "function" that is the instance.
+			return this;
+		},
+
+		toString: function(){
+			return 'Entity';
+		},
+
+		create: utilities.functionFactory(Entity),
+
+		add: function(what){
+			this['.set'].push(what);
+
+			return this;
+		},
+
+		print: function(){
+			console.log('set:', this['.set']);
+
+			return this;
+		}
 	});
-};
 
-var EntityProto = Object.create(Function.prototype);
+	var entropy = Entity.create();
 
-Object.extend(EntityProto, {
-	constructor: function(){
-		this['.set'] = [];
-	},
+	entropy.version = 0.1;
+	entropy.create = Entity;
 
-	call: function(){
-		// this get's called when you invoke the "function" that is the instance
-		return this;
-	},
-
-	add: function(what){
-		this['.set'].push(what);
-
-		return this;
-	},
-
-	print: function(){
-		console.log('set:', this['.set']);
-
-		return this;
-	}
-});
-
-window.Entity = functionFactory(EntityProto);
-window.entropy = window.S = Entity();
-
-entropy.version = 0.1;
+	return entropy;
+})();
