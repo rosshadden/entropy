@@ -115,9 +115,40 @@ window.entropy = window.S = (function(){
 	});
 
 	window.Entity = Entity;
-	var entropy = Entity.create();
 
-	entropy.version = 0.1;
+	var entropy = (function(){
+		var entropy = Entity.create();
+
+		entropy.version = 0.1;
+		entropy['.plugins'] = [];
+
+		entropy.register = (function(){
+			//	Sort in descending length order.
+			var sort = function(a, b){
+				var lengthA = (''+a.expression).length,
+					lengthB = (''+b.expression).length;
+
+				if(lengthA < lengthB){
+					return 1;
+				}
+				if(lengthA > lengthB){
+					return -1;
+				}
+				return 0;
+			};
+
+			return function(expression, handler){
+				plugins.push({
+					expression: expression,
+					handler: handler
+				});
+
+				plugins.sort(sort);
+			};
+		})();
+
+		return entropy;
+	})();
 
 	return entropy;
 })();
