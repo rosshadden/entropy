@@ -1,4 +1,6 @@
 window.entropy = window.S = (function(){
+	var Entity = Object.create(Function.prototype);
+
 	var utilities = {
 		functionFactory: function(proto){
 			return function(){
@@ -25,15 +27,21 @@ window.entropy = window.S = (function(){
 		array: Array.prototype
 	};
 
-	var Entity = Object.create(Function.prototype);
+	utilities.createEntity = utilities.functionFactory(Entity);
 
 	utilities.extend(Entity, {
-		constructor: function(){
+		constructor: function(id, classes, contents){
 			this['.set'] = [];
+
+			//	If an ID was assigned,
+			//	set that shit as toString.
+			(!!id) && (this.toString = function(){
+				return id;
+			});
 		},
 
+		//	Called when you invoke the instance as a function.
 		call: function(){
-			//	This get's called when you invoke the "function" that is the instance.
 			return this;
 		},
 
@@ -41,7 +49,7 @@ window.entropy = window.S = (function(){
 			return 'Entity';
 		},
 
-		create: utilities.functionFactory(Entity),
+		create: utilities.createEntity,
 
 		add: function(){
 			var id, contents,
@@ -86,11 +94,14 @@ window.entropy = window.S = (function(){
 			//	If ID does not exist in the set, add it.
 			//	Otherwise, bitch about it.
 			if(!doesExist){
-				this['.set'].push({
-					id: id,
-					classes: classes,
-					contents: contents
-				});
+				// this['.set'].push({
+				// 	id: id,
+				// 	classes: classes,
+				// 	contents: contents
+				// });
+
+				var entity = Entity.create(id, classes, contents);
+				this['.set'].push(entity);
 			}else{
 				throw new Error('Item with the given ID already exists.');
 			}
@@ -98,17 +109,15 @@ window.entropy = window.S = (function(){
 			return this;
 		},
 
-		print: function(){
-			console.log('set:', this['.set']);
-
-			return this;
+		getSet: function(){
+			return this['.set'];
 		}
 	});
 
+	window.Entity = Entity;
 	var entropy = Entity.create();
 
 	entropy.version = 0.1;
-	entropy.create = Entity;
 
 	return entropy;
 })();
