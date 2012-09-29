@@ -90,7 +90,9 @@ window.entropy = window.S = (function(){
 
 	utilities.extend(Entity, {
 		constructor: function(id, classes, contents){
+			//	Setup unique properties.
 			this['.set'] = [];
+			this.classes = [];
 
 			//	If an ID was assigned,
 			//	set that shit as toString.
@@ -109,9 +111,9 @@ window.entropy = window.S = (function(){
 			return 'Entity';
 		},
 
-		create: utilities.functionFactory(Entity),
+		make: utilities.functionFactory(Entity),
 
-		makeEntity: function(){
+		create: function(){
 			var id, contents,
 				classes = [];
 
@@ -157,10 +159,7 @@ window.entropy = window.S = (function(){
 				throw new Error('Item with the given ID already exists.');
 			}
 
-			var entity =  Entity.create(id, classes, contents);
-
-			entity.id = id;
-			entity.classes = classes;
+			var entity =  Entity.make(id, classes, contents);
 
 			Object.defineProperty(entity, '.manifest', {
 				value: [],
@@ -168,13 +167,15 @@ window.entropy = window.S = (function(){
 				configurable: false
 			});
 
+			entity.set('id', id);
+			entity.addClass(classes);
 			entity.contents = utilities.copy.call(entity, contents);
 
 			return entity;
 		},
 
 		add: function(){
-			var entity = Entity.makeEntity.apply(this, arguments);
+			var entity = Entity.create.apply(this, arguments);
 			this['.set'].push(entity);
 
 			return this;
@@ -228,19 +229,97 @@ window.entropy = window.S = (function(){
 			}
 
 			return results;
+			return this.make();
 		},
 
-		getSet: function(){
-			return this['.set'];
+		get: function(key){
+			if(~['set', 'manifest'].indexOf(key)){
+				key = '.' + key;
+			}
+
+			return this[key];
+		},
+
+		set: function(key, value){
+			if(~['id'].indexOf(key)){
+				this[key] = value;
+			}
+
+			return this;
+		},
+
+		attr: function(){
+			var	action,
+				args = Array.prototype.slice.call(arguments);
+
+			if(args.length === 1){
+				action = 'get';
+			}else if(args.length === 2){
+				action = 'set';
+			}
+
+			return this[action].apply(this, args);
+		},
+
+		addClass: function(){
+			var	self = this,
+				args = Array.prototype.slice.call(arguments);
+
+			if(args.length === 1 && args[0] instanceof Array){
+				args = args[0];
+			}
+
+			args.forEach(function(klass, k){
+				if(!~self.classes.indexOf(klass)){
+					self.classes.push(klass);
+				}
+			});
+
+			return self;
+		},
+
+		removeClass: function(){
+			var	index,
+				self = this,
+				args = Array.prototype.slice.call(arguments);
+
+			args.forEach(function(klass, k){
+				index = self.classes.indexOf(klass);
+
+				if(~index){
+					self.classes.splice(index, 1);
+				}
+			});
+
+			return self;
+		},
+
+		toggleClass: function(klass){
+			var	self = this,
+				args = Array.prototype.slice.call(arguments);
+
+			args.forEach(function(klass, k){
+				if(!~self.classes.indexOf(klass)){
+					self.addClass(klass);
+				}else{
+					self.removeClass(klass);
+				}
+			});
+
+			return self;
 		}
 	});
 
 	window.Entity = Entity;
 
 	var entropy = (function(){
-		var entropy = Entity.create();
+		var entropy = Entity.make();
 
-		entropy.version = 0.1;
+		//	Give it something to write home about.
+		entropy.set('id', 'root');
+		entropy.addClass('root', 'entropy');
+
+		entropy.version = 0.2;
 		entropy['.plugins'] = [];
 
 		entropy.register = (function(){
