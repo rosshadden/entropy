@@ -197,6 +197,18 @@ window.entropy = window.S = (function(){
 			return this;
 		},
 
+		remove: function(query){
+			if(typeof query === 'number'){
+				this['.set'].splice(query, 1);
+			}else if(typeof query === 'string'){
+				this['.set'].forEach(function(entity, e){
+					if(entity.id === query){
+						this['.set'].splice(e, 1);
+					}
+				});
+			}
+		},
+
 		find: function(query){
 			var self = this;
 
@@ -386,6 +398,13 @@ window.entropy = window.S = (function(){
 
 		extract: function(){
 			return this.children('extract');
+		},
+
+		//	TEMP:  The general idea behind this will be used later.
+		findInManifest: function(query){
+			return this['.manifest'].filter(function(item, i){
+				return query === item.name;
+			});
 		}
 	});
 
