@@ -202,9 +202,7 @@ window.entropy = window.S = (function(){
 
 			results.plugins = [];
 
-			if(~[undefined, ''].indexOf(selector)){
-				return results;
-			}else{
+			if(!~[undefined, ''].indexOf(selector)){
 				selector = selector.split(' ');
 
 				selector.forEach(function(chunk, c){
