@@ -334,8 +334,6 @@ window.entropy = window.S = (function(){
 		}
 	});
 
-	window.Entity = Entity;
-
 	var entropy = (function(){
 		var entropy = Entity.make();
 
@@ -343,6 +341,7 @@ window.entropy = window.S = (function(){
 		entropy.set('id', 'root');
 		entropy.addClass('root', 'entropy');
 
+		//	Stuff unique to the entropic root.
 		entropy.version = 0.2;
 		entropy['.plugins'] = [];
 
@@ -372,6 +371,9 @@ window.entropy = window.S = (function(){
 				plugins.sort(sort);
 			};
 		})();
+
+		//	Aliases.
+		entropy.Entity = Entity;
 
 		return entropy;
 	})();
