@@ -91,7 +91,9 @@ window.entropy = window.S = (function(){
 	utilities.extend(Entity, {
 		constructor: function(id, classes, contents){
 			//	Setup unique properties.
+			this['.isEntity'] = true;
 			this['.set'] = [];
+			this.id = '';
 			this.classes = [];
 
 			//	If an ID was assigned,
@@ -103,8 +105,8 @@ window.entropy = window.S = (function(){
 
 		//	Called when you invoke the instance as a function.
 		//	This runs a query against the set of the instance.
-		call: function(selector){
-			return this;
+		call: function(){
+			return this.find.apply(this, arguments);
 		},
 
 		toString: function(){
@@ -118,6 +120,8 @@ window.entropy = window.S = (function(){
 				classes = [];
 
 			var args = Array.prototype.slice.call(arguments);
+
+			var entity;
 
 			//	Adds an empty object (for some reason?).
 			if(args.length === 0){
@@ -159,17 +163,26 @@ window.entropy = window.S = (function(){
 				throw new Error('Item with the given ID already exists.');
 			}
 
-			var entity =  Entity.make(id, classes, contents);
+			//	Check if the item is already an Entity.
+			var isEntity = typeof contents === 'function' && contents['.isEntity'];
 
-			Object.defineProperty(entity, '.manifest', {
-				value: [],
-				enumerable: false,
-				configurable: false
-			});
+			//	If it is not, make it one.
+			//	Otherwise, dance profusely.
+			if(isEntity){
+				entity = contents;
+			}else{
+				entity = Entity.make(id, classes, contents);
 
-			entity.set('id', id);
-			entity.addClass(classes);
-			entity.contents = utilities.copy.call(entity, contents);
+				Object.defineProperty(entity, '.manifest', {
+					value: [],
+					enumerable: false,
+					configurable: false
+				});
+
+				entity.set('id', id);
+				entity.addClass(classes);
+				entity.contents = utilities.copy.call(entity, contents);
+			}
 
 			return entity;
 		},
@@ -228,8 +241,15 @@ window.entropy = window.S = (function(){
 				});
 			}
 
-			return results;
-			return this.make();
+			var entity = this.make();
+			entity.addClass('entropy results');
+
+			results.forEach(function(result, r){
+				entity.add(result);
+			});
+
+			// return results;
+			return entity;
 		},
 
 		get: function(key){
@@ -265,8 +285,12 @@ window.entropy = window.S = (function(){
 			var	self = this,
 				args = Array.prototype.slice.call(arguments);
 
-			if(args.length === 1 && args[0] instanceof Array){
-				args = args[0];
+			if(args.length === 1){
+				if(args[0] instanceof Array){
+					args = args[0];
+				}else if(typeof args[0] === 'string'){
+					args = args[0].split(' ');
+				}
 			}
 
 			args.forEach(function(klass, k){
