@@ -180,6 +180,56 @@ window.entropy = window.S = (function(){
 			return this;
 		},
 
+		find: function(selector){
+			var self = this;
+
+			var results = [];
+
+			results.plugins = [];
+
+			if(~[undefined, ''].indexOf(selector)){
+				return results;
+			}else{
+				selector = selector.split(' ');
+
+				selector.forEach(function(chunk, c){
+					entropy['.plugins'].forEach(function(plugin, p){
+						if(plugin.expression.test(chunk)){
+							chunk = chunk.replace(plugin.expression, function(value){
+								results.plugins.push({
+									matches: results.slice.call(arguments).slice(0, -2),
+									expression: plugin.expression,
+									handler: plugin.handler
+								});
+
+								//	Just in case a plugin thinks it needs to consume?
+								//	Not sure how I feel about this.  May remove.
+								return (plugin.isConsuming) ? '' : value;
+							});
+						}
+					});
+
+					var	object,
+						o = 0, length = self['.set'].length;
+					for(; o < length; o++){
+						object = self['.set'][o];
+
+						if(results.plugins.length > 0 && results.plugins.every(function(plugin, p){
+							if(plugin.handler.apply(object, [object.contents].concat(plugin.matches))){
+								return true;
+							}
+						})){
+							if(!~results.indexOf(object)){
+								results.push(object);
+							}
+						}
+					}
+				});
+			}
+
+			return results;
+		},
+
 		getSet: function(){
 			return this['.set'];
 		}
