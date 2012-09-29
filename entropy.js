@@ -258,6 +258,10 @@ window.entropy = window.S = (function(){
 				key = '.' + key;
 			}
 
+			if(typeof key === 'undefined'){
+				return this.contents;
+			}
+
 			return this[key];
 		},
 
@@ -280,6 +284,10 @@ window.entropy = window.S = (function(){
 			}
 
 			return this[action].apply(this, args);
+		},
+
+		list: function(){
+			return this.get('set');
 		},
 
 		addClass: function(){
