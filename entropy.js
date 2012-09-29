@@ -267,6 +267,10 @@ window.entropy = window.S = (function(){
 
 		set: function(key, value){
 			if(~['id'].indexOf(key)){
+				if(!value){
+					value = 'Entity';
+				}
+
 				this[key] = value;
 			}
 
