@@ -189,7 +189,8 @@ window.entropy = window.S = (function(){
 
 		add: function(){
 			var entity = Entity.create.apply(this, arguments);
-			this['.set'].push(entity);
+			var index = this['.set'].push(entity) - 1;
+			this[index] = entity;
 
 			return this;
 		},
