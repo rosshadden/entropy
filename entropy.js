@@ -29,7 +29,7 @@ window.entropy = window.S = (function(){
 				path = [];
 
 			return function(object, isNested){
-				var i, output, length;
+				var i, response, length;
 
 				if(!isNested){
 					root = this;
@@ -40,7 +40,7 @@ window.entropy = window.S = (function(){
 						root['.manifest'][root['.manifest'].length - 1].type = 'array';
 					}
 
-					output = [];
+					response = [];
 					i = 0;
 					length = object.length;
 
@@ -54,16 +54,16 @@ window.entropy = window.S = (function(){
 
 						path.push(i);
 
-						output[i] = utilities.copy(object[i], true);
+						response[i] = utilities.copy(object[i], true);
 
 						path.pop();
 					}
 
-					return output;
+					return response;
 				}
 
 				if(typeof object === 'object'){
-					output = {};
+					response = {};
 
 					for(i in object){
 						root['.manifest'].push({
@@ -75,12 +75,12 @@ window.entropy = window.S = (function(){
 
 						path.push(i);
 
-						output[i] = utilities.copy(object[i], true);
+						response[i] = utilities.copy(object[i], true);
 
 						path.pop();
 					}
 
-					return output;
+					return response;
 				}
 
 				return object;
@@ -197,17 +197,17 @@ window.entropy = window.S = (function(){
 			return this;
 		},
 
-		find: function(selector){
+		find: function(query){
 			var self = this;
 
 			var results = [];
 
 			results.plugins = [];
 
-			if(!~[undefined, ''].indexOf(selector)){
-				selector = selector.split(' ');
+			if(!~[undefined, ''].indexOf(query)){
+				query = query.split(' ');
 
-				selector.forEach(function(chunk, c){
+				query.forEach(function(chunk, c){
 					entropy['.plugins'].forEach(function(plugin, p){
 						if(plugin.expression.test(chunk)){
 							chunk = chunk.replace(plugin.expression, function(value){
@@ -342,10 +342,46 @@ window.entropy = window.S = (function(){
 			return self;
 		},
 
-		has: function(selector){
+		has: function(query){
 			return this['.manifest'].some(function(item, i){
-				return selector === item.name;
+				return query === item.name;
 			});
+		},
+
+		children: function(type){
+			var	item,
+				response = [];
+
+			for(var child in this.contents){
+				if(~['key', 'keys'].indexOf(type)){
+					item = child;
+				}else if(~['value', 'values'].indexOf(type)){
+					item = this.contents[child];
+				}else if(~['', undefined, 'extract'].indexOf(type)){
+					item = {
+						key: child,
+						value: this.contents[child]
+					};
+				}else{
+					throw new Error('Your parameter is retarded.');
+				}
+
+				response.push(item);
+			}
+
+			return response;
+		},
+
+		keys: function(){
+			return this.children('key');
+		},
+
+		values: function(){
+			return this.children('value');
+		},
+
+		extract: function(){
+			return this.children('extract');
 		}
 	});
 
