@@ -93,14 +93,15 @@ window.entropy = window.S = (function(){
 			//	Setup unique properties.
 			this['.isEntity'] = true;
 			this['.set'] = [];
-			this.id = '';
-			this.classes = [];
 
-			//	If an ID was assigned,
-			//	set that shit as toString.
-			(!!id) && (this.toString = function(){
-				return id;
-			});
+			//	These are set if the relelvant arguments are passed,
+			//	though I prefer to call Entity.make() without arguments,
+			//	and set them afterward.
+			this.id = (typeof id !== 'undefined') ? id : 'Entity';
+			//	TODO:  This should parse classes instead of assuming array.
+			this.classes = (typeof classes !== 'undefined') ? classes : [];
+			//	Note that I am doing the typeof undefined check in case contents is boolean.
+			this.contents = (typeof contents !== 'undefined') ? contents : {};
 		},
 
 		//	Called when you invoke the instance as a function.
@@ -110,7 +111,7 @@ window.entropy = window.S = (function(){
 		},
 
 		toString: function(){
-			return 'Entity';
+			return this.id;
 		},
 
 		make: utilities.functionFactory(Entity),
@@ -171,7 +172,7 @@ window.entropy = window.S = (function(){
 			if(isEntity){
 				entity = contents;
 			}else{
-				entity = Entity.make(id, classes, contents);
+				entity = Entity.make();
 
 				Object.defineProperty(entity, '.manifest', {
 					value: [],
