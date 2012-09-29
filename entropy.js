@@ -93,6 +93,7 @@ window.entropy = window.S = (function(){
 			//	Setup unique properties.
 			this['.isEntity'] = true;
 			this['.set'] = [];
+			this['.manifest'] = [];
 
 			//	These are set if the relelvant arguments are passed,
 			//	though I prefer to call Entity.make() without arguments,
@@ -339,6 +340,12 @@ window.entropy = window.S = (function(){
 			});
 
 			return self;
+		},
+
+		has: function(selector){
+			return this['.manifest'].some(function(item, i){
+				return selector === item.name;
+			});
 		}
 	});
 
