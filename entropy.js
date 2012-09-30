@@ -48,7 +48,7 @@ window.entropy = window.S = (function(){
 
 					for(; i < length; i++){
 						root['.manifest'].push({
-							name: i,
+							key: i,
 							path: path.slice(),
 							type: typeof object[i],
 							value: object[i]
@@ -69,7 +69,7 @@ window.entropy = window.S = (function(){
 
 					for(i in object){
 						root['.manifest'].push({
-							name: i,
+							key: i,
 							path: path.slice(),
 							type: typeof object[i],
 							value: object[i]
@@ -87,7 +87,12 @@ window.entropy = window.S = (function(){
 
 				return object;
 			};
-		})()
+		})(),
+
+		Item: function(key, value){
+			this.key = key;
+			this.value = value;
+		}
 	};
 
 	utilities.extend(Entity, {
@@ -196,7 +201,21 @@ window.entropy = window.S = (function(){
 
 				entity.set('id', id);
 				entity.addClass(classes);
-				entity.contents = utilities.copy.call(entity, contents);
+
+				if(contents instanceof utilities.Item){
+					if(this['.manifest'].some(function(item, i){
+						return (item.key == contents.key && item.value == contents.value);
+					})){
+						contents = contents.value;
+					}else{
+						contents = contents.value;
+						contents = utilities.copy.call(entity, contents);
+					}
+
+					entity.contents = contents;
+				}else{
+					entity.contents = utilities.copy.call(entity, contents);
+				}
 			}
 
 			return entity;
@@ -280,22 +299,25 @@ window.entropy = window.S = (function(){
 			return entity;
 		},
 
-		get: function(key){
-			if(~['set', 'manifest'].indexOf(key)){
-				key = '.' + key;
+		get: function(i){
+			var item;
+
+			if(~['set', 'manifest'].indexOf(i)){
+				i = '.' + i;
 			}
 
-			if(typeof key === 'undefined'){
+			if(typeof i === 'undefined'){
 				return this.contents;
 			}
 
-			if(typeof key === 'number' && this[key] && this[key].list().length === 0){
-				for(var item in this[key].contents){
-					this[key].add(this[key].contents[item]);
+			if(typeof i === 'number' && this[i] && this[i].list().length === 0){
+				for(var key in this[i].contents){
+					item = new utilities.Item(key, this[i].contents[key]);
+					this[i].add(item);
 				}
 			}
 
-			return this[key];
+			return this[i];
 		},
 
 		set: function(key, value){
@@ -381,7 +403,7 @@ window.entropy = window.S = (function(){
 
 		has: function(query){
 			return this['.manifest'].some(function(item, i){
-				return query === item.name;
+				return query === item.key;
 			});
 		},
 
@@ -424,7 +446,7 @@ window.entropy = window.S = (function(){
 		//	TEMP:  The general idea behind this will be used later.
 		findInManifest: function(query){
 			return this['.manifest'].filter(function(item, i){
-				return query === item.name;
+				return query === item.key;
 			});
 		}
 	});

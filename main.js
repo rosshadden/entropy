@@ -1,5 +1,6 @@
 S.add('dog1', 'mammal dog', {
 	name: 'Fred',
+	nickname: 'Fred',
 	speech: 'bark',
 	speak: function(what){
 		console.log(this.name, 'says', what, 'with his', this.speech);
