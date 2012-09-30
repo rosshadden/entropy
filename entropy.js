@@ -1,4 +1,6 @@
 window.entropy = window.S = (function(){
+	'use strict';
+
 	var Entity = Object.create(Function.prototype);
 
 	var utilities = {
