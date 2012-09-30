@@ -274,6 +274,12 @@ window.entropy = window.S = (function(){
 				return this.contents;
 			}
 
+			if(typeof key === 'number' && this[key] && this[key].list().length === 0){
+				for(var item in this[key].contents){
+					this[key].add(this[key].contents[item]);
+				}
+			}
+
 			return this[key];
 		},
 
