@@ -96,7 +96,7 @@ window.entropy = window.S = (function(){
 			this['.manifest'] = [];
 
 			//	These are set if the relelvant arguments are passed,
-			//	though I prefer to call Entity.make() without arguments,
+			//	though I prefer to call Entity['.make']() without arguments,
 			//	and set them afterward.
 			this.id = (typeof id !== 'undefined') ? id : 'Entity';
 			//	TODO:  This should parse classes instead of assuming array.
@@ -115,7 +115,7 @@ window.entropy = window.S = (function(){
 			return this.id;
 		},
 
-		make: utilities.functionFactory(Entity),
+		'.make': utilities.functionFactory(Entity),
 
 		create: function(){
 			var id, contents,
@@ -173,7 +173,7 @@ window.entropy = window.S = (function(){
 			if(isEntity){
 				entity = contents;
 			}else{
-				entity = Entity.make();
+				entity = Entity['.make']();
 
 				Object.defineProperty(entity, '.manifest', {
 					value: [],
@@ -197,6 +197,8 @@ window.entropy = window.S = (function(){
 			return this;
 		},
 
+		//	Removes an item from a set.
+		//	TODO:  This doesn't update entity[n].
 		remove: function(query){
 			if(typeof query === 'number'){
 				this['.set'].splice(query, 1);
@@ -254,7 +256,7 @@ window.entropy = window.S = (function(){
 				});
 			}
 
-			var entity = this.make();
+			var entity = this['.make']();
 			entity.addClass('entropy results');
 
 			results.forEach(function(result, r){
@@ -415,7 +417,7 @@ window.entropy = window.S = (function(){
 	});
 
 	var entropy = (function(){
-		var entropy = Entity.make();
+		var entropy = Entity['.make']();
 
 		//	Give it something to write home about.
 		entropy.set('id', 'root');
