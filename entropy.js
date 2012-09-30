@@ -202,20 +202,28 @@ window.entropy = window.S = (function(){
 				entity.set('id', id);
 				entity.addClass(classes);
 
+				//	If the item being added is added directly by an entity,
+				//	we don't need to do the deep copy for the manifest.
 				if(contents instanceof utilities.Item){
-					if(this['.manifest'].some(function(item, i){
-						return (item.key == contents.key && item.value == contents.value);
-					})){
-						contents = contents.value;
-					}else{
-						contents = contents.value;
-						contents = utilities.copy.call(entity, contents);
-					}
+					//	If possible, we copy the manifest from the parent,
+					//	and starting at the relevant level and with the relevant items.
+					this['.manifest'].forEach(function(item, i){
+						if(item.path.length === 0){
+							if(item.key == contents.key){
+							}
+						}else if(item.path[0] === contents.key){
+							//	BUG:  S.get(7).get(0).get('manifest');
+							// entity['.manifest'].push(item.path.slice(1));
+						}
+					});
 
-					entity.contents = contents;
+					contents = contents.value;
+					contents = utilities.copy.call(entity, contents);
 				}else{
-					entity.contents = utilities.copy.call(entity, contents);
+					contents = utilities.copy.call(entity, contents);
 				}
+
+				entity.contents = contents;
 			}
 
 			return entity;
