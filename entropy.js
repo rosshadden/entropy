@@ -91,9 +91,26 @@ window.entropy = window.S = (function(){
 	utilities.extend(Entity, {
 		constructor: function(id, classes, contents){
 			//	Setup unique properties.
-			this['.isEntity'] = true;
-			this['.set'] = [];
-			this['.manifest'] = [];
+			Object.defineProperty(this, '.isEntity', {
+				value: true,
+				writable: false,
+				enumerable: false,
+				configurable: false
+			});
+
+			Object.defineProperty(this, '.set', {
+				value: [],
+				writable: false,
+				enumerable: false,
+				configurable: false
+			});
+
+			Object.defineProperty(this, '.manifest', {
+				value: [],
+				writable: false,
+				enumerable: false,
+				configurable: false
+			});
 
 			//	These are set if the relelvant arguments are passed,
 			//	though I prefer to call Entity['.make']() without arguments,
@@ -174,12 +191,6 @@ window.entropy = window.S = (function(){
 				entity = contents;
 			}else{
 				entity = Entity['.make']();
-
-				Object.defineProperty(entity, '.manifest', {
-					value: [],
-					enumerable: false,
-					configurable: false
-				});
 
 				entity.set('id', id);
 				entity.addClass(classes);
