@@ -408,6 +408,20 @@ window.entropy = window.S = (function(){
 			return this.get('set');
 		},
 
+		each: function(){
+			var args = Array.prototype.slice.call(arguments);
+
+			if(args.length === 0 && typeof args[0] === 'function'){
+				this.get('set').forEach(args[0]);
+			}else if(typeof args[0] === 'string'){
+				this.get('set').forEach(function(item, i){
+					item[args[0]].apply(item, args.slice(1));
+				});
+			}
+
+			return this;
+		},
+
 		addClass: function(){
 			var	self = this,
 				args = Array.prototype.slice.call(arguments);
