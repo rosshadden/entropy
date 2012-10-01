@@ -137,11 +137,14 @@ window.entropy = window.S = (function(){
 		},
 
 		toString: function(){
-			var	string,
-				items = [];
+			var	items = [];
 
 			this.get('set').forEach(function(item, i){
-				string = '#' + item.id;
+				var string = '';
+
+				if(item.get('id') !== 'Entity'){
+					string = '#' + item.get('id');
+				}
 
 				if(item.get('key')){
 					string += '~' + item.get('key');
