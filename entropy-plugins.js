@@ -10,7 +10,7 @@ S.register(/^\*$|^all$/, function(object, expression){
 //	S('#Jake');
 S.register(/^#([\w\-_]+)$/g, function(object, expression, $id){
 	return this.id === $id;
-});
+}, 1);
 
 //	Property presence.
 //	S('[property]');
@@ -68,7 +68,7 @@ S.register(/^\.?([\w\-_]+)$/g, function(object, expression, $klass){
 //	S('~mammal');
 S.register(/^~([\w\-_]+)$/g, function(object, expression, $key){
 	return $key === this.get('key');
-});
+}, 1);
 
 
 //	Type.

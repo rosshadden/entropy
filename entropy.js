@@ -274,7 +274,8 @@ window.entropy = window.S = (function(){
 		find: function(query){
 			var self = this;
 
-			var results = [];
+			var results = [],
+				isSingular = false;
 
 			results.plugins = [];
 
@@ -288,7 +289,8 @@ window.entropy = window.S = (function(){
 								results.plugins.push({
 									matches: results.slice.call(arguments).slice(0, -2),
 									expression: plugin.expression,
-									handler: plugin.handler
+									handler: plugin.handler,
+									results: plugin.results
 								});
 
 								//	Just in case a plugin thinks it needs to consume?
@@ -305,6 +307,10 @@ window.entropy = window.S = (function(){
 
 						if(results.plugins.length > 0 && results.plugins.every(function(plugin, p){
 							if(plugin.handler.apply(object, [object.contents].concat(plugin.matches))){
+								if(plugin.results === 1){
+									isSingular = true;
+								}
+
 								return true;
 							}
 						})){
@@ -323,8 +329,14 @@ window.entropy = window.S = (function(){
 				entity.add(result);
 			});
 
-			// return results;
-			return entity;
+			//	Return results.
+			//	If the selector wishes there to be one result,
+			//	we just return the first one.
+			if(isSingular){
+				return entity[0];
+			}else{
+				return entity;
+			}
 		},
 
 		get: function(key){
@@ -500,10 +512,11 @@ window.entropy = window.S = (function(){
 				return 0;
 			};
 
-			return function(expression, handler){
+			return function(expression, handler, results){
 				plugins.push({
 					expression: expression,
-					handler: handler
+					handler: handler,
+					results: results || 'n'
 				});
 
 				plugins.sort(sort);
