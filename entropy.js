@@ -232,7 +232,23 @@ window.entropy = window.S = (function(){
 		add: function(){
 			var entity = Entity.create.apply(this, arguments);
 			var index = this['.set'].push(entity) - 1;
-			this[index] = entity;
+
+			Object.defineProperty(this, index, {
+				enumerable: true,
+
+				get: function(){
+					var item;
+
+					if(entity && entity.list().length === 0){
+						for(var key in entity.contents){
+							item = new utilities.Item(key, entity.contents[key]);
+							entity.add(item);
+						}
+					}
+
+					return entity;
+				}
+			});
 
 			return this;
 		},
