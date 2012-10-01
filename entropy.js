@@ -137,7 +137,30 @@ window.entropy = window.S = (function(){
 		},
 
 		toString: function(){
-			return this.id;
+			var	string,
+				items = [];
+
+			this.get('set').forEach(function(item, i){
+				string = '#' + item.id;
+
+				if(item.get('key')){
+					string += '~' + item.get('key');
+				}
+
+				if(item.contents instanceof Array){
+					string += '@Array';
+				}else if(typeof item.contents !== 'object'){
+					string += '@' + typeof item.contents;
+				}
+
+				item.classes.forEach(function(klass, c){
+					string += '.' + klass;
+				});
+
+				items.push(string);
+			});
+
+			return this.id + ':[' + items.join(', ') + ']';
 		},
 
 		'.make': utilities.functionFactory(Entity),
