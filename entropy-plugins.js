@@ -64,6 +64,12 @@ S.register(/^\.?([\w\-_]+)$/g, function(object, expression, $klass){
 	return ~this.classes.indexOf($klass);
 });
 
+//	Key.
+//	S('~mammal');
+S.register(/^~([\w\-_]+)$/g, function(object, expression, $key){
+	return $key === this.get('key');
+});
+
 
 //	Type.
 //	S('@Array');
