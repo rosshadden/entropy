@@ -334,13 +334,6 @@ window.entropy = window.S = (function(){
 				return this.contents;
 			}
 
-			if(typeof i === 'number' && this[i] && this[i].list().length === 0){
-				for(var key in this[i].contents){
-					item = new utilities.Item(key, this[i].contents[key]);
-					this[i].add(item);
-				}
-			}
-
 			return this[i];
 		},
 
