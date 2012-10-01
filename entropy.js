@@ -123,6 +123,7 @@ window.entropy = window.S = (function(){
 			//	though I prefer to call Entity['.make']() without arguments,
 			//	and set them afterward.
 			this.id = (typeof id !== 'undefined') ? id : 'Entity';
+			this['.key'] = '';
 			//	TODO:  This should parse classes instead of assuming array.
 			this.classes = (typeof classes !== 'undefined') ? classes : [];
 			//	Note that I am doing the typeof undefined check in case contents is boolean.
@@ -217,6 +218,8 @@ window.entropy = window.S = (function(){
 						}
 					});
 
+					entity['.key'] = contents.key;
+
 					contents = contents.value;
 					contents = utilities.copy.call(entity, contents);
 				}else{
@@ -239,9 +242,10 @@ window.entropy = window.S = (function(){
 				get: function(){
 					var item;
 
-					if(entity && entity.list().length === 0){
+					if(entity.list().length === 0){
 						for(var key in entity.contents){
 							item = new utilities.Item(key, entity.contents[key]);
+
 							entity.add(item);
 						}
 					}
@@ -323,18 +327,18 @@ window.entropy = window.S = (function(){
 			return entity;
 		},
 
-		get: function(i){
+		get: function(key){
 			var item;
 
-			if(~['set', 'manifest'].indexOf(i)){
-				i = '.' + i;
+			if(~['set', 'manifest', 'key'].indexOf(key)){
+				key = '.' + key;
 			}
 
-			if(typeof i === 'undefined'){
+			if(typeof key === 'undefined'){
 				return this.contents;
 			}
 
-			return this[i];
+			return this[key];
 		},
 
 		set: function(key, value){
