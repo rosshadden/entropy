@@ -2,20 +2,59 @@
 
 //	All.
 //	S('*'), S('all');
-S.register(/^\*$|^all$/, function(object, expression){
-	return true;
+S.register({
+	name: 'all',
+	expression: /^\*$|^all$/,
+
+	handler: function(object, expression){
+		return true;
+	}
 });
 
 //	ID.
 //	S('#Jake');
-S.register(/^#([\w\-_]+)$/g, function(object, expression, $id){
-	return this.id === $id;
-}, 1);
+S.register({
+	name: 'all',
+	expression: /^#([\w\-_]+)$/g,
+	numResults: 1,
+
+	handler: function(object, expression, $id){
+		return this.id === $id;
+	}
+});
+
+//	Class.
+//	S('.mammal');
+S.register({
+	name: 'class',
+	expression: /^\.?([\w\-_]+)$/g,
+
+	handler: function(object, expression, $klass){
+		return ~this.classes.indexOf($klass);
+	}
+});
+
+//	Key.
+//	S('~mammal');
+S.register({
+	name: 'key',
+	expression: /^~([\w\-_]+)$/g,
+	numResults: 1,
+
+	handler: function(object, expression, $key){
+		return $key === this.get('key');
+	}
+});
 
 //	Property presence.
 //	S('[property]');
-S.register(/^\[\s*([\w+-]+)\s*\]$/g, function(object, expression, $property){
-	return object.hasOwnProperty($property);
+S.register({
+	name: 'property-presence',
+	expression: /^\[\s*([\w+-]+)\s*\]$/g,
+
+	handler: function(object, expression, $property){
+		return object.hasOwnProperty($property);
+	}
 });
 
 //	Property equivalence.
@@ -28,54 +67,65 @@ S.register(/^\[\s*([\w+-]+)\s*\]$/g, function(object, expression, $property){
 //	S("[property*=='Lu']");
 //	S('[property$=ue]');
 //	S('[property$==uE]');
-S.register(/^\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/g, function(object, expression, $property, $operator, $isStrict, $quote, $value){
-	var	test = ($isStrict) ? object[$property] : (''+object[$property]).toLowerCase(),
-		control = ($isStrict) ? $value : (''+$value).toLowerCase();
+S.register({
+	name: 'property-equivalence',
+	expression: /^\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/g,
 
-	var cases = {
-		//	Equality:
-		'=': function(){
-			return test == control;
-		},
-		//	Starts with:
-		'^=': function(){
-			var regex = new RegExp('^' + control);
-			return regex.test(test, 'i');
-		},
-		//	Ends with:
-		'$=': function(){
-			var regex = new RegExp(control + '$');
-			return regex.test(test, 'i');
-		},
-		//	Contains:
-		'*=': function(){
-			var regex = new RegExp(control);
-			return regex.test(test, 'i');
-		}
-	};
+	handler: function(object, expression, $property, $operator, $isStrict, $quote, $value){
+		var	test = ($isStrict) ? object[$property] : (''+object[$property]).toLowerCase(),
+			control = ($isStrict) ? $value : (''+$value).toLowerCase();
 
-	//	Run the relevant function based on the operator, and return pass/fail.
-	return cases[$operator]();
+		var cases = {
+			//	Equality:
+			'=': function(){
+				return test == control;
+			},
+			//	Starts with:
+			'^=': function(){
+				var regex = new RegExp('^' + control);
+				return regex.test(test, 'i');
+			},
+			//	Ends with:
+			'$=': function(){
+				var regex = new RegExp(control + '$');
+				return regex.test(test, 'i');
+			},
+			//	Contains:
+			'*=': function(){
+				var regex = new RegExp(control);
+				return regex.test(test, 'i');
+			}
+		};
+
+		//	Run the relevant function based on the operator, and return pass/fail.
+		return cases[$operator]();
+	}
 });
-
-//	Class.
-//	S('.mammal');
-S.register(/^\.?([\w\-_]+)$/g, function(object, expression, $klass){
-	return ~this.classes.indexOf($klass);
-});
-
-//	Key.
-//	S('~mammal');
-S.register(/^~([\w\-_]+)$/g, function(object, expression, $key){
-	return $key === this.get('key');
-}, 1);
-
 
 //	Type.
 //	S('@Array');
 //	Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).
-S.register(/^@(\w+)$/g, function(object, expression, $type){
-	var type = Object.prototype.toString.call(object).replace(/\[object (\w+)\]/, '$1');
+S.register({
+	name: 'type',
+	expression: /^@(\w+)$/g,
 
-	return type.toLowerCase() === $type.toLowerCase();
+	handler: function(object, expression, $type){
+		var type = Object.prototype.toString.call(object).replace(/\[object (\w+)\]/, '$1');
+
+		return type.toLowerCase() === $type.toLowerCase();
+	}
+});
+
+//	Index
+//	S(4);
+S.register({
+	name: 'index',
+	type: 'number',
+	args: 1,
+
+	handler: function(){
+		console.log('number:', arguments);
+
+		return true;
+	}
 });

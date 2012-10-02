@@ -239,7 +239,7 @@ window.entropy = window.S = (function(){
 							if(item.key == contents.key){
 							}
 						}else if(item.path[0] === contents.key){
-							//	BUG:  S.get(7).get(0).get('manifest');
+							//	BUG:  S[7][0].get('manifest');
 							// entity['.manifest'].push(item.path.slice(1));
 						}
 					});
@@ -306,18 +306,15 @@ window.entropy = window.S = (function(){
 			results.plugins = [];
 
 			if(!~[undefined, ''].indexOf(query)){
-				query = query.split(' ');
+				query = (query.split) ? query.split(' ') : [query];
 
 				query.forEach(function(chunk, c){
 					entropy['.plugins'].forEach(function(plugin, p){
-						if(plugin.expression.test(chunk)){
+						if(typeof plugin.expression !== 'boolean' && plugin.expression.test(chunk)){
 							chunk = chunk.replace(plugin.expression, function(value){
-								results.plugins.push({
-									matches: results.slice.call(arguments).slice(0, -2),
-									expression: plugin.expression,
-									handler: plugin.handler,
-									results: plugin.results
-								});
+								plugin.matches = results.slice.call(arguments).slice(0, -2);
+
+								results.plugins.push(plugin);
 
 								//	Just in case a plugin thinks it needs to consume?
 								//	Not sure how I feel about this.  May remove.
@@ -333,7 +330,7 @@ window.entropy = window.S = (function(){
 
 						if(results.plugins.length > 0 && results.plugins.every(function(plugin, p){
 							if(plugin.handler.apply(object, [object.contents].concat(plugin.matches))){
-								if(plugin.results === 1){
+								if(plugin.numResults === 1){
 									isSingular = true;
 								}
 
@@ -552,11 +549,14 @@ window.entropy = window.S = (function(){
 				return 0;
 			};
 
-			return function(expression, handler, results){
+			return function(options){
 				plugins.push({
-					expression: expression,
-					handler: handler,
-					results: results || 'n'
+					name: options.name || '',
+					type: options.type || 'string',
+					args: options.args || 1,
+					expression: options.expression || false,
+					handler: options.handler || false,
+					numResults: options.numResults || 'n'
 				});
 
 				plugins.sort(sort);
