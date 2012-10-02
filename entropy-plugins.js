@@ -14,7 +14,7 @@ S.register({
 //	ID.
 //	S('#Jake');
 S.register({
-	name: 'all',
+	name: 'id',
 	expression: /^#([\w\-_]+)$/g,
 	numResults: 1,
 
