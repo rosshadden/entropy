@@ -168,6 +168,19 @@ window.entropy = window.S = (function(){
 
 		'.make': utilities.functionFactory(Entity),
 
+		bake: function(){
+			var item;
+			if(this.list().length === 0){
+				for(var key in this.contents){
+					item = new utilities.Item(key, this.contents[key]);
+
+					this.add(item);
+				}
+			}
+
+			return this;
+		},
+
 		create: function(){
 			var id, contents,
 				classes = [];
@@ -259,24 +272,14 @@ window.entropy = window.S = (function(){
 		},
 
 		add: function(){
-			var entity = Entity.create.apply(this, arguments);
+			var entity = this.create.apply(this, arguments);
 			var index = this['.set'].push(entity) - 1;
 
 			Object.defineProperty(this, index, {
 				enumerable: true,
 
 				get: function(){
-					var item;
-
-					if(entity.list().length === 0){
-						for(var key in entity.contents){
-							item = new utilities.Item(key, entity.contents[key]);
-
-							entity.add(item);
-						}
-					}
-
-					return entity;
+					return entity.bake();
 				}
 			});
 

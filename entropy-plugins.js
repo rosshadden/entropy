@@ -127,3 +127,20 @@ S.register({
 		return entity[args[0]];
 	}
 });
+
+
+//	Entity wrapper
+//	S({foo: 'bar'});
+S.register({
+	name: 'wrap',
+
+	relevance: function(args){
+		return args.length === 1 && typeof args[0] === 'object';
+	},
+
+	hunter: function(results, args, entity){
+		var newEntity = entity.create(args[0]).bake();
+
+		return newEntity;
+	}
+});
