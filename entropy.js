@@ -300,66 +300,24 @@ window.entropy = window.S = (function(){
 		find: function(query){
 			var self = this;
 
-			var results = [],
-				isSingular = false;
+			var args = Array.prototype.slice.call(arguments),
+				result = [],
+				relevant = [];
 
-			results.plugins = [];
-
-			if(!~[undefined, ''].indexOf(query)){
-				query = (query.split) ? query.split(' ') : [query];
-
-				query.forEach(function(chunk, c){
-					entropy['.plugins'].forEach(function(plugin, p){
-						if(typeof plugin.expression !== 'boolean' && plugin.expression.test(chunk)){
-							chunk = chunk.replace(plugin.expression, function(value){
-								plugin.matches = results.slice.call(arguments).slice(0, -2);
-
-								results.plugins.push(plugin);
-
-								//	Just in case a plugin thinks it needs to consume?
-								//	Not sure how I feel about this.  May remove.
-								return (plugin.isConsuming) ? '' : value;
-							});
-						}
-					});
-
-					var	object,
-						o = 0, length = self['.set'].length;
-					for(; o < length; o++){
-						object = self['.set'][o];
-
-						if(results.plugins.length > 0 && results.plugins.every(function(plugin, p){
-							if(plugin.handler.apply(object, [object.contents].concat(plugin.matches))){
-								if(plugin.numResults === 1){
-									isSingular = true;
-								}
-
-								return true;
-							}
-						})){
-							if(!~results.indexOf(object)){
-								results.push(object);
-							}
-						}
-					}
-				});
-			}
-
-			var entity = this['.make']();
-			entity.addClass('entropy results');
-
-			results.forEach(function(result, r){
-				entity.add(result);
+			relevant = entropy['.plugins'].filter(function(plugin, p){
+				return plugin.relevance.call(plugin, args);
 			});
 
-			//	Return results.
-			//	If the selector wishes there to be one result,
-			//	we just return the first one.
-			if(isSingular){
-				return entity[0];
-			}else{
-				return entity;
+			var plugin,
+				p = 0,
+				length = relevant.length;
+			for(; p < length; p++){
+				plugin = relevant[p];
+
+				result = plugin.rename.call(plugin, result, args, this);
 			}
+
+			return result;
 		},
 
 		get: function(key){
@@ -555,8 +513,98 @@ window.entropy = window.S = (function(){
 					type: options.type || 'string',
 					args: options.args || 1,
 					expression: options.expression || false,
+					numResults: options.numResults || 'n',
+
 					handler: options.handler || false,
-					numResults: options.numResults || 'n'
+
+					rename: options.rename || function(results, args, entity){
+						var isSingular = false;
+
+						var	object,
+							o = 0, length = entity['.set'].length;
+						for(; o < length; o++){
+							object = entity['.set'][o];
+
+							var handlerArgs = [object.contents];
+							if(this.matches){
+								handlerArgs = handlerArgs.concat(this.matches);
+							}
+
+							if(this.handler.apply(object, handlerArgs)){
+								if(!~results.indexOf(object)){
+									results.push(object);
+								}
+
+								if(this.numResults === 1){
+									isSingular = true;
+									break;
+								}
+							}
+						}
+
+						var newEntity = entity['.make']();
+						newEntity.addClass('entropy results');
+
+						results.forEach(function(result, r){
+							newEntity.add(result);
+						});
+
+						//	Return results.
+						//	If the selector wishes there to be one result,
+						//	we just return the first one.
+						if(isSingular){
+							return newEntity[0];
+						}else{
+							return newEntity;
+						}
+
+						return results;
+					},
+
+					relevance: options.relevance || function(args){
+						var self = this;
+
+						if(args.length === this.args){
+							if(this.args === 1){
+								if(typeof args[0] === this.type){
+									if(this.expression){
+										if(this.expression.test(args[0])){
+											args[0].replace(this.expression, function(value){
+												self.matches = Array.prototype.slice.call(arguments).slice(0, -2);
+												return;
+											});
+
+											return true;
+										}else{
+											return false;
+										}
+									}else{
+										return true;
+									}
+								}else{
+									return false;
+								}
+							}else{
+								return true;
+							}
+						}else{
+							return false;
+						}
+
+						// if(
+						// 		this.args === args.length
+						// 	&&(
+						// 			this.args > 1
+						// 		||	this.args === 1
+						// 		&&	typeof args[0] === this.type
+						// 		&&(
+						// 				!this.expression
+						// 			||	this.expression
+						// 			&&	this.expression.test(args[0])
+						// 		)
+						// 	)
+						// )
+					}
 				});
 
 				plugins.sort(sort);

@@ -123,6 +123,10 @@ S.register({
 	type: 'number',
 	args: 1,
 
+	rename: function(results, args, entity){
+		return entity[args[0]];
+	},
+
 	handler: function(){
 		console.log('number:', arguments);
 
