@@ -129,7 +129,6 @@ S.register({
 	}
 });
 
-
 //	Entity wrapper
 //	Wraps arbitrary objects as an Entity, which allows for querying, adding, etc.
 //	S({foo: 'bar'}).find();
@@ -145,5 +144,20 @@ S.register({
 		var newEntity = entity.create(args[0]).bake();
 
 		return newEntity;
+	}
+});
+
+//	Function
+//	Runs a function.  This is useful if you wish to execute a function in the middle of a chain.
+//	S(function(){  console.log('asdf'); });
+S.register({
+	name: 'function',
+
+	type: 'function',
+
+	hunter: function(results, args, entity){
+		args[0].apply(entity);
+
+		return entity;
 	}
 });
