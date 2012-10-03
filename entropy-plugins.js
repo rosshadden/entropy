@@ -128,7 +128,6 @@ S.register({
 	name: 'index',
 	description: 'Retrieves an entity at a specific index.',
 	type: 'number',
-	args: 1,
 
 	hunter: function(results, args, entity){
 		return entity[args[0]];
@@ -141,10 +140,7 @@ S.register({
 S.register({
 	name: 'wrap',
 	description: 'Wraps arbitrary objects as an Entity, which allows for querying, adding, etc.',
-
-	relevance: function(args){
-		return args.length === 1 && typeof args[0] === 'object';
-	},
+	type: 'object',
 
 	hunter: function(results, args, entity){
 		var newEntity = entity.create(args[0]).bake();
@@ -158,12 +154,34 @@ S.register({
 S.register({
 	name: 'function',
 	description: 'Runs a function.  This is useful if you wish to execute a function in the middle of a chain.',
-
 	type: 'function',
 
 	hunter: function(results, args, entity){
 		args[0].apply(entity);
 
 		return entity;
+	}
+});
+
+//	Function
+//	S(function(){  console.log('asdf'); });
+S.register({
+	name: 'string-and-a-num-ber--two-bits',
+	description: 'Returns a query limited to the specified number of results.',
+
+	relevance: function(args){
+		return args.length === 2 && typeof args[0] === 'string' && typeof args[1] === 'number';
+	},
+
+	hunter: function(response, args, entity){
+		var	results = entity(args[0]).list(),
+			filter = results.slice(0, args[1]),
+			newEntity = entity.create();
+
+		filter.forEach(function(item, i){
+			newEntity.add(item);
+		});
+
+		return newEntity;
 	}
 });
