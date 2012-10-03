@@ -6,7 +6,7 @@ S.register({
 	name: 'all',
 	expression: /^\*$|^all$/,
 
-	handler: function(object, expression){
+	parser: function(object, expression){
 		return true;
 	}
 });
@@ -18,7 +18,7 @@ S.register({
 	expression: /^#([\w\-_]+)$/g,
 	numResults: 1,
 
-	handler: function(object, expression, $id){
+	parser: function(object, expression, $id){
 		return this.id === $id;
 	}
 });
@@ -29,7 +29,7 @@ S.register({
 	name: 'class',
 	expression: /^\.?([\w\-_]+)$/g,
 
-	handler: function(object, expression, $klass){
+	parser: function(object, expression, $klass){
 		return ~this.classes.indexOf($klass);
 	}
 });
@@ -41,7 +41,7 @@ S.register({
 	expression: /^~([\w\-_]+)$/g,
 	numResults: 1,
 
-	handler: function(object, expression, $key){
+	parser: function(object, expression, $key){
 		return $key === this.get('key');
 	}
 });
@@ -52,7 +52,7 @@ S.register({
 	name: 'property-presence',
 	expression: /^\[\s*([\w+-]+)\s*\]$/g,
 
-	handler: function(object, expression, $property){
+	parser: function(object, expression, $property){
 		return object.hasOwnProperty($property);
 	}
 });
@@ -71,7 +71,7 @@ S.register({
 	name: 'property-equivalence',
 	expression: /^\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/g,
 
-	handler: function(object, expression, $property, $operator, $isStrict, $quote, $value){
+	parser: function(object, expression, $property, $operator, $isStrict, $quote, $value){
 		var	test = ($isStrict) ? object[$property] : (''+object[$property]).toLowerCase(),
 			control = ($isStrict) ? $value : (''+$value).toLowerCase();
 
@@ -109,7 +109,7 @@ S.register({
 	name: 'type',
 	expression: /^@(\w+)$/g,
 
-	handler: function(object, expression, $type){
+	parser: function(object, expression, $type){
 		var type = Object.prototype.toString.call(object).replace(/\[object (\w+)\]/, '$1');
 
 		return type.toLowerCase() === $type.toLowerCase();
@@ -123,13 +123,7 @@ S.register({
 	type: 'number',
 	args: 1,
 
-	rename: function(results, args, entity){
+	hunter: function(results, args, entity){
 		return entity[args[0]];
-	},
-
-	handler: function(){
-		console.log('number:', arguments);
-
-		return true;
 	}
 });

@@ -314,7 +314,7 @@ window.entropy = window.S = (function(){
 			for(; p < length; p++){
 				plugin = relevant[p];
 
-				result = plugin.rename.call(plugin, result, args, this);
+				result = plugin.hunter.call(plugin, result, args, this);
 			}
 
 			return result;
@@ -515,55 +515,14 @@ window.entropy = window.S = (function(){
 					expression: options.expression || false,
 					numResults: options.numResults || 'n',
 
-					handler: options.handler || false,
-
-					rename: options.rename || function(results, args, entity){
-						var isSingular = false;
-
-						var	object,
-							o = 0, length = entity['.set'].length;
-						for(; o < length; o++){
-							object = entity['.set'][o];
-
-							var handlerArgs = [object.contents];
-							if(this.matches){
-								handlerArgs = handlerArgs.concat(this.matches);
-							}
-
-							if(this.handler.apply(object, handlerArgs)){
-								if(!~results.indexOf(object)){
-									results.push(object);
-								}
-
-								if(this.numResults === 1){
-									isSingular = true;
-									break;
-								}
-							}
-						}
-
-						var newEntity = entity['.make']();
-						newEntity.addClass('entropy results');
-
-						results.forEach(function(result, r){
-							newEntity.add(result);
-						});
-
-						//	Return results.
-						//	If the selector wishes there to be one result,
-						//	we just return the first one.
-						if(isSingular){
-							return newEntity[0];
-						}else{
-							return newEntity;
-						}
-
-						return results;
-					},
+					parser: options.parser || false,
 
 					relevance: options.relevance || function(args){
 						var self = this;
 
+						//	This obviously looks shit-tastic.
+						//	I wanted to write it like this first because it was so effing complex.
+						//	TODO:  Make this a single `return (boolean);` type shindig.
 						if(args.length === this.args){
 							if(this.args === 1){
 								if(typeof args[0] === this.type){
@@ -590,20 +549,50 @@ window.entropy = window.S = (function(){
 						}else{
 							return false;
 						}
+					},
 
-						// if(
-						// 		this.args === args.length
-						// 	&&(
-						// 			this.args > 1
-						// 		||	this.args === 1
-						// 		&&	typeof args[0] === this.type
-						// 		&&(
-						// 				!this.expression
-						// 			||	this.expression
-						// 			&&	this.expression.test(args[0])
-						// 		)
-						// 	)
-						// )
+					hunter: options.hunter || function(results, args, entity){
+						var isSingular = false;
+
+						var	object,
+							o = 0, length = entity['.set'].length;
+						for(; o < length; o++){
+							object = entity['.set'][o];
+
+							var parserArgs = [object.contents];
+							if(this.matches){
+								parserArgs = parserArgs.concat(this.matches);
+							}
+
+							if(this.parser.apply(object, parserArgs)){
+								if(!~results.indexOf(object)){
+									results.push(object);
+								}
+
+								if(this.numResults === 1){
+									isSingular = true;
+									break;
+								}
+							}
+						}
+
+						var resultsEntity = entity['.make']();
+						resultsEntity.addClass('entropy results');
+
+						results.forEach(function(result, r){
+							resultsEntity.add(result);
+						});
+
+						//	Return results.
+						//	If the selector wishes there to be one result,
+						//	we just return the first one.
+						if(isSingular){
+							return resultsEntity[0];
+						}else{
+							return resultsEntity;
+						}
+
+						return results;
 					}
 				});
 
