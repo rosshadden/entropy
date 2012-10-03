@@ -4,6 +4,7 @@
 //	S('*'), S('all');
 S.register({
 	name: 'all',
+	description: 'Selects all entities in the set.',
 	expression: /^\*$|^all$/,
 
 	parser: function(object, expression){
@@ -15,6 +16,7 @@ S.register({
 //	S('#Jake');
 S.register({
 	name: 'id',
+	description: 'ID selector.',
 	expression: /^#([\w\-_]+)$/g,
 	numResults: 1,
 
@@ -27,6 +29,7 @@ S.register({
 //	S('.mammal');
 S.register({
 	name: 'class',
+	description: 'Class selector.',
 	expression: /^\.?([\w\-_]+)$/g,
 
 	parser: function(object, expression, $klass){
@@ -38,6 +41,7 @@ S.register({
 //	S('~mammal');
 S.register({
 	name: 'key',
+	description: 'Key selector.',
 	expression: /^~([\w\-_]+)$/g,
 	numResults: 1,
 
@@ -50,6 +54,7 @@ S.register({
 //	S('[property]');
 S.register({
 	name: 'property-presence',
+	description: 'Returns true if a property is present.',
 	expression: /^\[\s*([\w+-]+)\s*\]$/g,
 
 	parser: function(object, expression, $property){
@@ -69,6 +74,7 @@ S.register({
 //	S('[property$==uE]');
 S.register({
 	name: 'property-equivalence',
+	description: 'Returns true if a specified property meets the specified in/equality.',
 	expression: /^\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/g,
 
 	parser: function(object, expression, $property, $operator, $isStrict, $quote, $value){
@@ -104,9 +110,9 @@ S.register({
 
 //	Type.
 //	S('@Array');
-//	Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).
 S.register({
 	name: 'type',
+	description: 'Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).',
 	expression: /^@(\w+)$/g,
 
 	parser: function(object, expression, $type){
@@ -116,11 +122,11 @@ S.register({
 	}
 });
 
-//	Index
-//	Retrieves an entity at a specific index.
+//	Index.
 //	S(4);
 S.register({
 	name: 'index',
+	description: 'Retrieves an entity at a specific index.',
 	type: 'number',
 	args: 1,
 
@@ -129,12 +135,12 @@ S.register({
 	}
 });
 
-//	Entity wrapper
-//	Wraps arbitrary objects as an Entity, which allows for querying, adding, etc.
+//	Entity wrapper.
 //	S({foo: 'bar'}).find();
 //	S([2, 4, 6, 8])(0);
 S.register({
 	name: 'wrap',
+	description: 'Wraps arbitrary objects as an Entity, which allows for querying, adding, etc.',
 
 	relevance: function(args){
 		return args.length === 1 && typeof args[0] === 'object';
@@ -148,10 +154,10 @@ S.register({
 });
 
 //	Function
-//	Runs a function.  This is useful if you wish to execute a function in the middle of a chain.
 //	S(function(){  console.log('asdf'); });
 S.register({
 	name: 'function',
+	description: 'Runs a function.  This is useful if you wish to execute a function in the middle of a chain.',
 
 	type: 'function',
 

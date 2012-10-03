@@ -318,6 +318,7 @@ window.entropy = window.S = (function(){
 				plugin = relevant[p];
 
 				result = plugin.hunter.call(plugin, result, args, this);
+				console.log(result);
 			}
 
 			return result;
@@ -518,7 +519,7 @@ window.entropy = window.S = (function(){
 					expression: options.expression || false,
 					numResults: options.numResults || 'n',
 
-					parser: options.parser || false,
+					parser: options.parser || function(){ return true; },
 
 					relevance: options.relevance || function(args){
 						var self = this;
