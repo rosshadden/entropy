@@ -318,7 +318,6 @@ window.entropy = window.S = (function(){
 				plugin = relevant[p];
 
 				result = plugin.hunter.call(plugin, result, args, this);
-				console.log(result);
 			}
 
 			return result;
