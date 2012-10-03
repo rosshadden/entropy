@@ -117,6 +117,7 @@ S.register({
 });
 
 //	Index
+//	Retrieves an entity at a specific index.
 //	S(4);
 S.register({
 	name: 'index',
@@ -130,7 +131,9 @@ S.register({
 
 
 //	Entity wrapper
-//	S({foo: 'bar'});
+//	Wraps arbitrary objects as an Entity, which allows for querying, adding, etc.
+//	S({foo: 'bar'}).find();
+//	S([2, 4, 6, 8])(0);
 S.register({
 	name: 'wrap',
 
