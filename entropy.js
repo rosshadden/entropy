@@ -448,18 +448,24 @@ window.entropy = window.S = (function(){
 			});
 		},
 
-		val: function(type){
+		val: function(value){
+			if(~['', undefined].indexOf(value)){
+				return this.contents;
+			}else{
+				this.contents = value;
+			}
+		},
+
+		extract: function(type){
 			var	item,
 				response = [];
 
 			for(var child in this.contents){
-				if(~['', undefined].indexOf(type)){
-					return this.contents;
-				}else if(~['key', 'keys'].indexOf(type)){
+				if(~['key', 'keys'].indexOf(type)){
 					item = child;
 				}else if(~['value', 'values'].indexOf(type)){
 					item = this.contents[child];
-				}else if(~['extract'].indexOf(type)){
+				}else if(~['', undefined].indexOf(type)){
 					item = {
 						key: child,
 						value: this.contents[child]
@@ -475,15 +481,11 @@ window.entropy = window.S = (function(){
 		},
 
 		keys: function(){
-			return this.val('key');
+			return this.extract('key');
 		},
 
 		values: function(){
-			return this.val('value');
-		},
-
-		extract: function(){
-			return this.val('extract');
+			return this.extract('value');
 		},
 
 		//	TEMP:  The general idea behind this will be used later.
