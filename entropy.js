@@ -286,6 +286,16 @@ window.entropy = window.S = (function(){
 			return this;
 		},
 
+		addEach: function(items){
+			if(typeof items === 'object'){
+				for(var item in items){
+					this.add(items[item]);
+				}
+			}
+
+			return this;
+		},
+
 		//	Removes an item from a set.
 		//	TODO:  This doesn't update entity[n].
 		remove: function(query){
