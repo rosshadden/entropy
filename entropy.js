@@ -453,11 +453,13 @@ window.entropy = window.S = (function(){
 				response = [];
 
 			for(var child in this.contents){
-				if(~['key', 'keys'].indexOf(type)){
+				if(~['', undefined].indexOf(type)){
+					return this.contents;
+				}else if(~['key', 'keys'].indexOf(type)){
 					item = child;
 				}else if(~['value', 'values'].indexOf(type)){
 					item = this.contents[child];
-				}else if(~['', undefined, 'extract'].indexOf(type)){
+				}else if(~['extract'].indexOf(type)){
 					item = {
 						key: child,
 						value: this.contents[child]
