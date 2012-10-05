@@ -448,7 +448,7 @@ window.entropy = window.S = (function(){
 			});
 		},
 
-		children: function(type){
+		val: function(type){
 			var	item,
 				response = [];
 
@@ -473,15 +473,15 @@ window.entropy = window.S = (function(){
 		},
 
 		keys: function(){
-			return this.children('key');
+			return this.val('key');
 		},
 
 		values: function(){
-			return this.children('value');
+			return this.val('value');
 		},
 
 		extract: function(){
-			return this.children('extract');
+			return this.val('extract');
 		},
 
 		//	TEMP:  The general idea behind this will be used later.
