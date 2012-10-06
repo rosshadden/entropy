@@ -68,12 +68,14 @@ window.entropy = window.S = (function(){
 					response = {};
 
 					for(i in object){
-						root['.manifest'].push({
-							key: i,
-							path: path.slice(),
-							type: typeof object[i],
-							value: object[i]
-						});
+						if(object.hasOwnProperty(i)){
+							root['.manifest'].push({
+								key: i,
+								path: path.slice(),
+								type: typeof object[i],
+								value: object[i]
+							});
+						}
 
 						path.push(i);
 
