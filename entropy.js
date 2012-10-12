@@ -262,6 +262,9 @@ window.entropy = window.S = (function(){
 					entity['.key'] = contents.key;
 
 					contents = contents.value;
+					//	TODO:  Store the original object as a dot-file,
+					//	and expose the copy with getters/setters that modify
+					//	the original themselves.
 					// contents = utilities.copy.call(entity, contents);
 					utilities.copy.call(entity, contents);
 				}else{
