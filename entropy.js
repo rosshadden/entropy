@@ -184,7 +184,8 @@ window.entropy = window.S = (function(){
 		},
 
 		create: function(){
-			var id, contents,
+			var	id = '',
+				contents = {},
 				classes = [];
 
 			var args = Array.prototype.slice.call(arguments);
@@ -192,20 +193,22 @@ window.entropy = window.S = (function(){
 			var entity;
 
 			//	Adds an empty object (for some reason?).
-			if(args.length === 0){
-				id = '';
-				contents = {};
-			}
+			if(args.length === 0){}
 
 			//	Adds the passed in object, with no ID or classes.
 			if(args.length === 1){
-				id = '';
 				contents = args[0];
 			}
 
 			//	Adds an object with an ID.
 			if(args.length === 2){
-				id = args[0];
+				if(typeof args[0] === 'object' && typeof args[1] === 'object'){
+					id = args[0].id || id;
+					classes = args[0].classes || classes;
+				}else{
+					id = args[0];
+				}
+
 				contents = args[1];
 			}
 
@@ -214,10 +217,11 @@ window.entropy = window.S = (function(){
 				id = args[0];
 				classes = args[1];
 				contents = args[2];
+			}
 
-				if(typeof classes === 'string'){
-					classes = classes.split(' ');
-				}
+			//	Standardize classes.
+			if(typeof classes === 'string'){
+				classes = classes.split(' ');
 			}
 
 			//	Check for existence of a duplicate ID.
