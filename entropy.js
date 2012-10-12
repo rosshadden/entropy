@@ -202,14 +202,23 @@ window.entropy = window.S = (function(){
 
 			//	Adds an object with an ID.
 			if(args.length === 2){
+				contents = args[1];
+
+				//	Has a configuration object.
 				if(typeof args[0] === 'object' && typeof args[1] === 'object'){
 					id = args[0].id || id;
 					classes = args[0].classes || classes;
+
+					if(/^\/\w+$/.test(id)){
+						id = contents[id.substr(1)] || id;
+					}
+
+					if(/^\/\w+$/.test(classes)){
+						classes = contents[classes.substr(1)] || classes;
+					}
 				}else{
 					id = args[0];
 				}
-
-				contents = args[1];
 			}
 
 			//	Adds an object with an ID and some classes.
