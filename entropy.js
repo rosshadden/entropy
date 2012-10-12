@@ -213,8 +213,9 @@ window.entropy = window.S = (function(){
 						id = contents[id.substr(1)] || id;
 					}
 
-					if(/^\/\w+$/.test(classes)){
-						classes = contents[classes.substr(1)] || classes;
+					var dashedClasses = typeof classes === 'string' && classes.replace(' ', '-');
+					if(dashedClasses && /^\/\w+$/.test(dashedClasses)){
+						classes = contents[dashedClasses.substr(1)] || classes;
 					}
 				}else{
 					id = args[0];
