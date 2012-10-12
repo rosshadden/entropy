@@ -262,9 +262,11 @@ window.entropy = window.S = (function(){
 					entity['.key'] = contents.key;
 
 					contents = contents.value;
-					contents = utilities.copy.call(entity, contents);
+					// contents = utilities.copy.call(entity, contents);
+					utilities.copy.call(entity, contents);
 				}else{
-					contents = utilities.copy.call(entity, contents);
+					// contents = utilities.copy.call(entity, contents);
+					utilities.copy.call(entity, contents);
 				}
 
 				entity.contents = contents;
