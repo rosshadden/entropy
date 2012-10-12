@@ -5,7 +5,7 @@
 S.register({
 	name: 'all',
 	description: 'Selects all entities in the set.',
-	expression: /^\*$|^all$/,
+	expression: /^\*$/,
 
 	parser: function(object, expression){
 		return true;
