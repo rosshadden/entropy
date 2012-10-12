@@ -297,17 +297,34 @@ window.entropy = window.S = (function(){
 			return this;
 		},
 
-		addEach: function(items){
-			var action = 'call';
+		addEach: function(){
+			var args = Array.prototype.slice.call(arguments);
+
+			var	items, config,
+				hasConfig = false;
+
+			if(args.length === 1){
+				items = args[0];
+			}
+
+			if(args.length === 2){
+				hasConfig = true;
+				config = args[0];
+				items = args[1];
+			}
 
 			if(typeof items === 'object'){
 				for(var item in items){
 					if(items.hasOwnProperty(item)){
-						if(items[item] instanceof Array){
-							action = 'apply';
+						if(!(items[item] instanceof Array)){
+							items[item] = [items[item]];
 						}
 
-						this.add[action](this, items[item]);
+						if(hasConfig){
+							items[item] = [config].concat(items[item]);
+						}
+
+						this.add.apply(this, items[item]);
 					}
 				}
 			}
