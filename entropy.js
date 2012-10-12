@@ -294,9 +294,17 @@ window.entropy = window.S = (function(){
 		},
 
 		addEach: function(items){
+			var action = 'call';
+
 			if(typeof items === 'object'){
 				for(var item in items){
-					this.add(items[item]);
+					if(items.hasOwnProperty(item)){
+						if(items[item] instanceof Array){
+							action = 'apply';
+						}
+
+						this.add[action](this, items[item]);
+					}
 				}
 			}
 
