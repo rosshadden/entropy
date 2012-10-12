@@ -203,7 +203,6 @@ window.entropy = window.S = (function(){
 			//	Adds an object with an ID.
 			if(args.length === 2){
 				contents = args[1];
-
 				//	Has a configuration object.
 				if(typeof args[0] === 'object' && typeof args[1] === 'object'){
 					id = args[0].id || id;
@@ -213,9 +212,8 @@ window.entropy = window.S = (function(){
 						id = contents[id.substr(1)] || id;
 					}
 
-					var dashedClasses = typeof classes === 'string' && classes.replace(' ', '-');
-					if(dashedClasses && /^\/\w+$/.test(dashedClasses)){
-						classes = contents[dashedClasses.substr(1)] || classes;
+					if(/^\/\w+$/.test(classes)){
+						classes = typeof contents[classes.substr(1)] === 'string' && contents[classes.substr(1)].replace(' ', '-') || classes;
 					}
 				}else{
 					id = args[0];
@@ -324,17 +322,19 @@ window.entropy = window.S = (function(){
 			}
 
 			if(typeof items === 'object'){
-				for(var item in items){
-					if(items.hasOwnProperty(item)){
-						if(!(items[item] instanceof Array)){
-							items[item] = [items[item]];
+				var item;
+				for(var i in items){
+					item = items[i];
+					if(items.hasOwnProperty(i)){
+						if(!(item instanceof Array)){
+							item = [item];
 						}
 
 						if(hasConfig){
-							items[item] = [config].concat(items[item]);
+							item = [config].concat(item);
 						}
 
-						this.add.apply(this, items[item]);
+						this.add.apply(this, item);
 					}
 				}
 			}
