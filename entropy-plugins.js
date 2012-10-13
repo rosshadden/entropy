@@ -30,7 +30,7 @@ S.register({
 S.register({
 	name: 'class',
 	description: 'Class selector.',
-	expression: /^\.?([\w\-_]+)$/g,
+	expression: /^\.([\w\-_]+)$/g,
 
 	parser: function(object, expression, $klass){
 		return ~this.classes.indexOf($klass);

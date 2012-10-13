@@ -618,9 +618,9 @@ window.entropy = window.S = (function(){
 						var isSingular = false;
 
 						var	object,
-							o = 0, length = entity['.set'].length;
+							o = 0, length = entity.list().length;
 						for(; o < length; o++){
-							object = entity['.set'][o];
+							object = entity[o];
 
 							var parserArgs = [object.contents];
 							if(this.matches){
