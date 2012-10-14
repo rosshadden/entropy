@@ -390,6 +390,10 @@ window.entropy = window.S = (function(){
 				key = '.' + key;
 			}
 
+			if(~['size', 'length'].indexOf(key)){
+				return this.size();
+			}
+
 			if(typeof key === 'undefined'){
 				return this.contents;
 			}
