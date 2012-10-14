@@ -447,7 +447,7 @@ window.entropy = window.S = (function(){
 		each: function(){
 			var args = Array.prototype.slice.call(arguments);
 
-			if(args.length === 0 && typeof args[0] === 'function'){
+			if(args.length === 1 && typeof args[0] === 'function'){
 				this.get('set').forEach(args[0]);
 			}else if(typeof args[0] === 'string'){
 				this.get('set').forEach(function(item, i){
