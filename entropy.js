@@ -432,6 +432,8 @@ window.entropy = window.S = (function(){
 			};
 
 			Array.prototype.sort.call(this, sorter);
+
+			return this;
 		},
 
 		each: function(){
