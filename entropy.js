@@ -422,6 +422,18 @@ window.entropy = window.S = (function(){
 			return this.get('set');
 		},
 
+		sort: function(sorter){
+			sorter = (typeof sorter === 'function') ? sorter : function(one, two){
+				if(one.id && two.id){
+					if(one.id < two.id){ return -1; }
+					if(one.id > two.id){ return 1; }
+				}
+				return 0;
+			};
+
+			Array.sort.call(this, sorter);
+		},
+
 		each: function(){
 			var args = Array.prototype.slice.call(arguments);
 
