@@ -172,7 +172,7 @@ window.entropy = window.S = (function(){
 
 		bake: function(){
 			var item;
-			if(this.list().length === 0){
+			if(this.size() === 0){
 				for(var key in this.contents){
 					item = new utilities.Item(key, this.contents[key]);
 
@@ -233,7 +233,7 @@ window.entropy = window.S = (function(){
 			}
 
 			//	Check for existence of a duplicate ID.
-			var doesExist = this['.set'].some(function(item){
+			var doesExist = this.get('set').some(function(item){
 				return (id === '') ? false : id === item.id;
 			});
 
@@ -261,13 +261,13 @@ window.entropy = window.S = (function(){
 				if(contents instanceof utilities.Item){
 					//	If possible, we copy the manifest from the parent,
 					//	and starting at the relevant level and with the relevant items.
-					this['.manifest'].forEach(function(item, i){
+					this.get('manifest').forEach(function(item, i){
 						if(item.path.length === 0){
 							if(item.key == contents.key){
 							}
 						}else if(item.path[0] === contents.key){
 							//	BUG:  S[7][0].get('manifest');
-							// entity['.manifest'].push(item.path.slice(1));
+							// entity.get('manifest').push(item.path.slice(1));
 						}
 					});
 
@@ -292,7 +292,7 @@ window.entropy = window.S = (function(){
 
 		add: function(){
 			var entity = this.create.apply(this, arguments);
-			var index = this['.set'].push(entity) - 1;
+			var index = this.get('set').push(entity) - 1;
 
 			Object.defineProperty(this, index, {
 				enumerable: true,
@@ -346,18 +346,18 @@ window.entropy = window.S = (function(){
 		//	TODO:  This doesn't update entity[n].
 		remove: function(query){
 			if(typeof query === 'number'){
-				this['.set'].splice(query, 1);
+				this.get('set').splice(query, 1);
 			}else if(typeof query === 'string'){
-				this['.set'].forEach(function(entity, e){
+				this.get('set').forEach(function(entity, e){
 					if(entity.id === query){
-						this['.set'].splice(e, 1);
+						this.get('set').splice(e, 1);
 					}
 				});
 			}
 		},
 
 		size: function(){
-			return this['.set'].length;
+			return this.get('set').length;
 		},
 
 		find: function(query){
@@ -439,7 +439,7 @@ window.entropy = window.S = (function(){
 				return 0;
 			};
 
-			Array.prototype.sort.call(this['.set'], sorter);
+			Array.prototype.sort.call(this.get('set'), sorter);
 
 			return this;
 		},
@@ -511,7 +511,7 @@ window.entropy = window.S = (function(){
 		},
 
 		has: function(query){
-			return this['.manifest'].some(function(item, i){
+			return this.get('manifest').some(function(item, i){
 				return query === item.key;
 			});
 		},
@@ -558,7 +558,7 @@ window.entropy = window.S = (function(){
 
 		//	TEMP:  The general idea behind this will be used later.
 		findInManifest: function(query){
-			return this['.manifest'].filter(function(item, i){
+			return this.get('manifest').filter(function(item, i){
 				return query === item.key;
 			});
 		}
@@ -640,7 +640,7 @@ window.entropy = window.S = (function(){
 						var isSingular = false;
 
 						var	object,
-							o = 0, length = entity.list().length;
+							o = 0, length = entity.size();
 						for(; o < length; o++){
 							object = entity[o];
 
