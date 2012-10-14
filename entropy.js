@@ -356,6 +356,10 @@ window.entropy = window.S = (function(){
 			}
 		},
 
+		size: function(){
+			return this['.set'].length;
+		},
+
 		find: function(query){
 			var self = this;
 
