@@ -455,8 +455,8 @@ window.entropy = window.S = (function(){
 		each: function(){
 			var args = Array.prototype.slice.call(arguments);
 
-			if(args.length === 1 && typeof args[0] === 'function'){
-				this.get('set').forEach(args[0]);
+			if(typeof args[0] === 'function'){
+				this.get('set').forEach(args[0], this);
 			}else if(typeof args[0] === 'string'){
 				this.get('set').forEach(function(item, i){
 					item[args[0]].apply(item, args.slice(1));
@@ -683,6 +683,8 @@ window.entropy = window.S = (function(){
 				});
 
 				plugins.sort(sort);
+
+				return entropy;
 			};
 		})();
 
