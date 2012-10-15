@@ -360,12 +360,18 @@ window.entropy = window.S = (function(){
 			return this.get('set').length;
 		},
 
+		indexOf: function(item){
+			return this.get('set').indexOf(item);
+		},
+
 		find: function(query){
 			var self = this;
 
 			var args = Array.prototype.slice.call(arguments),
-				result = [],
 				relevant = [];
+
+			var result = self.create();
+			result.addClass('entropy results');
 
 			relevant = entropy['.plugins'].filter(function(plugin, p){
 				return plugin.relevance.call(plugin, args);
@@ -651,7 +657,7 @@ window.entropy = window.S = (function(){
 
 							if(this.parser.apply(object, parserArgs)){
 								if(!~results.indexOf(object)){
-									results.push(object);
+									results.add(object);
 								}
 
 								if(this.numResults === 1){
@@ -661,20 +667,13 @@ window.entropy = window.S = (function(){
 							}
 						}
 
-						var resultsEntity = entity['.make']();
-						resultsEntity.addClass('entropy results');
-
-						results.forEach(function(result, r){
-							resultsEntity.add(result);
-						});
-
 						//	Return results.
 						//	If the selector wishes there to be one result,
 						//	we just return the first one.
 						if(isSingular){
-							return resultsEntity[0];
+							return results[0];
 						}else{
-							return resultsEntity;
+							return results;
 						}
 
 						return results;
