@@ -174,9 +174,11 @@ window.entropy = window.S = (function(){
 			var item;
 			if(this.size() === 0){
 				for(var key in this.contents){
-					item = new utilities.Item(key, this.contents[key]);
+					if(this.contents.hasOwnProperty(key)){
+						item = new utilities.Item(key, this.contents[key]);
 
-					this.add(item);
+						this.add(item);
+					}
 				}
 			}
 
