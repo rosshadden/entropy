@@ -370,7 +370,7 @@ window.entropy = window.S = (function(){
 			var args = Array.prototype.slice.call(arguments),
 				relevant = [];
 
-			var result = self.create();
+			var result = self['.make']();
 			result.addClass('entropy results');
 
 			relevant = entropy['.plugins'].filter(function(plugin, p){
