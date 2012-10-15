@@ -578,7 +578,7 @@ window.entropy = window.S = (function(){
 		entropy.addClass('root', 'entropy');
 
 		//	Stuff unique to the entropic root.
-		entropy.version = 0.46;
+		entropy.version = 0.461;
 		entropy['.plugins'] = [];
 
 		entropy.register = (function(){
@@ -648,7 +648,7 @@ window.entropy = window.S = (function(){
 						var	object,
 							o = 0, length = entity.size();
 						for(; o < length; o++){
-							object = entity[o];
+							object = entity.get('set')[o];
 
 							var parserArgs = [object.contents];
 							if(this.matches){
