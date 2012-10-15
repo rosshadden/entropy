@@ -185,3 +185,23 @@ S.register({
 		return newEntity;
 	}
 });
+
+//	Deep find.
+//	S('key1 ~ key2');
+S.register({
+	name: 'deep-find',
+	description: 'Returns true if a given key1 exists as a parent to a given key2.',
+	expression: /^([\w\-_]+)(\s*)~\2([\w\-_]+)$/g,
+
+	parser: function(object, expression, $key1, $_space, $key2){
+		var traverse = function(item){
+			for(var i in item){
+				if(i == $key1 && item[i].hasOwnProperty($key2)){
+					return true;
+				}
+			}
+		};
+
+		return traverse(object);
+	}
+});
