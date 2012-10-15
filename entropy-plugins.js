@@ -1,11 +1,11 @@
 //	SELECTORS
 
 //	All.
-//	S('*'), S('all');
+//	S('*'), S('');
 S.register({
 	name: 'all',
 	description: 'Selects all entities in the set.',
-	expression: /^\*$/,
+	expression: /^\*$|^$/,
 
 	parser: function(object, expression){
 		return true;
