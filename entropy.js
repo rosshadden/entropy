@@ -578,7 +578,7 @@ window.entropy = window.S = (function(){
 		entropy.addClass('root', 'entropy');
 
 		//	Stuff unique to the entropic root.
-		entropy.version = 0.45;
+		entropy.version = 0.46;
 		entropy['.plugins'] = [];
 
 		entropy.register = (function(){
