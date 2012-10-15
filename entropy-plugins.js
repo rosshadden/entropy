@@ -1,11 +1,11 @@
 //	SELECTORS
 
 //	All.
-//	S('*'), S('');
+//	S('*');
 S.register({
 	name: 'all',
 	description: 'Selects all entities in the set.',
-	expression: /^\*$|^$/,
+	expression: /^\*$/,
 
 	parser: function(object, expression){
 		return true;
@@ -58,7 +58,7 @@ S.register({
 	expression: /^\[\s*([\w+-]+)\s*\]$/g,
 
 	parser: function(object, expression, $property){
-		return object.hasOwnProperty($property);
+		return !!object && object.hasOwnProperty($property);
 	}
 });
 
@@ -78,7 +78,7 @@ S.register({
 	expression: /^\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/g,
 
 	parser: function(object, expression, $property, $operator, $isStrict, $quote, $value){
-		var	test = ($isStrict) ? object[$property] : (''+object[$property]).toLowerCase(),
+		var	test = ($isStrict) ? object[$property] : !!object && (''+object[$property]).toLowerCase(),
 			control = ($isStrict) ? $value : (''+$value).toLowerCase();
 
 		var cases = {
@@ -164,7 +164,7 @@ S.register({
 });
 
 //	Function
-//	S(function(){  console.log('asdf'); });
+//	S('[name]', 4);
 S.register({
 	name: 'string-and-a-num-ber--two-bits',
 	description: 'Returns a query limited to the specified number of results.',
@@ -187,21 +187,24 @@ S.register({
 });
 
 //	Deep find.
-//	S('key1 ~ key2');
+//	S('~friends > [name]');
 S.register({
 	name: 'deep-find',
 	description: 'Returns true if a given key1 exists as a parent to a given key2.',
-	expression: /^([\w\-_]+)(\s*)~\2([\w\-_]+)$/g,
+	expression: /^(\S.+\S)(\s*)>\2(\S.+\S)$/g,
 
-	parser: function(object, expression, $key1, $_space, $key2){
-		var traverse = function(item){
-			for(var i in item){
-				if(i == $key1 && item[i].hasOwnProperty($key2)){
-					return true;
-				}
+	hunter: function(results, args, entity){
+		var	left = this.matches[1],
+			right = this.matches[3];
+
+		var result = entity.create();
+
+		entity(left).each(function(child, c){
+			if(this[c](right).size() > 0){
+				result.add(child);
 			}
-		};
+		});
 
-		return traverse(object);
+		return result;
 	}
 });
