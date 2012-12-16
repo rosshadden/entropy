@@ -487,6 +487,16 @@ window.entropy = window.S = (function(){
 			return this;
 		},
 
+		map: function(){
+			var args = Array.prototype.slice.call(arguments);
+
+			if(typeof args[0] === 'function'){
+				return this.get('set').map(args[0], this);
+			}
+
+			return [];
+		},
+
 		addClass: function(){
 			var	self = this,
 				args = Array.prototype.slice.call(arguments);
