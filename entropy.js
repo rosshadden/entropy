@@ -424,7 +424,9 @@ window.entropy = window.S = (function(){
 			}
 
 			if(typeof key === 'undefined'){
-				return this.contents;
+				return this.map(function(element){
+					return element.contents;
+				});
 			}
 
 			return this[key];
@@ -611,7 +613,7 @@ window.entropy = window.S = (function(){
 		entropy.addClass('root', 'entropy');
 
 		//	Stuff unique to the entropic root.
-		entropy.version = 0.463;
+		entropy.version = 0.469;
 		entropy['.plugins'] = [];
 
 		entropy.register = (function(){
