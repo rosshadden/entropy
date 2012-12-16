@@ -37,54 +37,64 @@ window.entropy = window.S = (function(){
 					root = this;
 				}
 
-				if(Object.prototype.toString.call(object) === '[object Array]'){
-					if(isNested){
-						root['.manifest'][root['.manifest'].length - 1].type = 'array';
-					}
+				if(!(object instanceof HTMLElement) && !(object instanceof Node)){
+					if(Object.prototype.toString.call(object) === '[object Array]'){
+						if(isNested){
+							root['.manifest'][root['.manifest'].length - 1].type = 'array';
+						}
 
-					response = [];
-					i = 0;
-					length = object.length;
+						response = [];
+						i = 0;
+						length = object.length;
 
-					for(; i < length; i++){
-						root['.manifest'].push({
-							key: i,
-							path: path.slice(),
-							type: typeof object[i],
-							value: object[i]
-						});
-
-						path.push(i);
-
-						response[i] = utilities.copy(object[i], true);
-
-						path.pop();
-					}
-
-					return response;
-				}
-
-				if(typeof object === 'object'){
-					response = {};
-
-					for(i in object){
-						if(object.hasOwnProperty(i)){
+						for(; i < length; i++){
 							root['.manifest'].push({
 								key: i,
 								path: path.slice(),
 								type: typeof object[i],
 								value: object[i]
 							});
+
+							path.push(i);
+
+							if(!(object[i]  instanceof HTMLElement)){
+								response[i] = utilities.copy(object[i], true);
+							}else{
+								response[i] = object[i];
+							}
+
+							path.pop();
 						}
 
-						path.push(i);
-
-						response[i] = utilities.copy(object[i], true);
-
-						path.pop();
+						return response;
 					}
 
-					return response;
+					if(typeof object === 'object'){
+						response = {};
+
+						for(i in object){
+							if(object.hasOwnProperty(i)){
+								root['.manifest'].push({
+									key: i,
+									path: path.slice(),
+									type: typeof object[i],
+									value: object[i]
+								});
+							}
+
+							path.push(i);
+
+							if(!(object[i]  instanceof HTMLElement)){
+								response[i] = utilities.copy(object[i], true);
+							}else{
+								response[i] = object[i];
+							}
+
+							path.pop();
+						}
+
+						return response;
+					}
 				}
 
 				return object;
