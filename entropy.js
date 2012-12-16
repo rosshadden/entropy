@@ -328,15 +328,14 @@ window.entropy = window.S = (function(){
 		addEach: function(){
 			var args = Array.prototype.slice.call(arguments);
 
-			var	items, config,
-				hasConfig = false;
+			var	items,
+				config = false;
 
 			if(args.length === 1){
 				items = args[0];
 			}
 
 			if(args.length === 2){
-				hasConfig = true;
 				config = args[0];
 				items = args[1];
 			}
@@ -350,7 +349,7 @@ window.entropy = window.S = (function(){
 							item = [item];
 						}
 
-						if(hasConfig){
+						if(config === false){
 							item = [config].concat(item);
 						}
 
