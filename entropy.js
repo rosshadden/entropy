@@ -349,7 +349,7 @@ window.entropy = window.S = (function(){
 							item = [item];
 						}
 
-						if(config === false){
+						if(config !== false){
 							item = [config].concat(item);
 						}
 
