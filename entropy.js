@@ -419,6 +419,10 @@ window.entropy = window.S = (function(){
 				return this.size();
 			}
 
+			if(key === 'original'){
+				return this.contents;
+			}
+
 			if(typeof key === 'undefined'){
 				return this.contents;
 			}
