@@ -108,6 +108,36 @@ S.register({
 	}
 });
 
+//	Length.
+//	S('[property:{n,m}]');
+//	S('[property:{n,}]');
+//	S('[property:{,m}]');
+//	S('[property:{n}]');
+S.register({
+	name: 'property-length',
+	description: 'Returns true if a property is present and has length inclusively between bounds.',
+	expression: /^\[\s*([\w+-]+):\{(\d*)(,?)(\d*)\}\s*\]$/g,
+
+	parser: function(object, expression, $property, $min, $comma, $max){
+		var min = -Infinity,
+			max = Infinity;
+
+		if($min !== ''){
+			min = +$min;
+		}
+
+		if($max !== ''){
+			max = +$max;
+		}
+
+		if($comma === ''){
+			max = +$min;
+		}
+
+		return !!object && object.hasOwnProperty($property) && min <= object[$property].length && object[$property].length <= max;
+	}
+});
+
 //	Type.
 //	S('@Array');
 S.register({
