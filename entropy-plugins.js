@@ -193,6 +193,21 @@ S.register({
 	}
 });
 
+//	Get.
+//	S();
+S.register({
+	name: 'get',
+	description: 'Returns a list of all items in the entity.',
+
+	relevance: function(args){
+		return args.length === 0;
+	},
+
+	hunter: function(results, args, entity){
+		return entity.get();
+	}
+});
+
 //	Function
 //	S('[name]', 4);
 S.register({

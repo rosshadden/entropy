@@ -399,6 +399,7 @@ window.entropy = window.S = (function(){
 			var plugin,
 				p = 0,
 				length = relevant.length;
+
 			for(; p < length; p++){
 				plugin = relevant[p];
 
