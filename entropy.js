@@ -127,7 +127,33 @@ window.entropy = window.S = (function(){
 
 		//	This is mainly useful when playing with entropy in the console.
 		toString: function(){
-			return 'Entity';
+			var	items = [];
+
+			this.list().forEach(function(item, i){
+				var string = '';
+
+				if(item.get('id') !== 'Entity'){
+					string = '#' + item.get('id');
+				}
+
+				if(item.get('.key')){
+					string += '~' + item.get('.key');
+				}
+
+				if(item.contents instanceof Array){
+					string += '@Array';
+				}else if(typeof item.contents !== 'object'){
+					string += '@' + typeof item.contents;
+				}
+
+				item.classes.forEach(function(klass, c){
+					string += '.' + klass;
+				});
+
+				items.push(string);
+			});
+
+			return this.id + ':[' + items.join(', ') + ']';
 		},
 
 		//	Makes a brand new Entity.
@@ -366,12 +392,6 @@ window.entropy = window.S = (function(){
 
 		//	Returns a specified property or key.
 		get: function(key){
-			var item;
-
-			if(key === 'set') return this.list();
-			if(key === 'key') return this['.key'];
-			if(key === 'manifest') return [];
-
 			if(typeof key === 'undefined'){
 				return this.map(function(element){
 					return element.contents;
@@ -383,7 +403,7 @@ window.entropy = window.S = (function(){
 
 		//	Sets the given blacklisted property on the entity.
 		set: function(key, value){
-			if(/^\./.test(key)){
+			if(!/^\./.test(key)){
 				this[key] = value;
 			}
 
