@@ -140,7 +140,110 @@ window.entropy = window.S = (function(){
 			return this;
 		},
 
-		create: function(){},
+		create: function(){
+			var	id = '',
+				contents = {},
+				classes = [];
+
+			var args = Array.prototype.slice.call(arguments);
+
+			var entity;
+
+			//	Adds an empty object (for some reason?).
+			if(args.length === 0){}
+
+			//	Adds the passed in object, with no ID or classes.
+			if(args.length === 1){
+				contents = args[0];
+			}
+
+			//	Adds an object with an ID.
+			if(args.length === 2){
+				contents = args[1];
+				//	Has a configuration object.
+				if(typeof args[0] === 'object' && typeof args[1] === 'object'){
+					id = args[0].id || id;
+					classes = args[0].classes || classes;
+
+					if(/^\/\w+$/.test(id)){
+						id = contents[id.substr(1)] || id;
+					}
+
+					if(/^\/\w+$/.test(classes)){
+						classes = typeof contents[classes.substr(1)] === 'string' && contents[classes.substr(1)].replace(' ', '-') || classes;
+					}
+				}else{
+					id = args[0];
+				}
+			}
+
+			//	Adds an object with an ID and some classes.
+			if(args.length === 3){
+				id = args[0];
+				classes = args[1];
+				contents = args[2];
+			}
+
+			//	Standardize classes.
+			if(typeof classes === 'string'){
+				classes = classes.split(' ');
+			}
+
+			//	Check for existence of a duplicate ID.
+			var doesExist = this.list().some(function(item){
+				return (id === '') ? false : id === item.id;
+			});
+
+			//	If ID does not exist in the set, bitch about it.
+			if(doesExist){
+				throw new Error('Entropy:  Item with the given ID already exists.');
+			}
+
+			//	Check if the item is already an Entity.
+			var isEntity = typeof contents === 'function' && contents['.isEntity'];
+
+			//	If it is not, make it one.
+			//	Otherwise, dance profusely.
+			if(isEntity){
+				entity = contents;
+			}else{
+				entity = Entity['.make']();
+
+				entity
+				.set('id', id)
+				.addClass(classes);
+
+				//	If the item being added is added directly by an entity,
+				//	we don't need to do the deep copy for the manifest.
+				if(contents instanceof utilities.Item){
+					//	If possible, we copy the manifest from the parent,
+					//	and starting at the relevant level and with the relevant items.
+					this.get('manifest').forEach(function(item, i){
+						if(item.path.length === 0){
+							if(item.key == contents.key){
+							}
+						}else if(item.path[0] === contents.key){
+							//	BUG:  S[7][0].get('manifest');
+							// entity.get('manifest').push(item.path.slice(1));
+						}
+					});
+
+					entity['.key'] = contents.key;
+
+					contents = contents.value;
+				}
+
+				//	TODO:  Store the original object as a dot-file,
+				//	and expose the copy with getters/setters that modify
+				//	the original themselves.
+				// contents = utilities.copy.call(entity, contents);
+				utilities.copy.call(entity, contents);
+
+				entity.contents = contents;
+			}
+
+			return entity;
+		},
 
 		//	Adds an item to an entity's list of entities.
 		add: function(){
@@ -223,7 +326,30 @@ window.entropy = window.S = (function(){
 			return this.list().indexOf(item);
 		},
 
-		find: function(query){},
+		//	Returns a new entity of entities matching a query.
+		find: function(){
+			var self = this;
+
+			var args = Array.prototype.slice.call(arguments),
+				relevant = [];
+
+			var result = self['.make']();
+			result.addClass('entropy results');
+
+			relevant = entropy['.plugins'].filter(function(plugin, p){
+				return plugin.relevance.call(plugin, args);
+			});
+
+			var plugin,
+				p, length = relevant.length;
+			for(p = 0; p < length; p++){
+				plugin = relevant[p];
+
+				result = plugin.hunter.call(plugin, result, args, this);
+			}
+
+			return result;
+		},
 
 		//	Returns a specified property or key.
 		get: function(key){
@@ -238,9 +364,9 @@ window.entropy = window.S = (function(){
 			return this[key];
 		},
 
-		//	Sets the given whitelisted property on the entity.
+		//	Sets the given blacklisted property on the entity.
 		set: function(key, value){
-			if(~['id'].indexOf(key)){
+			if(/^\./.test(key)){
 				this[key] = value;
 			}
 
