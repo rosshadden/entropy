@@ -1,4 +1,4 @@
-/*//	SELECTORS
+//	SELECTORS
 
 //	All.
 //	S('*');
@@ -46,7 +46,7 @@ S.register({
 	numResults: 1,
 
 	parser: function(object, expression, $key){
-		return $key === this.get('key');
+		return $key === this['.key'];
 	}
 });
 
@@ -253,4 +253,4 @@ S.register({
 		return result;
 	}
 });
-*/
+

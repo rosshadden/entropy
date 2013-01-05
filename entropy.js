@@ -92,7 +92,7 @@ window.entropy = window.S = (function(){
 	};
 
 	utilities.extend(Entity, {
-		constructor: function(){
+		constructor: function(id, classes, contents){
 			//	Setup unique properties.
 			Object.defineProperty(this, '.isEntity', {
 				value: true,
@@ -107,6 +107,16 @@ window.entropy = window.S = (function(){
 				enumerable: false,
 				configurable: false
 			});
+
+			//	These are set if the relelvant arguments are passed,
+			//	though I prefer to call Entity['.make']() without arguments,
+			//	and set them afterward.
+			this.id = (typeof id !== 'undefined') ? id : 'Entity';
+			this['.key'] = '';
+			//	TODO:  This should parse classes instead of assuming array.
+			this.classes = (typeof classes !== 'undefined') ? classes : [];
+			//	Note that I am doing the typeof undefined check in case contents is boolean.
+			this.contents = (typeof contents !== 'undefined') ? contents : {};
 		},
 
 		//	Called when you invoke the instance as a function.
@@ -140,6 +150,9 @@ window.entropy = window.S = (function(){
 			return this;
 		},
 
+		//	Creates an entity.
+		//	Honestly, I forget why this is different than s.make,
+		//	but this calls s.make.
 		create: function(){
 			var	id = '',
 				contents = {},
@@ -218,7 +231,7 @@ window.entropy = window.S = (function(){
 				if(contents instanceof utilities.Item){
 					//	If possible, we copy the manifest from the parent,
 					//	and starting at the relevant level and with the relevant items.
-					this.get('manifest').forEach(function(item, i){
+					/*this.get('manifest').forEach(function(item, i){
 						if(item.path.length === 0){
 							if(item.key == contents.key){
 							}
@@ -226,7 +239,7 @@ window.entropy = window.S = (function(){
 							//	BUG:  S[7][0].get('manifest');
 							// entity.get('manifest').push(item.path.slice(1));
 						}
-					});
+					});*/
 
 					entity['.key'] = contents.key;
 
@@ -355,6 +368,10 @@ window.entropy = window.S = (function(){
 		get: function(key){
 			var item;
 
+			if(key === 'set') return this.list();
+			if(key === 'key') return this['.key'];
+			if(key === 'manifest') return [];
+
 			if(typeof key === 'undefined'){
 				return this.map(function(element){
 					return element.contents;
@@ -389,7 +406,7 @@ window.entropy = window.S = (function(){
 
 		//	Returns a copy of the internal list.
 		list: function(){
-			return this.get('.list').slice();
+			return this.get('.list');
 		},
 
 		//	Sorts the list of entities by id.
@@ -502,7 +519,123 @@ window.entropy = window.S = (function(){
 	});
 
 	var entropy = (function(){
-		var entropy = {};
+		var entropy = Entity['.make']();
+
+		//	Give it something to write home about.
+		entropy.set('id', 'root');
+		entropy.addClass('root', 'entropy');
+
+		//	Stuff unique to the entropic root.
+		entropy.version = 0.5;
+		entropy['.plugins'] = [];
+
+		entropy.register = (function(){
+			var plugins = entropy['.plugins'];
+
+			//	Sort in descending length order.
+			var sort = function(a, b){
+				var lengthA = (''+a.expression).length,
+					lengthB = (''+b.expression).length;
+
+				if(lengthA < lengthB){
+					return 1;
+				}
+				if(lengthA > lengthB){
+					return -1;
+				}
+				return 0;
+			};
+
+			return function(options){
+				plugins.push({
+					name: options.name || '',
+					type: options.type || 'string',
+					args: options.args || 1,
+					expression: options.expression || false,
+					numResults: options.numResults || 'n',
+
+					parser: options.parser || function(){ return true; },
+
+					relevance: options.relevance || function(args){
+						var self = this;
+
+						//	This obviously looks shit-tastic.
+						//	I wanted to write it like this first because it was so effing complex.
+						//	TODO:  Make this a single `return (boolean);` type shindig.
+						if(args.length === this.args){
+							if(this.args === 1){
+								if(typeof args[0] === this.type){
+									if(this.expression){
+										if(this.expression.test(args[0])){
+											args[0].replace(this.expression, function(value){
+												self.matches = Array.prototype.slice.call(arguments).slice(0, -2);
+												return;
+											});
+
+											return true;
+										}else{
+											return false;
+										}
+									}else{
+										return true;
+									}
+								}else{
+									return false;
+								}
+							}else{
+								return true;
+							}
+						}else{
+							return false;
+						}
+					},
+
+					hunter: options.hunter || function(results, args, entity){
+						var isSingular = false;
+
+						var	object,
+							o = 0, length = entity.size();
+						for(; o < length; o++){
+							object = entity.list()[o];
+
+							var parserArgs = [object.contents];
+							if(this.matches){
+								parserArgs = parserArgs.concat(this.matches);
+							}
+
+							if(this.parser.apply(object, parserArgs)){
+								if(!~results.indexOf(object)){
+									results.add(object);
+								}
+
+								if(this.numResults === 1){
+									isSingular = true;
+									break;
+								}
+							}
+						}
+
+						//	Return results.
+						//	If the selector wishes there to be one result,
+						//	we just return the first one.
+						if(isSingular){
+							return results[0];
+						}else{
+							return results;
+						}
+
+						return results;
+					}
+				});
+
+				plugins.sort(sort);
+
+				return entropy;
+			};
+		})();
+
+		//	Aliases.
+		entropy.Entity = Entity;
 
 		return entropy;
 	})();
