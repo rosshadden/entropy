@@ -1,4 +1,4 @@
-S.add('dog1', 'mammal dog', {
+/*S.add('dog1', 'mammal dog', {
 	name: 'Fred',
 	nickname: 'Fred',
 	speech: 'bark',
@@ -1274,3 +1274,4 @@ S.add('response', 'huge stupid irritating', {
 	}
 });
 
+*/

@@ -1,4 +1,4 @@
-//	SELECTORS
+/*//	SELECTORS
 
 //	All.
 //	S('*');
@@ -253,3 +253,4 @@ S.register({
 		return result;
 	}
 });
+*/
