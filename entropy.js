@@ -246,11 +246,19 @@ window.entropy = window.S = (function(){
 			if(isEntity){
 				entity = contents;
 			}else{
+				//	Make the base entity.
 				entity = Entity['.make']();
 
+				//	Setup the usual suspects.
 				entity
 				.set('id', id)
 				.addClass(classes);
+
+				//	Add all adapters.
+				entropy['.adapters'].forEach(function(adapter, a){
+					// entity[adapter.name] = adapter.namespace.bind(entity);
+					entity[adapter.name] = _;
+				});
 
 				//	If the item being added is added directly by an entity,
 				//	we don't need to do the deep copy for the manifest.
@@ -548,6 +556,7 @@ window.entropy = window.S = (function(){
 		//	Stuff unique to the entropic root.
 		entropy.version = 0.5;
 		entropy['.plugins'] = [];
+		entropy['.adapters'] = [];
 
 		entropy.register = (function(){
 			var plugins = entropy['.plugins'];
@@ -654,7 +663,24 @@ window.entropy = window.S = (function(){
 			};
 		})();
 
-		//	Aliases.
+		entropy.adapter = (function(){
+			var adapters = entropy['.adapters'];
+
+			return function(name, namespace){
+				// entropy[name] = namespace;
+				// entropy[name] = _.bindKey(_, _, entropy.get());
+				entropy[name] = {};
+
+				adapters.push({
+					name: name,
+					namespace: namespace
+				});
+
+				return entropy;
+			};
+		})();
+
+		//	Accessibility alias.
 		entropy.Entity = Entity;
 
 		return entropy;

@@ -17,7 +17,7 @@ S.add('dog2', ['mammal', 'dog'], {
 
 S.add('isCool', true);
 
-S.add('today', new Date);
+S.add('today', new Date());
 
 S.add('Jake', 'mammal human', {
 	name: 'Jake',
