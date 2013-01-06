@@ -4,12 +4,23 @@
 S.adapter('_', function(){
 	var entity = this;
 
-	var __ = {};
+	var action = 'get';
+	var __ = function(which){
+		if(~[undefined, 'get'].indexOf(which)){
+			action = 'get';
+		}else if(~['list'].indexOf(which)){
+			action = 'list';
+		}else if(~['value', 'val', 'contents'].indexOf(which)){
+			action = 'val';
+		}
+
+		return __;
+	};
+
 	_.methods(_).forEach(function(method, m){
-		// __[method] = _.partial(_[method], entity.get());
 		__[method] = function(){
 			var args = Array.prototype.slice.call(arguments);
-			return _[method].apply(_, [entity.get()].concat(args));
+			return _[method].apply(_, [entity[action]()].concat(args));
 		};
 	});
 	return __;
