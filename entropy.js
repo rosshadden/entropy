@@ -282,13 +282,9 @@ window.entropy = window.S = (function(){
 
 				//	Setup the usual suspects.
 				entity
+				.adapt()
 				.set('id', id)
 				.addClass(classes);
-
-				//	Add all adapters.
-				entropy['.adapters'].forEach(function(adapter, a){
-					entity[adapter.name] = adapter.adaptation.call(entity);
-				});
 
 				//	If the item being added is added directly by an entity,
 				//	we don't need to do the deep copy for the manifest.
@@ -308,19 +304,41 @@ window.entropy = window.S = (function(){
 					entity['.key'] = contents.key;
 
 					contents = contents.value;
+				}else{
+					//	TODO:  Store the original object as a dot-file,
+					//	and expose the copy with getters/setters that modify
+					//	the original themselves.
+					// contents = utilities.copy.call(entity, contents);
+					utilities.copy.call(entity, contents);
 				}
-
-				//	TODO:  Store the original object as a dot-file,
-				//	and expose the copy with getters/setters that modify
-				//	the original themselves.
-				// contents = utilities.copy.call(entity, contents);
-				utilities.copy.call(entity, contents);
 
 				entity.contents = contents;
 			}
 
 			return entity;
 		},
+
+		//	Apply adapters to the entity.
+		adapt: (function(){
+			var entity;
+			var adaptation = function(adapter, a){
+				if(!(adapter.name in entity)){
+					entity[adapter.name] = adapter.adaptation.call(entity);
+				}
+			};
+
+			return function(adapter){
+				entity = this;
+				//	If an adapter was passed, just add that specific one.
+				if(typeof adapter !== 'undefined'){
+					adaptation(adapter);
+				//	Otherwise, add all adapters.
+				}else{
+					entropy['.adapters'].forEach(adaptation);
+				}
+				return this;
+			};
+		})(),
 
 		//	Adds an item to an entity's list of entities.
 		add: function(){
@@ -411,7 +429,9 @@ window.entropy = window.S = (function(){
 				relevant = [];
 
 			var result = self['.make']();
-			result.addClass('entropy results');
+			result
+			.adapt()
+			.addClass('entropy results');
 
 			relevant = entropy['.plugins'].filter(function(plugin, p){
 				return plugin.relevance.call(plugin, args);
@@ -580,8 +600,9 @@ window.entropy = window.S = (function(){
 		var entropy = Entity['.make']();
 
 		//	Give it something to write home about.
-		entropy.set('id', 'root');
-		entropy.addClass('root', 'entropy');
+		entropy
+		.set('id', 'root')
+		.addClass('root', 'entropy');
 
 		//	Stuff unique to the entropic root.
 		entropy.version = 0.5;
@@ -697,14 +718,13 @@ window.entropy = window.S = (function(){
 			var adapters = entropy['.adapters'];
 
 			return function(name, adaptation){
-				entropy[name] = {};
-
-				entropy[name] = adaptation.call(entropy);
-
-				adapters.push({
+				var adapter = {
 					name: name,
 					adaptation: adaptation
-				});
+				};
+
+				adapters.push(adapter);
+				entropy.adapt(adapter);
 
 				return entropy;
 			};
