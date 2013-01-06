@@ -668,6 +668,8 @@ window.entropy = window.S = (function(){
 			return function(name, adaptation){
 				entropy[name] = {};
 
+				entropy[name] = adaptation.call(entropy);
+
 				adapters.push({
 					name: name,
 					adaptation: adaptation
