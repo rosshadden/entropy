@@ -256,8 +256,7 @@ window.entropy = window.S = (function(){
 
 				//	Add all adapters.
 				entropy['.adapters'].forEach(function(adapter, a){
-					// entity[adapter.name] = adapter.namespace.bind(entity);
-					entity[adapter.name] = _;
+					entity[adapter.name] = adapter.adaptation.call(entity);
 				});
 
 				//	If the item being added is added directly by an entity,
@@ -666,14 +665,12 @@ window.entropy = window.S = (function(){
 		entropy.adapter = (function(){
 			var adapters = entropy['.adapters'];
 
-			return function(name, namespace){
-				// entropy[name] = namespace;
-				// entropy[name] = _.bindKey(_, _, entropy.get());
+			return function(name, adaptation){
 				entropy[name] = {};
 
 				adapters.push({
 					name: name,
-					namespace: namespace
+					adaptation: adaptation
 				});
 
 				return entropy;

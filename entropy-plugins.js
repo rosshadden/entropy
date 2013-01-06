@@ -1,15 +1,19 @@
 ////////////////////////////////////////////////////////////////
 //	ADAPTERS
 ////////////////////////////////////////////////////////////////
-var adapter = {};
-['pluck', 'keys'].forEach(function(item, i){
-	adapter[item] = function(){
-		var args = Array.prototype.slice.call(arguments);
-		console.log('wtf', this);
-		_[item].apply(this, [this.get()].concat(args));
-	};
+S.adapter('_', function(){
+	var entity = this;
+
+	var __ = {};
+	_.methods(_).forEach(function(method, m){
+		// __[method] = _.partial(_[method], entity.get());
+		__[method] = function(){
+			var args = Array.prototype.slice.call(arguments);
+			return _[method].apply(_, [entity.get()].concat(args));
+		};
+	});
+	return __;
 });
-S.adapter('_', adapter);
 
 ////////////////////////////////////////////////////////////////
 //	SELECTORS
