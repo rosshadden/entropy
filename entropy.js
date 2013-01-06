@@ -39,6 +39,10 @@ window.entropy = window.S = (function(){
 
 				if(!(object instanceof HTMLElement) && !(object instanceof Node)){
 					if(Object.prototype.toString.call(object) === '[object Array]'){
+						if(isNested){
+							root['.manifest'][root['.manifest'].length - 1].type = 'array';
+						}
+
 						response = [];
 						i = 0;
 						length = object.length;
@@ -47,6 +51,13 @@ window.entropy = window.S = (function(){
 							if(object === object[i]){
 								continue;
 							}
+
+							root['.manifest'].push({
+								key: i,
+								path: path.slice(),
+								type: typeof object[i],
+								value: object[i]
+							});
 
 							path.push(i);
 
@@ -70,11 +81,24 @@ window.entropy = window.S = (function(){
 								continue;
 							}
 
+							if(object.hasOwnProperty(i)){
+								root['.manifest'].push({
+									key: i,
+									path: path.slice(),
+									type: typeof object[i],
+									value: object[i]
+								});
+							}
+
+							path.push(i);
+
 							if(!(object[i]  instanceof HTMLElement)){
 								response[i] = utilities.copy(object[i], true);
 							}else{
 								response[i] = object[i];
 							}
+
+							path.pop();
 						}
 
 						return response;
@@ -102,6 +126,13 @@ window.entropy = window.S = (function(){
 			});
 
 			Object.defineProperty(this, '.list', {
+				value: [],
+				writable: false,
+				enumerable: false,
+				configurable: false
+			});
+
+			Object.defineProperty(this, '.manifest', {
 				value: [],
 				writable: false,
 				enumerable: false,
@@ -263,7 +294,7 @@ window.entropy = window.S = (function(){
 				//	we don't need to do the deep copy for the manifest.
 				if(contents instanceof utilities.Item){
 					//	If possible, we copy the manifest from the parent,
-					//	and starting at the relevant level and with the relevant items.
+					//	starting at the relevant level and with the relevant items.
 					/*this.get('manifest').forEach(function(item, i){
 						if(item.path.length === 0){
 							if(item.key == contents.key){
