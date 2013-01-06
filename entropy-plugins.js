@@ -14,6 +14,11 @@ S.adapter('_', function(){
 			action = 'val';
 		}
 
+		//	Resets to 'get' if it's not in the same chain.
+		setTimeout(function(){
+			action = 'get';
+		}, 1);
+
 		return __;
 	};
 
