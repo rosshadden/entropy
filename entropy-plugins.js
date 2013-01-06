@@ -2,55 +2,59 @@
 //	ADAPTERS
 ////////////////////////////////////////////////////////////////
 
-//	Underscore / Lo-dash (works with either).
-S.adapter('_', function(){
-	var entity = this;
+//	Underscore / Lo-dash (works with both).
+if(typeof _ === 'function' && !!_.VERSION){
+	S.adapter('_', function(){
+		var entity = this;
 
-	var action = 'get';
-	var __ = function(which){
-		if(~[undefined, 'get'].indexOf(which)){
-			action = 'get';
-		}else if(~['list'].indexOf(which)){
-			action = 'list';
-		}else if(~['value', 'val', 'contents'].indexOf(which)){
-			action = 'val';
-		}
+		var action = 'get';
+		var __ = function(which){
+			if(~[undefined, 'get'].indexOf(which)){
+				action = 'get';
+			}else if(~['list'].indexOf(which)){
+				action = 'list';
+			}else if(~['value', 'val', 'contents'].indexOf(which)){
+				action = 'val';
+			}
 
-		//	Resets to 'get' if it's not in the same chain.
-		setTimeout(function(){
-			action = 'get';
-		}, 1);
+			//	Resets to 'get' if it's not in the same chain.
+			setTimeout(function(){
+				action = 'get';
+			}, 1);
 
-		return __;
-	};
-
-	_.methods(_).forEach(function(method, m){
-		__[method] = function(){
-			var args = Array.prototype.slice.call(arguments);
-			return _[method].apply(_, [entity[action]()].concat(args));
+			return __;
 		};
+
+		_.methods(_).forEach(function(method, m){
+			__[method] = function(){
+				var args = Array.prototype.slice.call(arguments);
+				return _[method].apply(_, [entity[action]()].concat(args));
+			};
+		});
+		return __;
 	});
-	return __;
-});
+}
 
 //	SpahQL.
-S.adapter('spah', function(){
-	var entity = this;
+if(typeof SpahQL === 'function' && !!SpahQL.db){
+	S.adapter('spah', function(){
+		var entity = this;
 
-	var spah = function(which){
-		var action;
-		if(~[undefined, 'get'].indexOf(which)){
-			action = 'get';
-		}else if(~['list'].indexOf(which)){
-			action = 'list';
-		}else if(~['value', 'val', 'contents'].indexOf(which)){
-			action = 'val';
-		}
+		var spah = function(which){
+			var action;
+			if(~[undefined, 'get'].indexOf(which)){
+				action = 'get';
+			}else if(~['list'].indexOf(which)){
+				action = 'list';
+			}else if(~['value', 'val', 'contents'].indexOf(which)){
+				action = 'val';
+			}
 
-		return SpahQL.db(entity[action]());
-	};
-	return spah;
-});
+			return SpahQL.db(entity[action]());
+		};
+		return spah;
+	});
+}
 
 ////////////////////////////////////////////////////////////////
 //	SELECTORS
