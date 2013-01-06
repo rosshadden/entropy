@@ -1,6 +1,8 @@
 ////////////////////////////////////////////////////////////////
 //	ADAPTERS
 ////////////////////////////////////////////////////////////////
+
+//	Underscore / Lo-dash (works with either).
 S.adapter('_', function(){
 	var entity = this;
 
@@ -29,6 +31,25 @@ S.adapter('_', function(){
 		};
 	});
 	return __;
+});
+
+//	SpahQL.
+S.adapter('spah', function(){
+	var entity = this;
+
+	var spah = function(which){
+		var action;
+		if(~[undefined, 'get'].indexOf(which)){
+			action = 'get';
+		}else if(~['list'].indexOf(which)){
+			action = 'list';
+		}else if(~['value', 'val', 'contents'].indexOf(which)){
+			action = 'val';
+		}
+
+		return SpahQL.db(entity[action]());
+	};
+	return spah;
 });
 
 ////////////////////////////////////////////////////////////////
