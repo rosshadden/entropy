@@ -279,12 +279,18 @@ S.register({
 
 	hunter: function(response, args, entity){
 		var	results = entity(args[0]).list(),
-			filter = results.slice(0, args[1]),
+			numResults = args[1],
+			filter = results.slice(0, numResults),
 			newEntity = entity.create();
 
 		filter.forEach(function(item, i){
 			newEntity.add(item);
 		});
+
+		//	If limited to 1, just return the first entity itself.
+		if(numResults === 1){
+			return newEntity[0];
+		}
 
 		return newEntity;
 	}
