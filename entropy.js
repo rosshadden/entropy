@@ -484,6 +484,40 @@ window.entropy = window.S = (function(){
 			return result;
 		},
 
+		value: function(){
+			var	args = Array.prototype.slice.call(arguments);
+
+			if(args.length === 0){
+				return this['.value'];
+			}else if(args.length === 1){
+				return this['.value'][args[0]];
+			}else if(args.length === 2){
+				this['.value'][args[0]] = args[1];
+			}
+
+			return this;
+		},
+
+		values: function(){
+			var	args = Array.prototype.slice.call(arguments);
+
+			if(args.length === 0){
+				return this.map(function(element){
+					return element.value();
+				});
+			}else if(args.length === 1){
+				return this.map(function(element){
+					return element.value(args[0]);
+				});
+			}else if(args.length === 2){
+				this.each(function(element){
+					return element.value(args[0], args[1]);
+				});
+			}
+
+			return this;
+		},
+
 		//	Returns a specified property or key.
 		get: function(key){
 			//	Return an array of values, like _.values().
