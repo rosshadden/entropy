@@ -452,12 +452,14 @@ window.entropy = window.S = (function(){
 				p, length = relevant.length;
 			for(p = 0; p < length; p++){
 				plugin = relevant[p];
-
-				result = plugin.hunter.call(plugin, result, args, this);
+				result = plugin.filter.call(plugin, result, args, this);
 			}
 
 			return result;
 		},
+
+		//	Returns an entity traversed to by a query.
+		find: function(){},
 
 		//	Returns a specified property or key.
 		get: function(key){
@@ -681,7 +683,7 @@ window.entropy = window.S = (function(){
 						}
 					},
 
-					hunter: options.hunter || function(results, args, entity){
+					filter: options.filter || function(results, args, entity){
 						var isSingular = false;
 
 						var	object,

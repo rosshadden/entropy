@@ -220,7 +220,7 @@ S.register({
 	description: 'Retrieves an entity at a specific index.',
 	type: 'number',
 
-	hunter: function(results, args, entity){
+	filter: function(results, args, entity){
 		return entity[args[0]];
 	}
 });
@@ -233,7 +233,7 @@ S.register({
 	description: 'Wraps arbitrary objects as an Entity, which allows for querying, adding, etc.',
 	type: 'object',
 
-	hunter: function(results, args, entity){
+	filter: function(results, args, entity){
 		var newEntity = entity.create(args[0]).bake();
 
 		return newEntity;
@@ -247,7 +247,7 @@ S.register({
 	description: 'Runs a function.  This is useful if you wish to execute a function in the middle of a chain.',
 	type: 'function',
 
-	hunter: function(results, args, entity){
+	filter: function(results, args, entity){
 		args[0].apply(entity);
 
 		return entity;
@@ -264,7 +264,7 @@ S.register({
 		return args.length === 0;
 	},
 
-	hunter: function(results, args, entity){
+	filter: function(results, args, entity){
 		return entity.get();
 	}
 });
@@ -279,7 +279,7 @@ S.register({
 		return args.length === 2 && typeof args[0] === 'string' && typeof args[1] === 'number';
 	},
 
-	hunter: function(response, args, entity){
+	filter: function(response, args, entity){
 		var	results = entity(args[0]).list(),
 			numResults = args[1],
 			filter = results.slice(0, numResults),
@@ -305,7 +305,7 @@ S.register({
 	description: 'Returns an item if a given key1 exists as a parent to a given key2.',
 	expression: /^(\S.+\S)(\s*)>\2(\S.+\S)$/g,
 
-	hunter: function(results, args, entity){
+	filter: function(results, args, entity){
 		var	left = this.matches[1],
 			right = this.matches[3];
 
