@@ -488,13 +488,17 @@ window.entropy = window.S = (function(){
 			var	args = Array.prototype.slice.call(arguments);
 
 			if(args.length === 0){
+				//	Return entity's value.
 				return this['.value'];
 			}else if(args.length === 1){
+				//	Return a property on the current entity.
 				return this['.value'][args[0]];
 			}else if(args.length === 2){
 				if(args[0] === '!set'){
+					//	Set the entity's value.
 					this['.value'] = args[1];
 				}else{
+					//	Set a property on the entity.
 					this['.value'][args[0]] = args[1];
 				}
 			}
@@ -506,14 +510,17 @@ window.entropy = window.S = (function(){
 			var	args = Array.prototype.slice.call(arguments);
 
 			if(args.length === 0){
+				//	Return an array of values of child entities.
 				return this.map(function(element){
 					return element.value();
 				});
 			}else if(args.length === 1){
+				//	Return an array of properties of child entities.
 				return this.map(function(element){
 					return element.value(args[0]);
 				});
 			}else if(args.length === 2){
+				//	Set properties on child entities.
 				this.each(function(element){
 					return element.value(args[0], args[1]);
 				});
@@ -524,7 +531,6 @@ window.entropy = window.S = (function(){
 
 		//	Returns a specified property or key.
 		get: function(key){
-			//	Return an array of values, like _.values().
 			if(typeof key === 'undefined'){
 				return this.map(function(element){
 					return element.val();
