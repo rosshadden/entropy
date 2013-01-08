@@ -346,7 +346,9 @@ window.entropy = window.S = (function(){
 			};
 		})(),
 
-		//	Adds an item to an entity's list of entities.
+		/**
+		 * Adds an item to an entity's list of entities.
+		 */
 		add: function(){
 			var entity = this.create.apply(this, arguments);
 			var index = this.list().push(entity) - 1;
@@ -362,11 +364,14 @@ window.entropy = window.S = (function(){
 			return this;
 		},
 
-		//	Adds each item in a given array to an item's list of entities.
-		//	This can take an optional configuration object as a first parameter,
-		//	which can list certain properties like id and classes on each item.
-		//	These properties can take a dynamic value like '/asdf' to make the
-		//	value depend on the property specified.
+		/*
+		 * Adds each item in a given array to an item's list of entities.
+		 *
+		 * This can take an optional configuration object as a first parameter,
+		 * which can list certain properties like id and classes on each item.
+		 *
+		 * These properties can take a dynamic value like '/asdf' to make the value depend on the property specified.
+		 */
 		addEach: function(){
 			var args = Array.prototype.slice.call(arguments);
 
