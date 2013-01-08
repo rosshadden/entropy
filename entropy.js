@@ -490,9 +490,18 @@ window.entropy = window.S = (function(){
 				return this.map(function(element){
 					return element.contents;
 				});
+			}else if(/^@/.test(key)){
+				return this.val()[key.substr(1)];
+			}else if(/^!/.test(key)){
+				key = key.substr(1);
+				if(~['id', '.value'].indexOf(key)){
+					return this[key];
+				}
+			}else if(typeof key === 'string'){
+				return this.map(function(element){
+					return element.contents[key];
+				});
 			}
-
-			return this[key];
 		},
 
 		//	Sets the given blacklisted property on the entity.
@@ -520,7 +529,7 @@ window.entropy = window.S = (function(){
 
 		//	Returns a copy of the internal list.
 		list: function(){
-			return this.get('.list');
+			return this['.list'];
 		},
 
 		//	Sorts the list of entities by id.

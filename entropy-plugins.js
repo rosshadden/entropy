@@ -223,13 +223,14 @@ S.register({
 
 	//	Returns one property, on the entity itself.
 	filter: function(results, args, entity){
-		return entity.get(this.matches[0]);
+		return entity.get('@' + this.matches[1]);
 	},
 
 	//	Returns an array of properties, on each entity in the list.
 	find: function(results, args, entity){
+		var property = this.matches[1];
 		return entity.map(function(item, i){
-			return item.val()[args[0]];
+			return item.val()[property];
 		});
 	}
 });
