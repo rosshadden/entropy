@@ -157,13 +157,11 @@ window.entropy = window.S = (function(){
 		},
 
 		//	This is mainly useful when playing with entropy in the console.
-		toString: function(){
-			var	items = [];
-
-			this.list().forEach(function(item, i){
+		toString: (function(){
+			var buildString = function(item, i){
 				var string = '';
 
-				if(item.get('id') !== 'Entity'){
+				if(item.get('id')){
 					string = '#' + item.get('id');
 				}
 
@@ -172,8 +170,8 @@ window.entropy = window.S = (function(){
 				}
 
 				if(item.contents instanceof Array){
-					string += '@Array';
-				}else if(typeof item.contents !== 'object'){
+					string += '@array';
+				}else{// if(typeof item.contents !== 'object'){
 					string += '@' + typeof item.contents;
 				}
 
@@ -181,11 +179,19 @@ window.entropy = window.S = (function(){
 					string += '.' + klass;
 				});
 
-				items.push(string);
-			});
+				return string;
+			};
 
-			return this.id + ':[' + items.join(', ') + ']';
-		},
+			return function(){
+				var	items = this.list().map(buildString);
+
+				var string = buildString(this);
+				if(items.length){
+					string += ': [\n\n' + items.join(', ') + '\n\n]';
+				}
+				return string;
+			};
+		})(),
 
 		//	Makes a brand new Entity.
 		'.make': utilities.functionFactory(Entity),
