@@ -52,6 +52,8 @@ if(typeof SpahQL === 'function' && !!SpahQL.db){
 
 			return SpahQL.db(entity[action]());
 		};
+
+		// ['assert', 'clone', 'concat', 'containing', 'containingAll', 'destroy', 'destroyAll', 'detach', 'each', 'filter', 'first', 'item', 'keyName', 'keyNames', 'last', 'listen', 'map', 'parent', 'parentPath', 'parentPaths', 'parents', 'path', 'paths', 'replace', 'replaceAll', 'resultModified', 'select', 'set', 'setAll', 'sourceData', 'type', 'types', 'unlisten', 'value', 'values']
 		return spah;
 	});
 }
