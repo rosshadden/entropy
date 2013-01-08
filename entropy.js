@@ -459,7 +459,30 @@ window.entropy = window.S = (function(){
 		},
 
 		//	Returns an entity traversed to by a query.
-		find: function(){},
+		find: function(){
+			var self = this;
+
+			var args = Array.prototype.slice.call(arguments),
+				relevant = [];
+
+			var result = self['.make']();
+			result
+			.adapt()
+			.addClass('entropy results');
+
+			relevant = entropy['.plugins'].filter(function(plugin, p){
+				return plugin.setCategory('find').relevance.call(plugin, args);
+			});
+
+			var plugin,
+				p, length = relevant.length;
+			for(p = 0; p < length; p++){
+				plugin = relevant[p];
+				result = plugin.find.call(plugin, result, args, this);
+			}
+
+			return result;
+		},
 
 		//	Returns a specified property or key.
 		get: function(key){
@@ -647,6 +670,17 @@ window.entropy = window.S = (function(){
 					expression: options.expression || false,
 					numResults: options.numResults || 'n',
 
+					category: 'filter',
+					setCategory: function(category){
+						this.category = category;
+						return this;
+					},
+					current: 'filter',
+					setCurrent: function(current){
+						this.current = current;
+						return this;
+					},
+
 					parser: options.parser || function(){ return true; },
 
 					relevance: options.relevance || function(args){
@@ -655,7 +689,7 @@ window.entropy = window.S = (function(){
 						//	This obviously looks shit-tastic.
 						//	I wanted to write it like this first because it was so effing complex.
 						//	TODO:  Make this a single `return (boolean);` type shindig.
-						if(args.length === this.args){
+						if(this[this.category] && args.length === this.args){
 							if(this.args === 1){
 								if(typeof args[0] === this.type){
 									if(this.expression){
@@ -720,42 +754,7 @@ window.entropy = window.S = (function(){
 						return results;
 					},
 
-					find: options.find || function(results, args, entity){
-						var isSingular = false;
-
-						var	object,
-							o = 0, length = entity.size();
-						for(; o < length; o++){
-							object = entity.list()[o];
-
-							var parserArgs = [object.contents];
-							if(this.matches){
-								parserArgs = parserArgs.concat(this.matches);
-							}
-
-							if(this.parser.apply(object, parserArgs)){
-								if(!~results.indexOf(object)){
-									results.add(object);
-								}
-
-								if(this.numResults === 1){
-									isSingular = true;
-									break;
-								}
-							}
-						}
-
-						//	Return results.
-						//	If the selector wishes there to be one result,
-						//	we just return the first one.
-						if(isSingular){
-							return results[0];
-						}else{
-							return results;
-						}
-
-						return results;
-					}
+					find: options.find || false
 				});
 
 				plugins.sort(sort);

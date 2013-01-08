@@ -223,7 +223,7 @@ S.register({
 
 	//	Returns one property, on the entity itself.
 	filter: function(results, args, entity){
-		return entity.get('@' + args[0]);
+		return entity.get(this.matches[0]);
 	},
 
 	//	Returns an array of properties, on each entity in the list.
