@@ -13,7 +13,7 @@ if(typeof _ === 'function' && !!_.VERSION){
 				action = 'get';
 			}else if(~['list'].indexOf(which)){
 				action = 'list';
-			}else if(~['value', 'val', 'contents'].indexOf(which)){
+			}else if(~['value', 'val'].indexOf(which)){
 				action = 'val';
 			}
 
@@ -46,7 +46,7 @@ if(typeof SpahQL === 'function' && !!SpahQL.db){
 				action = 'get';
 			}else if(~['list'].indexOf(which)){
 				action = 'list';
-			}else if(~['value', 'val', 'contents'].indexOf(which)){
+			}else if(~['value', 'val'].indexOf(which)){
 				action = 'val';
 			}
 

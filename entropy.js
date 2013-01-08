@@ -116,7 +116,7 @@ window.entropy = window.S = (function(){
 	};
 
 	utilities.extend(Entity, {
-		constructor: function(id, classes, contents){
+		constructor: function(id, classes, value){
 			//	Setup unique properties.
 			Object.defineProperty(this, '.isEntity', {
 				value: true,
@@ -146,8 +146,8 @@ window.entropy = window.S = (function(){
 			this['.key'] = '';
 			//	TODO:  This should parse classes instead of assuming array.
 			this.classes = (typeof classes !== 'undefined') ? classes : [];
-			//	Note that I am doing the typeof undefined check in case contents is boolean.
-			this.contents = (typeof contents !== 'undefined') ? contents : {};
+			//	Note that I am doing the typeof undefined check in case value is boolean.
+			this['.value'] = (typeof value !== 'undefined') ? value : {};
 		},
 
 		//	Called when you invoke the instance as a function.
@@ -169,10 +169,10 @@ window.entropy = window.S = (function(){
 					string += '~' + item.get('.key');
 				}
 
-				if(item.contents instanceof Array){
+				if(item['.value'] instanceof Array){
 					string += '@array';
-				}else{// if(typeof item.contents !== 'object'){
-					string += '@' + typeof item.contents;
+				}else{// if(typeof item['.value'] !== 'object'){
+					string += '@' + typeof item['.value'];
 				}
 
 				item.classes.forEach(function(klass, c){
@@ -196,14 +196,14 @@ window.entropy = window.S = (function(){
 		//	Makes a brand new Entity.
 		'.make': utilities.functionFactory(Entity),
 
-		//	Converts the contents of an entity (which can be any data type)
+		//	Converts the value of an entity (which can be any data type)
 		//	into Items and adds them to the entity's bag of entities.
 		bake: function(){
 			var item;
 			if(this.size() === 0){
-				for(var key in this.contents){
-					if(this.contents.hasOwnProperty(key)){
-						item = new utilities.Item(key, this.contents[key]);
+				for(var key in this['.value']){
+					if(this['.value'].hasOwnProperty(key)){
+						item = new utilities.Item(key, this['.value'][key]);
 
 						this.add(item);
 					}
@@ -218,7 +218,7 @@ window.entropy = window.S = (function(){
 		//	but this calls s.make.
 		create: function(){
 			var	id = '',
-				contents = {},
+				value = {},
 				classes = [];
 
 			var args = Array.prototype.slice.call(arguments);
@@ -230,23 +230,23 @@ window.entropy = window.S = (function(){
 
 			//	Adds the passed in object, with no ID or classes.
 			if(args.length === 1){
-				contents = args[0];
+				value = args[0];
 			}
 
 			//	Adds an object with an ID.
 			if(args.length === 2){
-				contents = args[1];
+				value = args[1];
 				//	Has a configuration object.
 				if(typeof args[0] === 'object' && typeof args[1] === 'object'){
 					id = args[0].id || id;
 					classes = args[0].classes || classes;
 
 					if(/^\/\w+$/.test(id)){
-						id = contents[id.substr(1)] || id;
+						id = value[id.substr(1)] || id;
 					}
 
 					if(/^\/\w+$/.test(classes)){
-						classes = typeof contents[classes.substr(1)] === 'string' && contents[classes.substr(1)].replace(' ', '-') || classes;
+						classes = typeof value[classes.substr(1)] === 'string' && value[classes.substr(1)].replace(' ', '-') || classes;
 					}
 				}else{
 					id = args[0];
@@ -257,7 +257,7 @@ window.entropy = window.S = (function(){
 			if(args.length === 3){
 				id = args[0];
 				classes = args[1];
-				contents = args[2];
+				value = args[2];
 			}
 
 			//	Standardize classes.
@@ -276,12 +276,12 @@ window.entropy = window.S = (function(){
 			}
 
 			//	Check if the item is already an Entity.
-			var isEntity = typeof contents === 'function' && contents['.isEntity'];
+			var isEntity = typeof value === 'function' && value['.isEntity'];
 
 			//	If it is not, make it one.
 			//	Otherwise, dance profusely.
 			if(isEntity){
-				entity = contents;
+				entity = value;
 			}else{
 				//	Make the base entity.
 				entity = Entity['.make']();
@@ -294,31 +294,31 @@ window.entropy = window.S = (function(){
 
 				//	If the item being added is added directly by an entity,
 				//	we don't need to do the deep copy for the manifest.
-				if(contents instanceof utilities.Item){
+				if(value instanceof utilities.Item){
 					//	If possible, we copy the manifest from the parent,
 					//	starting at the relevant level and with the relevant items.
 					/*this.get('manifest').forEach(function(item, i){
 						if(item.path.length === 0){
-							if(item.key == contents.key){
+							if(item.key == value.key){
 							}
-						}else if(item.path[0] === contents.key){
+						}else if(item.path[0] === value.key){
 							//	BUG:  S[7][0].get('manifest');
 							// entity.get('manifest').push(item.path.slice(1));
 						}
 					});*/
 
-					entity['.key'] = contents.key;
+					entity['.key'] = value.key;
 
-					contents = contents.value;
+					value = value.value;
 				}else{
 					//	TODO:  Store the original object as a dot-file,
 					//	and expose the copy with getters/setters that modify
 					//	the original themselves.
-					// contents = utilities.copy.call(entity, contents);
-					utilities.copy.call(entity, contents);
+					// value = utilities.copy.call(entity, value);
+					utilities.copy.call(entity, value);
 				}
 
-				entity.contents = contents;
+				entity['.value'] = value;
 			}
 
 			return entity;
@@ -488,7 +488,7 @@ window.entropy = window.S = (function(){
 		get: function(key){
 			if(typeof key === 'undefined'){
 				return this.map(function(element){
-					return element.contents;
+					return element['.value'];
 				});
 			}else if(/^@/.test(key)){
 				return this.val()[key.substr(1)];
@@ -499,7 +499,7 @@ window.entropy = window.S = (function(){
 				}
 			}else if(typeof key === 'string'){
 				return this.map(function(element){
-					return element.contents[key];
+					return element['.value'][key];
 				});
 			}
 		},
@@ -634,9 +634,9 @@ window.entropy = window.S = (function(){
 		//	Get or set the true value of an entity.
 		val: function(value){
 			if(~['', undefined].indexOf(value)){
-				return this.contents;
+				return this['.value'];
 			}else{
-				this.contents = value;
+				this['.value'] = value;
 			}
 		}
 	});
@@ -734,7 +734,7 @@ window.entropy = window.S = (function(){
 						for(; o < length; o++){
 							object = entity.list()[o];
 
-							var parserArgs = [object.contents];
+							var parserArgs = [object['.value']];
 							if(this.matches){
 								parserArgs = parserArgs.concat(this.matches);
 							}
