@@ -488,7 +488,7 @@ window.entropy = window.S = (function(){
 		get: function(key){
 			if(typeof key === 'undefined'){
 				return this.map(function(element){
-					return element['.value'];
+					return element.get('!value');
 				});
 			}else if(/^@/.test(key)){
 				return this.val()[key.substr(1)];
@@ -496,12 +496,12 @@ window.entropy = window.S = (function(){
 				key = key.substr(1);
 				if(~['id'].indexOf(key)){
 					return this[key];
-				}else if(~['value', 'key'].indexOf(key)){
+				}else if(~['value', 'key', 'list'].indexOf(key)){
 					return this['.' + key];
 				}
 			}else if(/^[A-z\-_]+$/.test(key)){
 				return this.map(function(element){
-					return element['.value'][key];
+					return element.get('!value')[key];
 				});
 			}
 		},
@@ -531,7 +531,7 @@ window.entropy = window.S = (function(){
 
 		//	Returns a copy of the internal list.
 		list: function(){
-			return this['.list'];
+			return this.get('!list');
 		},
 
 		//	Returns whether or not an entity meets a query.
