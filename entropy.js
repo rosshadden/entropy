@@ -161,18 +161,18 @@ window.entropy = window.S = (function(){
 			var buildString = function(item, i){
 				var string = '';
 
-				if(item.get('id')){
-					string = '#' + item.get('id');
+				if(item.get('!id')){
+					string = '#' + item.get('!id');
 				}
 
-				if(item.get('.key')){
-					string += '~' + item.get('.key');
+				if(item.get('!key')){
+					string += '~' + item.get('!key');
 				}
 
-				if(item['.value'] instanceof Array){
+				if(item.get('!value') instanceof Array){
 					string += '@array';
 				}else{// if(typeof item['.value'] !== 'object'){
-					string += '@' + typeof item['.value'];
+					string += '@' + typeof item.get('!value');
 				}
 
 				item.classes.forEach(function(klass, c){
@@ -494,10 +494,12 @@ window.entropy = window.S = (function(){
 				return this.val()[key.substr(1)];
 			}else if(/^!/.test(key)){
 				key = key.substr(1);
-				if(~['id', '.value'].indexOf(key)){
+				if(~['id'].indexOf(key)){
 					return this[key];
+				}else if(~['value', 'key'].indexOf(key)){
+					return this['.' + key];
 				}
-			}else if(typeof key === 'string'){
+			}else if(/^[A-z\-_]+$/.test(key)){
 				return this.map(function(element){
 					return element['.value'][key];
 				});
