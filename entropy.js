@@ -492,7 +492,11 @@ window.entropy = window.S = (function(){
 			}else if(args.length === 1){
 				return this['.value'][args[0]];
 			}else if(args.length === 2){
-				this['.value'][args[0]] = args[1];
+				if(args[0] === '!set'){
+					this['.value'] = args[1];
+				}else{
+					this['.value'][args[0]] = args[1];
+				}
 			}
 
 			return this;
