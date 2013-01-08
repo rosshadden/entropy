@@ -101,16 +101,16 @@ S.register({
 //	Key.
 //	S('mammal');
 //	TODO: needs a find method.
-// S.register({
-// 	name: 'key',
-// 	description: 'Key selector.',
-// 	expression: /^([\w\-_]+)$/g,
-// 	numResults: 1,
+S.register({
+	name: 'key',
+	description: 'Key selector.',
+	expression: /^([\w\-_]+)$/g,
+	numResults: 1,
 
-// 	parser: function(object, expression, $key){
-// 		return $key === this['.key'];
-// 	}
-// });
+	parser: function(object, expression, $key){
+		return $key === this['.key'];
+	}
+});
 
 //	Property presence.
 //	S('[property]');
