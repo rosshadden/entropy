@@ -486,12 +486,15 @@ window.entropy = window.S = (function(){
 
 		//	Returns a specified property or key.
 		get: function(key){
+			//	Return an array of values, like _.values().
 			if(typeof key === 'undefined'){
 				return this.map(function(element){
 					return element.get('!value');
 				});
+			//	Return property on the current entity.
 			}else if(/^@/.test(key)){
 				return this.val()[key.substr(1)];
+			//	Return a magic property on the current entity.
 			}else if(/^!/.test(key)){
 				key = key.substr(1);
 				if(~['id'].indexOf(key)){
@@ -499,6 +502,7 @@ window.entropy = window.S = (function(){
 				}else if(~['value', 'key', 'list'].indexOf(key)){
 					return this['.' + key];
 				}
+			//	Return an array of properties, like _.pluck().
 			}else if(/^[A-z\-_]+$/.test(key)){
 				return this.map(function(element){
 					return element.get('!value')[key];
@@ -657,7 +661,7 @@ window.entropy = window.S = (function(){
 		.addClass('root', 'entropy');
 
 		//	Stuff unique to the entropic root.
-		entropy.version = 0.501;
+		entropy.VERSION = 0.502;
 		entropy['.plugins'] = [];
 		entropy['.adapters'] = [];
 
