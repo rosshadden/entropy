@@ -169,10 +169,10 @@ window.entropy = window.S = (function(){
 					string += '~' + item.get('!key');
 				}
 
-				if(item.get('!value') instanceof Array){
+				if(item.val() instanceof Array){
 					string += '@array';
-				}else{// if(typeof item['.value'] !== 'object'){
-					string += '@' + typeof item.get('!value');
+				}else{// if(typeof item.val() !== 'object'){
+					string += '@' + typeof item.val();
 				}
 
 				item.classes.forEach(function(klass, c){
@@ -201,9 +201,9 @@ window.entropy = window.S = (function(){
 		bake: function(){
 			var item;
 			if(this.size() === 0){
-				for(var key in this['.value']){
-					if(this['.value'].hasOwnProperty(key)){
-						item = new utilities.Item(key, this['.value'][key]);
+				for(var key in this.val()){
+					if(this.val().hasOwnProperty(key)){
+						item = new utilities.Item(key, this.val()[key]);
 
 						this.add(item);
 					}
@@ -289,7 +289,7 @@ window.entropy = window.S = (function(){
 				//	Setup the usual suspects.
 				entity
 				.adapt()
-				.set('id', id)
+				.set('!id', id)
 				.addClass(classes);
 
 				//	If the item being added is added directly by an entity,
@@ -489,7 +489,7 @@ window.entropy = window.S = (function(){
 			//	Return an array of values, like _.values().
 			if(typeof key === 'undefined'){
 				return this.map(function(element){
-					return element.get('!value');
+					return element.val();
 				});
 			//	Return property on the current entity.
 			}else if(/^@/.test(key)){
@@ -505,15 +505,23 @@ window.entropy = window.S = (function(){
 			//	Return an array of properties, like _.pluck().
 			}else if(/^[A-z\-_]+$/.test(key)){
 				return this.map(function(element){
-					return element.get('!value')[key];
+					return element.val()[key];
 				});
 			}
 		},
 
 		//	Sets the given blacklisted property on the entity.
 		set: function(key, value){
-			if(!/^\./.test(key)){
-				this[key] = value;
+			if(/^@/.test(key)){
+				key = key.substr(1);
+				this['.value'][key] = value;
+			}else if(/^!/.test(key)){
+				key = key.substr(1);
+				if(~['id'].indexOf(key)){
+					this[key] = value;
+				}else if(~['value', 'key', 'list'].indexOf(key)){
+					this['.' + key] = value;
+				}
 			}
 
 			return this;
@@ -645,9 +653,9 @@ window.entropy = window.S = (function(){
 		//	Get or set the true value of an entity.
 		val: function(value){
 			if(~['', undefined].indexOf(value)){
-				return this['.value'];
+				return this.get('!value');
 			}else{
-				this['.value'] = value;
+				this.set('!value', value);
 			}
 		}
 	});
@@ -657,7 +665,7 @@ window.entropy = window.S = (function(){
 
 		//	Give it something to write home about.
 		entropy
-		.set('id', 'root')
+		.set('!id', 'root')
 		.addClass('root', 'entropy');
 
 		//	Stuff unique to the entropic root.
@@ -745,7 +753,7 @@ window.entropy = window.S = (function(){
 						for(; o < length; o++){
 							object = entity.list()[o];
 
-							var parserArgs = [object['.value']];
+							var parserArgs = [object.val()];
 							if(this.matches){
 								parserArgs = parserArgs.concat(this.matches);
 							}
