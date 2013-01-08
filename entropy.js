@@ -153,7 +153,7 @@ window.entropy = window.S = (function(){
 		//	Called when you invoke the instance as a function.
 		//	This runs a query against the list of the instance.
 		call: function(){
-			return this.find.apply(this, arguments);
+			return this.filter.apply(this, arguments);
 		},
 
 		//	This is mainly useful when playing with entropy in the console.
@@ -433,7 +433,7 @@ window.entropy = window.S = (function(){
 		},
 
 		//	Returns a new entity of entities matching a query.
-		find: function(){
+		filter: function(){
 			var self = this;
 
 			var args = Array.prototype.slice.call(arguments),

@@ -226,7 +226,7 @@ S.register({
 });
 
 //	Entity wrapper.
-//	S({foo: 'bar'}).find();
+//	S({foo: 'bar'}).filter();
 //	S([2, 4, 6, 8])(0);
 S.register({
 	name: 'wrap',
@@ -302,7 +302,7 @@ S.register({
 //	S('~friends > [name]');
 S.register({
 	name: 'deep-find',
-	description: 'Returns true if a given key1 exists as a parent to a given key2.',
+	description: 'Returns an item if a given key1 exists as a parent to a given key2.',
 	expression: /^(\S.+\S)(\s*)>\2(\S.+\S)$/g,
 
 	hunter: function(results, args, entity){
