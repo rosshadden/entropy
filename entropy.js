@@ -534,6 +534,11 @@ window.entropy = window.S = (function(){
 			return this['.list'];
 		},
 
+		//	Returns whether or not an entity meets a query.
+		has: function(){
+			return this.apply(this, arguments).size() > 0;
+		},
+
 		//	Sorts the list of entities by id.
 		//	Optionally accepts a sorting function.
 		sort: function(sorter){
