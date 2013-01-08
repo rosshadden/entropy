@@ -99,17 +99,18 @@ S.register({
 });
 
 //	Key.
-//	S('~mammal');
-S.register({
-	name: 'key',
-	description: 'Key selector.',
-	expression: /^~([\w\-_]+)$/g,
-	numResults: 1,
+//	S('mammal');
+//	TODO: needs a find method.
+// S.register({
+// 	name: 'key',
+// 	description: 'Key selector.',
+// 	expression: /^([\w\-_]+)$/g,
+// 	numResults: 1,
 
-	parser: function(object, expression, $key){
-		return $key === this['.key'];
-	}
-});
+// 	parser: function(object, expression, $key){
+// 		return $key === this['.key'];
+// 	}
+// });
 
 //	Property presence.
 //	S('[property]');
@@ -200,11 +201,11 @@ S.register({
 });
 
 //	Type.
-//	S('@Array');
+//	S('~Array');
 S.register({
 	name: 'type',
 	description: 'Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).',
-	expression: /^@(\w+)$/g,
+	expression: /^~(\w+)$/g,
 
 	parser: function(object, expression, $type){
 		var type = Object.prototype.toString.call(object).replace(/\[object (\w+)\]/, '$1');
@@ -299,7 +300,7 @@ S.register({
 });
 
 //	Deep find.
-//	S('~friends > [name]');
+//	S('#friends > [name]');
 S.register({
 	name: 'deep-find',
 	description: 'Returns an item if a given key1 exists as a parent to a given key2.',
