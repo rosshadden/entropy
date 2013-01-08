@@ -718,6 +718,43 @@ window.entropy = window.S = (function(){
 						}
 
 						return results;
+					},
+
+					find: options.find || function(results, args, entity){
+						var isSingular = false;
+
+						var	object,
+							o = 0, length = entity.size();
+						for(; o < length; o++){
+							object = entity.list()[o];
+
+							var parserArgs = [object.contents];
+							if(this.matches){
+								parserArgs = parserArgs.concat(this.matches);
+							}
+
+							if(this.parser.apply(object, parserArgs)){
+								if(!~results.indexOf(object)){
+									results.add(object);
+								}
+
+								if(this.numResults === 1){
+									isSingular = true;
+									break;
+								}
+							}
+						}
+
+						//	Return results.
+						//	If the selector wishes there to be one result,
+						//	we just return the first one.
+						if(isSingular){
+							return results[0];
+						}else{
+							return results;
+						}
+
+						return results;
 					}
 				});
 

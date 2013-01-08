@@ -214,6 +214,26 @@ S.register({
 	}
 });
 
+//	Property.
+//	S('@name');
+S.register({
+	name: 'property',
+	description: 'Return a specified property on the entity.',
+	expression: /^@(\w+)$/g,
+
+	//	Returns one property, on the entity itself.
+	filter: function(results, args, entity){
+		return entity.get('@' + args[0]);
+	},
+
+	//	Returns an array of properties, on each entity in the list.
+	find: function(results, args, entity){
+		return entity.map(function(item, i){
+			return item.val()[args[0]];
+		});
+	}
+});
+
 //	Index.
 //	S(4);
 S.register({
