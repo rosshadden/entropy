@@ -263,16 +263,15 @@ S.register({
 });
 
 //	Function
-//	S(function(){  console.log('asdf'); });
+//	S(function(){  console.log('asdf'); return this;  });
+//	S(function(){  return this.value('name');  });
 S.register({
 	name: 'function',
 	description: 'Runs a function.  This is useful if you wish to execute a function in the middle of a chain.',
 	type: 'function',
 
 	filter: function(results, args, entity){
-		args[0].apply(entity);
-
-		return entity;
+		return args[0].apply(entity);
 	}
 });
 
