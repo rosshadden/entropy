@@ -787,10 +787,8 @@
 							//	Return results.
 							//	If the selector wishes there to be one result,
 							//	we just return the first one.
-							if(isSingular){
+							if(isSingular && results.size()){
 								return results[0];
-							}else{
-								return results;
 							}
 
 							return results;

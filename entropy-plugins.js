@@ -311,7 +311,7 @@ S.register({
 		});
 
 		//	If limited to 1, just return the first entity itself.
-		if(numResults === 1){
+		if(numResults === 1 && newEntity.size()){
 			return newEntity[0];
 		}
 
