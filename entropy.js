@@ -528,12 +528,8 @@
 			//	Returns a specified property or key.
 			get: function(key){
 				if(typeof key === 'undefined'){
-					return this.map(function(element){
-						return element.value();
-					});
+					return this.values();
 				//	Return property on the current entity.
-				}else if(/^@/.test(key)){
-					return this.value()[key.substr(1)];
 				//	Return a magic property on the current entity.
 				}else if(/^!/.test(key)){
 					key = key.substr(1);
@@ -542,12 +538,8 @@
 					}else if(~['value', 'key', 'list'].indexOf(key)){
 						return this['.' + key];
 					}
-				//	Return an array of properties, like _.pluck().
-				}else if(/^[A-z\-_]+$/.test(key)){
-					return this.map(function(element){
-						return element.value()[key];
-					});
 				}
+				return this.value(key);
 			},
 
 			//	Sets the given blacklisted property on the entity.
@@ -559,10 +551,7 @@
 				}
 
 				if(args.length === 2){
-					if(/^@/.test(key)){
-						key = key.substr(1);
-						this['.value'][key] = value;
-					}else if(/^!/.test(key)){
+					if(/^!/.test(key)){
 						key = key.substr(1);
 						if(~['id'].indexOf(key)){
 							this[key] = value;
