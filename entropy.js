@@ -162,18 +162,18 @@
 				var buildString = function(item, i){
 					var string = '';
 
-					if(item.get('!id')){
-						string = '#' + item.get('!id');
+					if(item.get('!key')){
+						string = item.get('!key');
 					}
 
-					if(item.get('!key')){
-						string += '~' + item.get('!key');
+					if(item.get('!id')){
+						string += '#' + item.get('!id');
 					}
 
 					if(item.value() instanceof Array){
-						string += '@array';
-					}else{// if(typeof item.value() !== 'object'){
-						string += '@' + typeof item.value();
+						string += '~array';
+					}else{
+						string += '~' + typeof item.value();
 					}
 
 					item.classes.forEach(function(klass, c){
