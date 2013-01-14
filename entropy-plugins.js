@@ -53,7 +53,7 @@ if(typeof SpahQL === 'function' && !!SpahQL.db){
 			return SpahQL.db(entity[action]());
 		};
 
-		// ['assert', 'clone', 'concat', 'containing', 'containingAll', 'destroy', 'destroyAll', 'detach', 'each', 'filter', 'first', 'item', 'keyName', 'keyNames', 'last', 'listen', 'map', 'parent', 'parentPath', 'parentPaths', 'parents', 'path', 'paths', 'replace', 'replaceAll', 'resultModified', 'select', 'set', 'setAll', 'sourceData', 'type', 'types', 'unlisten', 'value', 'values']
+		// ['assert', 'clone', 'concat', 'containing', 'containingAll', 'destroy', 'destroyAll', 'detach', 'each', 'filter', 'first', 'item', 'keyName', 'keyNames', 'last', 'listen', 'map', 'parent', 'parentPath', 'parentPaths', 'parents', 'path', 'paths', 'replace', 'replaceAll', 'resultModified', 'select', 'set', 'setAll', 'sourceData', 'type', 'types', 'unlisten', 'value', 'values'];
 		return spah;
 	});
 }
@@ -222,16 +222,8 @@ S.register({
 	expression: /^@(\w+)$/g,
 
 	//	Returns one property, on the entity itself.
-	filter: function(results, args, entity){
-		return entity.get('@' + this.matches[1]);
-	},
-
-	//	Returns an array of properties, on each entity in the list.
 	find: function(results, args, entity){
-		var property = this.matches[1];
-		return entity.map(function(item, i){
-			return item.val()[property];
-		});
+		return entity.get('@' + this.matches[1]);
 	}
 });
 
@@ -242,20 +234,20 @@ S.register({
 	description: 'Retrieves an entity at a specific index.',
 	type: 'number',
 
-	filter: function(results, args, entity){
+	find: function(results, args, entity){
 		return entity[args[0]];
 	}
 });
 
 //	Entity wrapper.
-//	S({foo: 'bar'}).filter();
+//	S({foo: 'bar'}).find();
 //	S([2, 4, 6, 8])(0);
 S.register({
 	name: 'wrap',
 	description: 'Wraps arbitrary objects as an Entity, which allows for querying, adding, etc.',
 	type: 'object',
 
-	filter: function(results, args, entity){
+	find: function(results, args, entity){
 		var newEntity = entity.create(args[0]).bake();
 
 		return newEntity;
@@ -270,7 +262,7 @@ S.register({
 	description: 'Runs a function.  This is useful if you wish to execute a function in the middle of a chain.',
 	type: 'function',
 
-	filter: function(results, args, entity){
+	find: function(results, args, entity){
 		return args[0].apply(entity);
 	}
 });
@@ -285,7 +277,7 @@ S.register({
 		return args.length === 0;
 	},
 
-	filter: function(results, args, entity){
+	find: function(results, args, entity){
 		return entity.get();
 	}
 });
@@ -300,13 +292,13 @@ S.register({
 		return args.length === 2 && typeof args[0] === 'string' && typeof args[1] === 'number';
 	},
 
-	filter: function(response, args, entity){
+	find: function(response, args, entity){
 		var	results = entity(args[0]).list(),
 			numResults = args[1],
-			filter = results.slice(0, numResults),
+			find = results.slice(0, numResults),
 			newEntity = entity.create();
 
-		filter.forEach(function(item, i){
+		find.forEach(function(item, i){
 			newEntity.add(item);
 		});
 
@@ -326,7 +318,7 @@ S.register({
 	description: 'Returns an item if a given key1 exists as a parent to a given key2.',
 	expression: /^(\S.+\S)(\s*)>\2(\S.+\S)$/g,
 
-	filter: function(results, args, entity){
+	find: function(results, args, entity){
 		var	left = this.matches[1],
 			right = this.matches[3];
 

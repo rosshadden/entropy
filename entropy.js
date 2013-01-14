@@ -154,7 +154,7 @@
 			//	Called when you invoke the instance as a function.
 			//	This runs a query against the list of the instance.
 			call: function(){
-				return this.filter.apply(this, arguments);
+				return this.find.apply(this, arguments);
 			},
 
 			//	This is mainly useful when playing with entropy in the console.
@@ -433,33 +433,8 @@
 				return this.list().indexOf(item);
 			},
 
+			//	Performs a deep-find on entity.
 			//	Returns a new entity of entities matching a query.
-			filter: function(){
-				var self = this;
-
-				var args = Array.prototype.slice.call(arguments),
-					relevant = [];
-
-				var result = self['.make']();
-				result
-				.adapt()
-				.addClass('entropy results');
-
-				relevant = entropy['.plugins'].filter(function(plugin, p){
-					return plugin.relevance.call(plugin, args);
-				});
-
-				var plugin,
-					p, length = relevant.length;
-				for(p = 0; p < length; p++){
-					plugin = relevant[p];
-					result = plugin.filter.call(plugin, result, args, this);
-				}
-
-				return result;
-			},
-
-			//	Returns an entity traversed to by a query.
 			find: function(){
 				var self = this;
 
@@ -472,7 +447,7 @@
 				.addClass('entropy results');
 
 				relevant = entropy['.plugins'].filter(function(plugin, p){
-					return plugin.setCategory('find').relevance.call(plugin, args);
+					return plugin.relevance.call(plugin, args);
 				});
 
 				var plugin,
@@ -617,6 +592,17 @@
 				return [];
 			},
 
+			//	Performs a single-level filter based on a query.
+			filter: function(){
+				var args = Array.prototype.slice.call(arguments);
+
+				if(typeof args[0] === 'function'){
+					return this.list().filter(args[0], this);
+				}
+
+				return [];
+			},
+
 			//	Adds a class (purely for convenience) to the entity.
 			//	Accepts infinite arguments, space-delimited lists, or arrays.
 			addClass: function(){
@@ -683,7 +669,7 @@
 			.addClass('root', 'entropy');
 
 			//	Stuff unique to the entropic root.
-			entropy.VERSION = 0.502;
+			entropy.VERSION = 0.512;
 			entropy['.plugins'] = [];
 			entropy['.adapters'] = [];
 
@@ -712,17 +698,6 @@
 						expression: options.expression || false,
 						numResults: options.numResults || 'n',
 
-						category: 'filter',
-						setCategory: function(category){
-							this.category = category;
-							return this;
-						},
-						current: 'filter',
-						setCurrent: function(current){
-							this.current = current;
-							return this;
-						},
-
 						parser: options.parser || function(){ return true; },
 
 						relevance: options.relevance || function(args){
@@ -731,7 +706,7 @@
 							//	This obviously looks shit-tastic.
 							//	I wanted to write it like this first because it was so effing complex.
 							//	TODO:  Make this a single `return (boolean);` type shindig.
-							if(this[this.category] && args.length === this.args){
+							if(args.length === this.args){
 								if(this.args === 1){
 									if(typeof args[0] === this.type){
 										if(this.expression){
@@ -759,7 +734,7 @@
 							}
 						},
 
-						filter: options.filter || function(results, args, entity){
+						find: options.find || function(results, args, entity){
 							var isSingular = false;
 
 							var	object,
@@ -792,9 +767,7 @@
 							}
 
 							return results;
-						},
-
-						find: options.find || false
+						}
 					});
 
 					plugins.sort(sort);
