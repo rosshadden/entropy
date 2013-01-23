@@ -78,7 +78,7 @@ S.register({
 S.register({
 	name: 'id',
 	description: 'ID selector.',
-	expression: /^#([\w\-_]+)$/g,
+	expression: /^#([\w\-_]+)$/,
 	numResults: 1,
 
 	parser: function(object, expression, $id){
@@ -91,7 +91,7 @@ S.register({
 S.register({
 	name: 'class',
 	description: 'Class selector.',
-	expression: /^\.([\w\-_]+)$/g,
+	expression: /^\.([\w\-_]+)$/,
 
 	parser: function(object, expression, $klass){
 		return ~this.classes.indexOf($klass);
@@ -104,7 +104,7 @@ S.register({
 S.register({
 	name: 'key',
 	description: 'Key selector.',
-	expression: /^([\w\-_]+)$/g,
+	expression: /^([\w\-_]+)$/,
 	numResults: 1,
 
 	parser: function(object, expression, $key){
@@ -117,7 +117,7 @@ S.register({
 S.register({
 	name: 'property-presence',
 	description: 'Returns true if a property is present.',
-	expression: /^\[\s*([\w+-]+)\s*\]$/g,
+	expression: /^\[\s*([\w+-]+)\s*\]$/,
 
 	parser: function(object, expression, $property){
 		return !!object && object.hasOwnProperty($property);
@@ -137,7 +137,7 @@ S.register({
 S.register({
 	name: 'property-equivalence',
 	description: 'Returns true if a specified property meets the specified in/equality.',
-	expression: /^\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/g,
+	expression: /^\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/,
 
 	parser: function(object, expression, $property, $operator, $isStrict, $quote, $value){
 		var	test = ($isStrict) ? object[$property] : !!object && (''+object[$property]).toLowerCase(),
@@ -178,7 +178,7 @@ S.register({
 S.register({
 	name: 'property-length',
 	description: 'Returns true if a property is present and has length inclusively between bounds.',
-	expression: /^\[\s*([\w+-]+):\{(\d*)(,?)(\d*)\}\s*\]$/g,
+	expression: /^\[\s*([\w+-]+):\{(\d*)(,?)(\d*)\}\s*\]$/,
 
 	parser: function(object, expression, $property, $min, $comma, $max){
 		var min = -Infinity,
@@ -205,7 +205,7 @@ S.register({
 S.register({
 	name: 'type',
 	description: 'Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).',
-	expression: /^~(\w+)$/g,
+	expression: /^~(\w+)$/,
 
 	parser: function(object, expression, $type){
 		var type = Object.prototype.toString.call(object).replace(/\[object (\w+)\]/, '$1');
@@ -219,7 +219,7 @@ S.register({
 S.register({
 	name: 'property',
 	description: 'Return a specified property on the entity.',
-	expression: /^@(\w+)$/g,
+	expression: /^@(\w+)$/,
 
 	//	Returns one property, on the entity itself.
 	find: function(results, args, entity){
@@ -316,7 +316,7 @@ S.register({
 S.register({
 	name: 'deep-find',
 	description: 'Returns an item if a given key1 exists as a parent to a given key2.',
-	expression: /^(\S.+\S)(\s*)>\2(\S.+\S)$/g,
+	expression: /^(\S.+\S)(\s*)>\2(\S.+\S)$/,
 
 	find: function(results, args, entity){
 		var	left = this.matches[1],
