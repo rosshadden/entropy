@@ -669,7 +669,7 @@
 			.addClass('root', 'entropy');
 
 			//	Stuff unique to the entropic root.
-			entropy.VERSION = 0.512;
+			entropy.VERSION = 0.513;
 			entropy['.plugins'] = [];
 			entropy['.adapters'] = [];
 
@@ -710,6 +710,7 @@
 								if(this.args === 1){
 									if(typeof args[0] === this.type){
 										if(this.expression){
+											this.expression.test('wtf?');
 											if(this.expression.test(args[0])){
 												args[0].replace(this.expression, function(value){
 													self.matches = Array.prototype.slice.call(arguments).slice(0, -2);
