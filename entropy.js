@@ -38,7 +38,7 @@
 						root = this;
 					}
 
-					if(!(object instanceof HTMLElement) && !(object instanceof Node)){
+					if(window.HTMLElement && (!(object instanceof HTMLElement) && !(object instanceof Node)) || object && !object.nodeType){
 						if(Object.prototype.toString.call(object) === '[object Array]'){
 							if(isNested){
 								root['.manifest'][root['.manifest'].length - 1].type = 'array';
@@ -62,7 +62,7 @@
 
 								path.push(i);
 
-								if(!(object[i]  instanceof HTMLElement)){
+								if(window.HTMLElement && (!(object[i]  instanceof HTMLElement)) || object[i] && !object[i].nodeType){
 									response[i] = utilities.copy(object[i], true);
 								}else{
 									response[i] = object[i];
@@ -93,7 +93,7 @@
 
 								path.push(i);
 
-								if(!(object[i]  instanceof HTMLElement)){
+								if(window.HTMLElement && !(object[i]  instanceof HTMLElement) || object[i] && !object[i].nodeType){
 									response[i] = utilities.copy(object[i], true);
 								}else{
 									response[i] = object[i];
