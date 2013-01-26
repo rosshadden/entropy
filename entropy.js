@@ -119,26 +119,32 @@
 		utilities.extend(Entity, {
 			constructor: function(id, classes, value){
 				//	Setup unique properties.
-				Object.defineProperty(this, '.isEntity', {
-					value: true,
-					writable: false,
-					enumerable: false,
-					configurable: false
-				});
+				try{
+					Object.defineProperty(this, '.isEntity', {
+						value: true,
+						writable: false,
+						enumerable: false,
+						configurable: false
+					});
 
-				Object.defineProperty(this, '.list', {
-					value: [],
-					writable: false,
-					enumerable: false,
-					configurable: false
-				});
+					Object.defineProperty(this, '.list', {
+						value: [],
+						writable: false,
+						enumerable: false,
+						configurable: false
+					});
 
-				Object.defineProperty(this, '.manifest', {
-					value: [],
-					writable: false,
-					enumerable: false,
-					configurable: false
-				});
+					Object.defineProperty(this, '.manifest', {
+						value: [],
+						writable: false,
+						enumerable: false,
+						configurable: false
+					});
+				}catch(e){
+					this['.isEntity'] = true;
+					this['.list'] = [];
+					this['.manifest'] = [];
+				}
 
 				//	These are set if the relelvant arguments are passed,
 				//	though I prefer to call Entity['.make']() without arguments,
@@ -354,13 +360,17 @@
 				var entity = this.create.apply(this, arguments);
 				var index = this.list().push(entity) - 1;
 
-				Object.defineProperty(this, index, {
-					enumerable: true,
+				try{
+					Object.defineProperty(this, index, {
+						enumerable: true,
 
-					get: function(){
-						return entity.bake();
-					}
-				});
+						get: function(){
+							return entity.bake();
+						}
+					});
+				}catch(e){
+					this[index] = entity.bake();
+				}
 
 				return this;
 			},
