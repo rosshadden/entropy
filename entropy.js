@@ -604,13 +604,36 @@
 
 			//	Performs a single-level filter based on a query.
 			filter: function(){
+				var self = this;
 				var args = Array.prototype.slice.call(arguments);
 
+				var results = self['.make']();
+				results
+					.adapt()
+					.addClass('entropy results');
+
 				if(typeof args[0] === 'function'){
-					return this.list().filter(args[0], this);
+					this.each(function(item, i){
+						var pass = args[0].call(self, item, i);
+						if(pass){
+							results.add(item);
+						}
+					});
+				}else{
+					var relevant = entropy['.plugins'].filter(function(plugin, p){
+						return plugin.relevance.call(plugin, args);
+					});
+
+					var plugin,
+						p, length = relevant.length;
+					for(p = 0; p < length; p++){
+						plugin = relevant[p];
+						results = results.filter(plugin.filter)
+						results = plugin.find.call(plugin, results, args, this);
+					}
 				}
 
-				return [];
+				return results;
 			},
 
 			//	Adds a class (purely for convenience) to the entity.
