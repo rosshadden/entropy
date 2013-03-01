@@ -122,6 +122,7 @@
 
 			//	This is mainly useful when playing with entropy in the console.
 			toString: function(){
+				return 'entity';
 			},
 
 			//	Makes a brand new Entity.
@@ -212,6 +213,7 @@
 
 			//	Returns a copy of the internal list.
 			list: function(){
+				return this['.list'].slice();
 			},
 
 			//	Returns whether or not an entity meets a query.
