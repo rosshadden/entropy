@@ -117,6 +117,7 @@
 			//	Called when you invoke the instance as a function.
 			//	This runs a query against the list of the instance.
 			call: function(){
+				return this.filter.apply(this, arguments);
 			},
 
 			//	This is mainly useful when playing with entropy in the console.
@@ -124,7 +125,48 @@
 			},
 
 			//	Makes a brand new Entity.
-			create: utilities.functionFactory(Entity),
+			'.create': utilities.functionFactory(Entity),
+			create: function(){
+				var args = Array.prototype.slice.call(arguments);
+
+				var	id = '',
+					value = args[0] || {},
+					classes = [];
+
+				var entity;
+
+				//	Check if the item is already an Entity.
+				var isEntity = typeof value === 'function' && value['.isEntity'];
+
+				//	If it is not, make it one.
+				//	Otherwise, dance profusely.
+				if(isEntity){
+					entity = value;
+				}else{
+					//	Make the base entity.
+					entity = Entity['.create']();
+
+					//	Setup the usual suspects.
+					entity;
+
+					//	If the item being added is added directly by an entity,
+					//	we don't need to do the deep copy.
+					if(value instanceof utilities.Item){
+						entity['.key'] = value.key;
+
+						value = value.value;
+					}else{
+						//	TODO:  Store the original object as a dotfile,
+						//	and expose the copy with getters/setters that modify
+						//	the original themselves.
+						utilities.copy.call(entity, value);
+					}
+
+					entity['.value'] = value;
+				}
+
+				return entity;
+			},
 
 			/**
 			 * Adds an item to an entity's list of entities.
