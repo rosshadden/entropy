@@ -221,10 +221,29 @@
 
 			//	Returns the size of the list.
 			size: function(){
+				return this.list().length;
 			},
 
 			//	Returns the index of the specified item in the list.
 			indexOf: function(item){
+			},
+
+			//	Performs a single-level filter based on a query.
+			filter: function(){
+				var self = this;
+
+				var args = Array.prototype.slice.call(arguments);
+
+				var results = self.create();
+				if(typeof args[0] === 'function'){
+					return this.list().filter(args[0], this);
+				}else{
+					var relevant = entropy['.plugins'].filter(function(plugin, p){
+						return plugin.relevance.call(plugin, args);
+					});
+				}
+
+				return results;
 			},
 
 			//	Performs a deep-find on entity.
@@ -252,10 +271,6 @@
 			//	Loops through each item in the list,
 			//	accepting either a function or function name.
 			each: function(){
-			},
-
-			//	Performs a single-level filter based on a query.
-			filter: function(){
 			},
 
 			//	Adds a class (purely for convenience) to the entity.
@@ -288,15 +303,32 @@
 			entropy.register = (function(){
 				var plugins = entropy['.plugins'];
 
+				var parameters = {
+					name: '',
+					expression: false,
+
+					relevance: function(args){
+						var self = this;
+						if(this.expression){
+							if(this.expression.test(args[0])){
+								args[0].replace(this.expression, function(value){
+									self.matches = Array.prototype.slice.call(arguments).slice(0, -2);
+									return;
+								});
+								return true;
+							}
+						}
+						return false;
+					},
+
+					filter: function(){
+						return false;
+					}
+				};
+
 				return function(options){
-					plugins.push({
-						name: options.name || '',
-						expression: options.expression || false,
-
-						relevance: options.relevance || function(){},
-
-						filter: options.filter || function(){}
-					});
+					var defaults = utilities.copy(parameters);
+					plugins.push(utilities.extend(defaults, options));
 
 					return entropy;
 				};
