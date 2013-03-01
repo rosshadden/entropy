@@ -25,6 +25,7 @@
 				Object.getOwnPropertyNames(source).forEach(function(key){
 					destination[key] = source[key];
 				});
+				return destination;
 			},
 
 			copy: (function(){
@@ -299,11 +300,12 @@
 			entropy.VERSION = 0.6;
 			entropy['.plugins'] = [];
 			entropy['.adapters'] = [];
+			entropy.utilities = utilities;
 
 			entropy.register = (function(){
 				var plugins = entropy['.plugins'];
 
-				var parameters = {
+				var defaults = {
 					name: '',
 					expression: false,
 
@@ -326,9 +328,9 @@
 					}
 				};
 
-				return function(options){
-					var defaults = utilities.copy(parameters);
-					plugins.push(utilities.extend(defaults, options));
+				return function(parameters){
+					var options = utilities.copy(defaults);
+					plugins.push(utilities.extend(options, parameters));
 
 					return entropy;
 				};
