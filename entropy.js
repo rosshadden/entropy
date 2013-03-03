@@ -235,7 +235,7 @@
 
 				var args = Array.prototype.slice.call(arguments);
 
-				var results = self.create();
+				var results = self.clone();
 				if(typeof args[0] === 'function'){
 					return this.list().filter(args[0], this);
 				}else{
@@ -265,6 +265,14 @@
 				return this['.list'].slice();
 			},
 
+			clone: function(){
+				var clone = this.create();
+				this.each(function(entity, e){
+					clone.add(entity);
+				});
+				return clone;
+			},
+
 			//	Returns whether or not an entity meets a query.
 			has: function(){
 			},
@@ -272,6 +280,13 @@
 			//	Loops through each item in the list,
 			//	accepting either a function or function name.
 			each: function(){
+				var args = Array.prototype.slice.call(arguments);
+
+				if(typeof args[0] === 'function'){
+					this.list().forEach(args[0], this);
+				}
+
+				return this;
 			},
 
 			//	Adds a class (purely for convenience) to the entity.
