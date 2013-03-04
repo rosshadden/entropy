@@ -21,7 +21,19 @@ S.register({
 	description: 'ID selector.',
 	expression: /^#([\w\-_]+)$/,
 
-	filter: function(item, i, selector, $id){
+	filter: function(entity, e, selector, $id){
 		return item.id === $id;
+	}
+});
+
+//	Class.
+//	S('.mammal');
+S.register({
+	name: 'class',
+	description: 'Class selector.',
+	expression: /^\.([\w\-_]+)$/,
+
+	filter: function(entity, e, selector, $klass){
+		return !!~entity.classes.indexOf($klass);
 	}
 });
