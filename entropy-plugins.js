@@ -95,3 +95,16 @@ S.register({
 		return cases[$operator]();
 	}
 });
+
+//	Type.
+//	S('~Array');
+S.register({
+	name: 'type',
+	description: 'Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).',
+	expression: /^~(\w+)$/,
+
+	filter: function(value, index, expression, $type){
+		var type = Object.prototype.toString.call(value).replace(/\[object (\w+)\]/, '$1');
+		return type.toLowerCase() === $type.toLowerCase();
+	}
+});
