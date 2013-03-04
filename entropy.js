@@ -232,11 +232,15 @@
 			//	Performs a single-level filter based on a query.
 			filter: function(){
 				var self = this;
-
 				var args = Array.prototype.slice.call(arguments);
 
-				var results = self.clone();
+				var results = self.create();
 				if(typeof args[0] === 'function'){
+					this.each(function(entity, e){
+						if(args[0].call(self, entity, e)){
+							results.add(entity);
+						}
+					})
 					return this.list().filter(args[0], this);
 				}else{
 					var relevant = entropy['.plugins'].filter(function(plugin, p){
@@ -265,6 +269,7 @@
 				return this['.list'].slice();
 			},
 
+			//	Create a clone of the entity.
 			clone: function(){
 				var clone = this.create();
 				this.each(function(entity, e){
