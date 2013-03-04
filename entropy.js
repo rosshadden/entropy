@@ -113,6 +113,16 @@
 					enumerable: false,
 					configurable: false
 				});
+
+				//	These are set if the relelvant arguments are passed,
+				//	though I prefer to call Entity['.make']() without arguments,
+				//	and set them afterward.
+				this.id = (typeof id !== 'undefined') ? id : 'Entity';
+				this['.key'] = '';
+				//	TODO:  This should parse classes instead of assuming array.
+				this.classes = (typeof classes !== 'undefined') ? classes : [];
+				//	Note that I am doing the typeof undefined check in case value is boolean.
+				this['.value'] = (typeof value !== 'undefined') ? value : {};
 			},
 
 			//	Called when you invoke the instance as a function.
@@ -170,11 +180,6 @@
 					id = args[0];
 					classes = args[1];
 					value = args[2];
-				}
-
-				//	Standardize classes.
-				if(typeof classes === 'string'){
-					classes = classes.split(' ');
 				}
 
 				//	Check if the item is already an Entity.
@@ -273,8 +278,8 @@
 
 			//	Performs a single-level filter based on a query.
 			filter: function(){
-				var self = this;
-				var args = Array.prototype.slice.call(arguments);
+				var self = this,
+					args = Array.prototype.slice.call(arguments);
 
 				var results = self.create();
 				if(typeof args[0] === 'function'){
@@ -325,11 +330,14 @@
 				if(args.length === 2){
 					if(/^!/.test(key)){
 						key = key.substr(1);
+						//	Set a whitelist of "magic" properties.
 						if(~['id'].indexOf(key)){
 							this[key] = value;
 						}
 					}
 				}
+
+				return this;
 			},
 
 			//	Returns a copy of the internal list.
@@ -365,10 +373,44 @@
 			//	Adds a class (purely for convenience) to the entity.
 			//	Accepts infinite arguments, space-delimited lists, or arrays.
 			addClass: function(){
+				var	self = this,
+					args = Array.prototype.slice.call(arguments);
+
+				if(args.length === 1){
+					if(args[0] instanceof Array){
+						args = args[0];
+					}else if(typeof args[0] === 'string'){
+						args = args[0]
+							.replace(/\s*\./g, ' ')
+							.trim()
+							.split(' ');
+					}
+				}
+
+				args.forEach(function(klass, k){
+					if(!~self.classes.indexOf(klass)){
+						self.classes.push(klass);
+					}
+				});
+
+				return this;
 			},
 
 			//	Removes a class from the entity.
 			removeClass: function(){
+				var	index,
+					self = this,
+					args = Array.prototype.slice.call(arguments);
+
+				args.forEach(function(klass, k){
+					index = self.classes.indexOf(klass);
+
+					if(~index){
+						self.classes.splice(index, 1);
+					}
+				});
+
+				return self;
 			},
 
 			//	Adds/removes a class based on whether it is already present.
