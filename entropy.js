@@ -128,7 +128,7 @@
 			//	Called when you invoke the instance as a function.
 			//	This runs a query against the list of the instance.
 			call: function(){
-				return this.filter.apply(this, arguments);
+				return this.find.apply(this, arguments);
 			},
 
 			//	This is mainly useful when playing with entropy in the console.
@@ -261,6 +261,39 @@
 			 * These properties can take a dynamic value like '/asdf' to make the value depend on the property specified.
 			 */
 			addEach: function(){
+				var args = Array.prototype.slice.call(arguments);
+
+				var	items,
+					config = false;
+
+				if(args.length === 1){
+					items = args[0];
+				}
+
+				if(args.length === 2){
+					config = args[0];
+					items = args[1];
+				}
+
+				if(typeof items === 'object'){
+					var item;
+					for(var i in items){
+						item = items[i];
+						if(items.hasOwnProperty(i)){
+							if(!(item instanceof Array)){
+								item = [item];
+							}
+
+							if(config !== false){
+								item = [config].concat(item);
+							}
+
+							this.add.apply(this, item);
+						}
+					}
+				}
+
+				return this;
 			},
 
 			//	Removes an item from an entity's list.
@@ -308,6 +341,20 @@
 			//	Performs a deep-find on entity.
 			//	Returns a new entity of entities matching a query.
 			find: function(){
+				var args = Array.prototype.slice.call(arguments);
+
+				var set = [],
+					done = false,
+					results = this.create();
+				var addChildren = function(entity){
+					entity.each(function(item){
+						set.push(item);
+						addChildren(item);
+					});
+				};
+				addChildren(this);
+				results.addEach(set);
+				return results.filter.apply(results, args);
 			},
 
 			//	Returns a specified property or key.
