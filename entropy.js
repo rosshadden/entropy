@@ -324,7 +324,7 @@
 				var args = Array.prototype.slice.call(arguments);
 
 				if(args.length === 1){
-					this['.value'] = args[0];
+					this['.value'] = key;
 				}
 
 				if(args.length === 2){
@@ -334,7 +334,47 @@
 						if(~['id'].indexOf(key)){
 							this[key] = value;
 						}
+					}else{
+						//	Set a property on the entity's value.
+						this['.value'][key] = value;
 					}
+				}
+
+				return this;
+			},
+
+			//	Get a value from all children entities.
+			map: function(key){
+				var	args = Array.prototype.slice.call(arguments);
+
+				if(args.length === 0){
+					//	Return an array of values of child entities.
+					return this.map(function(entity){
+						return entity.get();
+					});
+				}else if(args.length === 1){
+					//	ES5 Array.map.
+					if(typeof key === 'function'){
+						return this.list().map(key, this);
+					}
+					//	Return an array of properties of child entities.
+					return this.map(function(entity){
+						return entity.get(key);
+					});
+				}
+
+				return [];
+			},
+
+			//	Set a value from all children entities.
+			setAll: function(key, value){
+				var	args = Array.prototype.slice.call(arguments);
+
+				if(args.length === 2){
+					//	Set properties on child entities.
+					this.each(function(entity){
+						return entity.set(key, value);
+					});
 				}
 
 				return this;
