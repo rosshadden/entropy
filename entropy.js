@@ -314,8 +314,17 @@
 					//	Return entity's value.
 					return this['.value'];
 				}else if(args.length === 1){
+					//	Get a whitelist of "magic" proeprties.
+					if(/^!/.test(key)){
+						key = key.substr(1);
+						if(~['id'].indexOf(key)){
+							return this[key];
+						}else if(~['key', 'list'].indexOf(key)){
+							return this['.' + key];
+						}
+					}
 					//	Return a property on the current entity.
-					return this['.value'][args[0]];
+					return this['.value'][key];
 				};
 			},
 
@@ -333,6 +342,8 @@
 						//	Set a whitelist of "magic" properties.
 						if(~['id'].indexOf(key)){
 							this[key] = value;
+						}else if(~['key'].indexOf(key)){
+							this['.' + key] = value;
 						}
 					}else{
 						//	Set a property on the entity's value.
@@ -382,7 +393,7 @@
 
 			//	Returns a copy of the internal list.
 			list: function(){
-				return this['.list'].slice();
+				return this.get('!list').slice();
 			},
 
 			//	Create a clone of the entity.
