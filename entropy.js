@@ -240,8 +240,7 @@
 						if(args[0].call(self, entity, e)){
 							results.add(entity);
 						}
-					})
-					return this.list().filter(args[0], this);
+					});
 				}else{
 					var relevant = entropy['.plugins'].filter(function(plugin, p){
 						return plugin.relevance.call(plugin, args);
