@@ -137,6 +137,46 @@
 
 				var entity;
 
+				//	Adds an empty object (for some reason?).
+				if(args.length === 0){}
+
+				//	Adds the passed in object, with no ID or classes.
+				if(args.length === 1){
+					value = args[0];
+				}
+
+				//	Adds an object with an ID.
+				if(args.length === 2){
+					value = args[1];
+					//	Has a configuration object.
+					if(typeof args[0] === 'object' && typeof args[1] === 'object'){
+						id = args[0].id || id;
+						classes = args[0].classes || classes;
+
+						if(/^\/\w+$/.test(id)){
+							id = value[id.substr(1)] || id;
+						}
+
+						if(/^\/\w+$/.test(classes)){
+							classes = typeof value[classes.substr(1)] === 'string' && value[classes.substr(1)].replace(' ', '-') || classes;
+						}
+					}else{
+						id = args[0];
+					}
+				}
+
+				//	Adds an object with an ID and some classes.
+				if(args.length === 3){
+					id = args[0];
+					classes = args[1];
+					value = args[2];
+				}
+
+				//	Standardize classes.
+				if(typeof classes === 'string'){
+					classes = classes.split(' ');
+				}
+
 				//	Check if the item is already an Entity.
 				var isEntity = typeof value === 'function' && value['.isEntity'];
 
@@ -149,7 +189,9 @@
 					entity = Entity['.create']();
 
 					//	Setup the usual suspects.
-					entity;
+					entity
+					.set('!id', id)
+					.addClass(classes);
 
 					//	If the item being added is added directly by an entity,
 					//	we don't need to do the deep copy.
@@ -261,10 +303,33 @@
 
 			//	Returns a specified property or key.
 			get: function(key){
+				var	args = Array.prototype.slice.call(arguments);
+
+				if(args.length === 0){
+					//	Return entity's value.
+					return this['.value'];
+				}else if(args.length === 1){
+					//	Return a property on the current entity.
+					return this['.value'][args[0]];
+				};
 			},
 
 			//	Sets the given blacklisted property on the entity.
 			set: function(key, value){
+				var args = Array.prototype.slice.call(arguments);
+
+				if(args.length === 1){
+					this['.value'] = args[0];
+				}
+
+				if(args.length === 2){
+					if(/^!/.test(key)){
+						key = key.substr(1);
+						if(~['id'].indexOf(key)){
+							this[key] = value;
+						}
+					}
+				}
 			},
 
 			//	Returns a copy of the internal list.
