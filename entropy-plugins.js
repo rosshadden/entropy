@@ -21,7 +21,7 @@ S.register({
 	description: 'ID selector.',
 	expression: /^#([\w\-_]+)$/,
 
-	filter: function(value, e, selector, $id){
+	filter: function(value, index, selector, $id){
 		return this.id === $id;
 	}
 });
@@ -33,7 +33,7 @@ S.register({
 	description: 'Class selector.',
 	expression: /^\.([\w\-_]+)$/,
 
-	filter: function(value, e, selector, $klass){
+	filter: function(value, index, selector, $klass){
 		return !!~this.classes.indexOf($klass);
 	}
 });
@@ -45,7 +45,53 @@ S.register({
 	description: 'Returns true if a property is present.',
 	expression: /^\[\s*([\w+-]+)\s*\]$/,
 
-	filter: function(value, e, selector, $property){
+	filter: function(value, index, selector, $property){
 		return !!value && value.hasOwnProperty($property);
+	}
+});
+
+//	Property comparison.
+//	let property = 'VaLuE':
+//	S('[property="value"]');
+//	S('[property=="VaLuE"]');
+//	S("[property^='va']");
+//	S("[property^=='Va']");
+//	S("[property*='lu']");
+//	S("[property*=='Lu']");
+//	S('[property$=ue]');
+//	S('[property$==uE]');
+S.register({
+	name: 'property-comparison',
+	description: 'Returns true if a specified property meets the specified in/equality.',
+	expression: /^\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/,
+
+	filter: function(value, index, selector, $property, $operator, $isStrict, $quote, $value){
+		var	test = ($isStrict) ? value[$property] : !!value && (''+value[$property]).toLowerCase(),
+			control = ($isStrict) ? $value : (''+$value).toLowerCase();
+
+		var cases = {
+			//	Equality:
+			'=': function(){
+				return test == control;
+			},
+			//	Starts with:
+			'^=': function(){
+				var regex = new RegExp('^' + control);
+				return regex.test(test, 'i');
+			},
+			//	Ends with:
+			'$=': function(){
+				var regex = new RegExp(control + '$');
+				return regex.test(test, 'i');
+			},
+			//	Contains:
+			'*=': function(){
+				var regex = new RegExp(control);
+				return regex.test(test, 'i');
+			}
+		};
+
+		//	Run the relevant function based on the operator, and return pass/fail.
+		return cases[$operator]();
 	}
 });
