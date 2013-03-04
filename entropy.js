@@ -245,6 +245,10 @@
 					var relevant = entropy['.plugins'].filter(function(plugin, p){
 						return plugin.relevance.call(plugin, args);
 					});
+
+					relevant.forEach(function(plugin, p){
+						results = self.filter(plugin.filter);
+					});
 				}
 
 				return results;
