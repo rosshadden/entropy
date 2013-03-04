@@ -21,8 +21,8 @@ S.register({
 	description: 'ID selector.',
 	expression: /^#([\w\-_]+)$/,
 
-	filter: function(entity, e, selector, $id){
-		return item.id === $id;
+	filter: function(value, e, selector, $id){
+		return this.id === $id;
 	}
 });
 
@@ -33,7 +33,19 @@ S.register({
 	description: 'Class selector.',
 	expression: /^\.([\w\-_]+)$/,
 
-	filter: function(entity, e, selector, $klass){
-		return !!~entity.classes.indexOf($klass);
+	filter: function(value, e, selector, $klass){
+		return !!~this.classes.indexOf($klass);
+	}
+});
+
+//	Property presence.
+//	S('[property]');
+S.register({
+	name: 'property-presence',
+	description: 'Returns true if a property is present.',
+	expression: /^\[\s*([\w+-]+)\s*\]$/,
+
+	filter: function(value, e, selector, $property){
+		return !!value && value.hasOwnProperty($property);
 	}
 });

@@ -285,8 +285,8 @@
 				if(typeof args[0] === 'function'){
 					results = this.create();
 					this.each(function(entity, e){
-						parameters = [entity, e].concat(args.slice(1));
-						if(args[0].apply(self, parameters)){
+						parameters = [entity.get(), e].concat(args.slice(1));
+						if(args[0].apply(entity, parameters)){
 							results.add(entity);
 						}
 					});
