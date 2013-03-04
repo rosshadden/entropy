@@ -21,8 +21,7 @@ S.register({
 	description: 'ID selector.',
 	expression: /^#([\w\-_]+)$/,
 
-	filter: function(item, i){
-		console.log('id', i, item.id);
-		return item.id === 'dog2';
+	filter: function(item, i, selector, $id){
+		return item.id === $id;
 	}
 });

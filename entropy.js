@@ -281,21 +281,25 @@
 				var self = this,
 					args = Array.prototype.slice.call(arguments);
 
-				var results = self.create();
+				var results, parameters;
 				if(typeof args[0] === 'function'){
+					results = this.create();
 					this.each(function(entity, e){
-						if(args[0].call(self, entity, e)){
+						parameters = [entity, e].concat(args.slice(1));
+						if(args[0].apply(self, parameters)){
 							results.add(entity);
 						}
 					});
 				}else{
+					results = this;
 					var relevant = entropy['.plugins'].filter(function(plugin, p){
 						return plugin.relevance.call(plugin, args);
 					});
 
 					relevant.forEach(function(plugin, p){
-						results = self.filter(plugin.filter);
+						results = results.filter.apply(results, [plugin.filter].concat(plugin.matches));
 					});
+					delete this.matches;
 				}
 
 				return results;
@@ -492,6 +496,7 @@
 
 					relevance: function(args){
 						var self = this;
+						this.matches = [];
 						if(this.expression){
 							if(this.expression.test(args[0])){
 								args[0].replace(this.expression, function(value){
