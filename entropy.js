@@ -364,6 +364,16 @@
 				return results.filter.apply(results, args);
 			},
 
+			//	Traverses to an entity if it is the sole result of the passed query.
+			goto: function(){
+				var args = Array.prototype.slice.call(arguments);
+				var Swhere = this.filter.apply(this, args);
+				if(Swhere.size() === 1){
+					return Swhere[0];
+				}
+				return false;
+			},
+
 			//	Returns a specified property or key.
 			get: function(key){
 				var	args = Array.prototype.slice.call(arguments);
