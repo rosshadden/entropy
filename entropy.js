@@ -367,9 +367,14 @@
 			//	Traverses to an entity if it is the sole result of the passed query.
 			goto: function(){
 				var args = Array.prototype.slice.call(arguments);
-				var Swhere = this.filter.apply(this, args);
-				if(Swhere.size() === 1){
-					return Swhere[0];
+
+				if(args.length >= 1){
+					var Swhere = this.filter.apply(this, args);
+					if(Swhere.size() === 1){
+						return Swhere[0];
+					}
+				}else if(this.size() === 1){
+					return this[0];
 				}
 				return false;
 			},
