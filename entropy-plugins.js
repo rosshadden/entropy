@@ -38,6 +38,18 @@ S.register({
 	}
 });
 
+//	Key.
+//	S('mammal');
+S.register({
+	name: 'key',
+	description: 'Key selector.',
+	expression: /^([\w\-_]+)$/,
+
+	filter: function(value, index, expression, $key){
+		return $key === this['.key'];
+	}
+});
+
 //	Property presence.
 //	S('[property]');
 S.register({
