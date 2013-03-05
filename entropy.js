@@ -221,7 +221,8 @@
 			//	into Items and adds them to the entity's bag of entities.
 			'.bake': function(){
 				var item, key, value, shouldWeProceed;
-				// if(this.size() === 0){
+				//	Only do this if the entity has no entities already, IE if this has not been run yet.
+				if(this.size() === 0){
 					for(key in this.get()){
 						value = this.get(key);
 
@@ -233,7 +234,7 @@
 							this.add(item);
 						}
 					}
-				// }
+				}
 				return this;
 			},
 
