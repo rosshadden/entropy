@@ -354,7 +354,8 @@
 					done = false,
 					results = this.create();
 				var addChildren = function(entity){
-					entity.each(function(item){
+					entity.each(function(item, i){
+						item['.index'] = i;
 						set.push(item);
 						addChildren(item);
 					});
