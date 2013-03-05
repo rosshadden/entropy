@@ -40,15 +40,15 @@ S.register({
 
 //	Key.
 //	S('mammal');
-S.register({
-	name: 'key',
-	description: 'Key selector.',
-	expression: /^([\w\-_]+)$/,
+// S.register({
+// 	name: 'key',
+// 	description: 'Key selector.',
+// 	expression: /^([\w\-_]+)$/,
 
-	filter: function(value, index, expression, $key){
-		return $key === this['.key'];
-	}
-});
+// 	filter: function(value, index, selector, $key){
+// 		return $key === this['.key'];
+// 	}
+// });
 
 //	Property presence.
 //	S('[property]');
@@ -118,5 +118,17 @@ S.register({
 	filter: function(value, index, expression, $type){
 		var type = Object.prototype.toString.call(value).replace(/\[object (\w+)\]/, '$1');
 		return type.toLowerCase() === $type.toLowerCase();
+	}
+});
+
+//	Index.
+//	S(4);
+S.register({
+	name: 'index',
+	description: 'Retrieves an entity at a specific index of its parent.',
+	expression: /^(\d+)$/,
+
+	filter: function(value, index, selector, $index){
+		return $index == this.get('!index');
 	}
 });
