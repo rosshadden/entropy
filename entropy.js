@@ -459,7 +459,7 @@
 				return this;
 			},
 
-			//	Returns a copy of the internal list.
+			//	Returns a copy of the internal list of entities.
 			list: function(){
 				return this.get('!list').slice();
 			},
@@ -536,6 +536,15 @@
 			toggleClass: function(klass){
 			}
 		});
+
+		//	Filesystem metaphor aliases.
+		Entity.find;
+		Entity.grep = Entity.filter;
+		Entity.cd = Entity.goto;
+		Entity.ls = Entity.list;
+		Entity.cp = Entity.clone;
+		Entity.rm = Entity.remove;
+		Entity.make = Entity.create;
 
 		var entropy = (function(){
 			var entropy = Entity.create();
