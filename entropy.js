@@ -220,17 +220,20 @@
 			//	Converts the value of an entity (which can be any data type)
 			//	into Items and adds them to the entity's bag of entities.
 			'.bake': function(){
-				// var item;
+				var item, key, value, shouldWeProceed;
 				// if(this.size() === 0){
-				// 	for(var key in this.get()){
-				// 		if(this.get().hasOwnProperty(key)){
-				// 			item = new utilities.Item(key, this.set()[key]);
+					for(key in this.get()){
+						value = this.get(key);
 
-				// 			this.add(item);
-				// 		}
-				// 	}
+						shouldWeProceed = this.get().hasOwnProperty(key);
+						shouldWeProceed = shouldWeProceed && (typeof value !== 'string' || value.length === 1);
+
+						if(shouldWeProceed){
+							item = new utilities.Item(key, value);
+							this.add(item);
+						}
+					}
 				// }
-
 				return this;
 			},
 
@@ -238,14 +241,14 @@
 			 * Adds an item to an entity's list of entities.
 			 */
 			add: function(){
-				var entity = this.create.apply(this, arguments);
+				var entity = this.create.apply(this, arguments)['.bake']();
 				var index = this['.list'].push(entity) - 1;
 
 				Object.defineProperty(this, index, {
 					enumerable: true,
 
 					get: function(){
-						return entity['.bake']();
+						return entity;
 					}
 				});
 
