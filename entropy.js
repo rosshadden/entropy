@@ -393,7 +393,7 @@
 						key = key.substr(1);
 						if(~['id'].indexOf(key)){
 							return this[key];
-						}else if(~['key', 'list'].indexOf(key)){
+						}else if(~['key', 'list', 'index'].indexOf(key)){
 							return this['.' + key];
 						}
 					}
