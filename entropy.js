@@ -98,6 +98,8 @@
 		};
 
 		utilities.extend(Entity, {
+			_length: 0,
+
 			constructor: function(id, classes, value){
 				//	Setup unique properties.
 				Object.defineProperty(this, '.isEntity', {
@@ -253,6 +255,7 @@
 					}
 				});
 
+				this._length += 1;
 				return this;
 			},
 
