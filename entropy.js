@@ -226,7 +226,7 @@
 						value = this.get(key);
 
 						shouldWeProceed = this.get().hasOwnProperty(key);
-						shouldWeProceed = shouldWeProceed && (typeof value !== 'string' || value.length === 1);
+						shouldWeProceed = shouldWeProceed && (typeof value !== 'string' || value.length > 1);
 
 						if(shouldWeProceed){
 							item = new utilities.Item(key, value);
