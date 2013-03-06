@@ -55,7 +55,7 @@ S.register({
 S.register({
 	name: 'property-presence',
 	description: 'Returns true if a property is present.',
-	expression: /^\[\s*([\w+\-]+)\s*\]$/,
+	expression: /^\[\s*(!?[\w+\-]+)\s*\]$/,
 
 	filter: function(contents, index, selector, $property){
 		return this.get($property);
