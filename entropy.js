@@ -338,9 +338,9 @@
 						}
 					});
 				}else{
-					results = this;
 					var relevant = this._getRelevantPlugins.apply(this, args);
 
+					results = (relevant.length ? this : this.create());
 					relevant.forEach(function(plugin, p){
 						results = results.filter.apply(results, [plugin.filter].concat(plugin.matches));
 					});
