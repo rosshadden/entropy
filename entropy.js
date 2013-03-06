@@ -567,18 +567,21 @@
 				var defaults = {
 					name: '',
 					expression: false,
+					type: 'string',
 
 					relevance: function(args){
 						var self = this;
 						this.matches = [];
-						if(this.expression){
-							if(this.expression.test(args[0])){
-								args[0].replace(this.expression, function(value){
+						if(~['string', 'number'].indexOf(this.type)){
+							if(this.expression && this.expression.test(args[0])){
+								(''+args[0]).replace(this.expression, function(value){
 									self.matches = Array.prototype.slice.call(arguments).slice(0, -2);
 									return;
 								});
 								return true;
 							}
+						}else{
+							return this.type === typeof args[0];
 						}
 						return false;
 					},
