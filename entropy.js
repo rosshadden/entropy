@@ -316,6 +316,13 @@
 			indexOf: function(item){
 			},
 
+			_getRelevantPlugins: function(){
+				var args = Array.prototype.slice.call(arguments);
+				return entropy['.plugins'].filter(function(plugin, p){
+					return plugin.filter && plugin.relevance.call(plugin, args);
+				});
+			},
+
 			//	Performs a single-level filter based on a query.
 			filter: function(){
 				var self = this,
@@ -332,9 +339,7 @@
 					});
 				}else{
 					results = this;
-					var relevant = entropy['.plugins'].filter(function(plugin, p){
-						return plugin.relevance.call(plugin, args);
-					});
+					var relevant = this._getRelevantPlugins.apply(this, args);
 
 					relevant.forEach(function(plugin, p){
 						results = results.filter.apply(results, [plugin.filter].concat(plugin.matches));
@@ -569,6 +574,10 @@
 					expression: false,
 					type: 'string',
 
+					filter: false,
+					find: false,
+					goto: false,
+
 					relevance: function(args){
 						var self = this;
 						this.matches = [];
@@ -583,10 +592,6 @@
 						}else{
 							return this.type === typeof args[0];
 						}
-						return false;
-					},
-
-					filter: function(){
 						return false;
 					}
 				};
