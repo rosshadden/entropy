@@ -21,7 +21,7 @@ S.register({
 	description: 'ID selector.',
 	expression: /^#([\w\-_]+)$/,
 
-	filter: function(value, index, selector, $id){
+	filter: function(contents, index, selector, $id){
 		return this.id === $id;
 	}
 });
@@ -33,7 +33,7 @@ S.register({
 	description: 'Class selector.',
 	expression: /^\.([\w\-_]+)$/,
 
-	filter: function(value, index, selector, $klass){
+	filter: function(contents, index, selector, $klass){
 		return !!~this.classes.indexOf($klass);
 	}
 });
@@ -45,7 +45,7 @@ S.register({
 // 	description: 'Key selector.',
 // 	expression: /^([\w\-_]+)$/,
 
-// 	filter: function(value, index, selector, $key){
+// 	filter: function(contents, index, selector, $key){
 // 		return $key === this['.key'];
 // 	}
 // });
@@ -55,10 +55,10 @@ S.register({
 S.register({
 	name: 'property-presence',
 	description: 'Returns true if a property is present.',
-	expression: /^\[\s*([\w+-]+)\s*\]$/,
+	expression: /^\[\s*([\w+\-]+)\s*\]$/,
 
-	filter: function(value, index, selector, $property){
-		return !!value && value.hasOwnProperty($property);
+	filter: function(contents, index, selector, $property){
+		return this.get($property);
 	}
 });
 
@@ -75,10 +75,11 @@ S.register({
 S.register({
 	name: 'property-comparison',
 	description: 'Returns true if a specified property meets the specified in/equality.',
-	expression: /^\[\s*([\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/,
+	expression: /^\[\s*(!?[\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/,
 
-	filter: function(value, index, selector, $property, $operator, $isStrict, $quote, $value){
-		var	test = ($isStrict) ? value[$property] : !!value && (''+value[$property]).toLowerCase(),
+	filter: function(contents, index, selector, $property, $operator, $isStrict, $quote, $value){
+		var property = this.get($property);
+		var	test = ($isStrict) ? property : !!contents && (''+property).toLowerCase(),
 			control = ($isStrict) ? $value : (''+$value).toLowerCase();
 
 		var cases = {
@@ -115,8 +116,8 @@ S.register({
 	description: 'Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).',
 	expression: /^~(\w+)$/,
 
-	filter: function(value, index, expression, $type){
-		var type = Object.prototype.toString.call(value).replace(/\[object (\w+)\]/, '$1');
+	filter: function(contents, index, expression, $type){
+		var type = Object.prototype.toString.call(contents).replace(/\[object (\w+)\]/, '$1');
 		return type.toLowerCase() === $type.toLowerCase();
 	}
 });
@@ -128,7 +129,7 @@ S.register({
 	description: 'Retrieves an entity at a specific index of its parent.',
 	expression: /^(\d+)$/,
 
-	filter: function(value, index, selector, $index){
+	filter: function(contents, index, selector, $index){
 		return index == $index;
 	}
 });

@@ -396,6 +396,7 @@
 						}else if(~['key', 'list', 'index'].indexOf(key)){
 							return this['.' + key];
 						}
+						return undefined;
 					}
 					//	Return a property on the current entity.
 					return this['.value'][key];
