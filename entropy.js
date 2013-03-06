@@ -350,19 +350,14 @@
 			find: function(){
 				var args = Array.prototype.slice.call(arguments);
 
-				var set = [],
-					done = false,
-					results = this.create();
+				var results = this.create();
 				var addChildren = function(entity){
-					entity.each(function(item, i){
-						item['.index'] = i;
-						set.push(item);
-						addChildren(item);
-					});
+					var filter = entity.filter.apply(entity, args);
+					results.addEach(filter.list());
+					entity.each(addChildren);
 				};
 				addChildren(this);
-				results.addEach(set);
-				return results.filter.apply(results, args);
+				return results;
 			},
 
 			//	Traverses to an entity if it is the sole result of the passed query.

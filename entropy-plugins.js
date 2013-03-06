@@ -129,6 +129,6 @@ S.register({
 	expression: /^(\d+)$/,
 
 	filter: function(value, index, selector, $index){
-		return $index == this.get('!index');
+		return index == $index;
 	}
 });
