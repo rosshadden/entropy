@@ -316,10 +316,11 @@
 			indexOf: function(item){
 			},
 
-			_getRelevantPlugins: function(){
-				var args = Array.prototype.slice.call(arguments);
+			//	Decides which plugins are relevant to the specified action and selector.
+			_getRelevantPlugins: function(action){
+				var args = Array.prototype.slice.call(arguments, 1);
 				return entropy['.plugins'].filter(function(plugin, p){
-					return plugin.filter && plugin.relevance.call(plugin, args);
+					return plugin[action] && plugin.relevance.call(plugin, args);
 				});
 			},
 
@@ -338,7 +339,8 @@
 						}
 					});
 				}else{
-					var relevant = this._getRelevantPlugins.apply(this, args);
+					//	Get list of relevant plugins.
+					var relevant = this._getRelevantPlugins.apply(this, ['filter'].concat(args));
 
 					results = (relevant.length ? this : this.create());
 					relevant.forEach(function(plugin, p){
@@ -355,13 +357,23 @@
 			find: function(){
 				var args = Array.prototype.slice.call(arguments);
 
-				var results = this.create();
+				var results = this.create(),
+					toBeFiltered = this.create(),
+					toBeFound = this.create();
+				//	Get list of relevant plugins.
+				var relevant = this._getRelevantPlugins.apply(this, ['find'].concat(args));
+
 				var addChildren = function(entity){
 					var filter = entity.filter.apply(entity, args);
-					results.addEach(filter.list());
+					toBeFiltered.addEach(filter.list());
 					entity.each(addChildren);
 				};
+
 				addChildren(this);
+
+				results
+					.addEach(toBeFiltered.list())
+					.addEach(toBeFound.list());
 				return results;
 			},
 
@@ -575,9 +587,9 @@
 					expression: false,
 					type: 'string',
 
-					filter: false,
-					find: false,
-					goto: false,
+					filter: function(){ return false; },
+					find: 'filter',
+					goto: 'filter',
 
 					relevance: function(args){
 						var self = this;
