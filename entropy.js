@@ -568,7 +568,19 @@
 			},
 
 			//	Adds/removes a class based on whether it is already present.
-			toggleClass: function(klass){
+			toggleClass: function(){
+				var	self = this,
+					args = Array.prototype.slice.call(arguments);
+
+				args.forEach(function(klass, k){
+					if(!~self.classes.indexOf(klass)){
+						self.addClass(klass);
+					}else{
+						self.removeClass(klass);
+					}
+				});
+
+				return self;
 			},
 
 			////////////////////////////////////////////////////////////////
