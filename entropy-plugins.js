@@ -144,8 +144,6 @@ S.register({
 	expression: /^(\S.+\S)(\s?)>\2(\S.+\S)$/,
 
 	filter: function(contents, index, selector, $left, _space, $right){
-		var left = this.matches($left);
-		var right = this.find($right).size();
-		return left && right;
+		return this.matches($left) && this.some($right);
 	}
 });
