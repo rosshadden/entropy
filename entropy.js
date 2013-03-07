@@ -582,7 +582,21 @@
 				return this;
 			},
 
-			//	Returns true if at least one entity in the list satisfies the provided testing function.
+			//	Returns true if every entity in this entity satisfies the provided testing function.
+			every: function(){
+				var args = Array.prototype.slice.call(arguments);
+				var e, entity,
+					length = this.size();
+				for(e = 0; e < length; e++){
+					entity = this[e];
+					if(!args[0].call(entity, entity.get(), e)){
+						return false;
+					}
+				}
+				return true;
+			},
+
+			//	Returns true if at least one entity in this entity satisfies the provided testing function.
 			some: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var e, entity,
