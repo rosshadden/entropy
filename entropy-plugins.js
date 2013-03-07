@@ -128,6 +128,7 @@ S.register({
 	name: 'index',
 	description: 'Retrieves an entity at a specific index of its parent.',
 	expression: /^(\d+)$/,
+	type: 'number',
 
 	filter: function(contents, index, selector, $index){
 		return index == $index;
