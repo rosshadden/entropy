@@ -134,3 +134,16 @@ S.register({
 		return index == $index;
 	}
 });
+
+//	TODO: In order for this to work, we first need some sort of s.matches function, and preferably an s.some for efficiency.
+// //	Lineage.
+// //	S('#friends > [name]');
+// S.register({
+// 	name: 'lineage',
+// 	description: 'Returns an item if a given key1 exists as a parent to a given key2.',
+// 	expression: /^(\S.+\S)(\s*)>\2(\S.+\S)$/,
+
+// 	filter: function(contents, index, selector, $left, _space, $right){
+// 		return this.filter($left).find($right).length;
+// 	}
+// });
