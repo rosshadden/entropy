@@ -332,10 +332,10 @@
 				var results, parameters;
 				if(typeof args[0] === 'function'){
 					results = this.create();
-					this.each(function(entity, e){
-						parameters = [entity.get(), e].concat(args.slice(1));
-						if(args[0].apply(entity, parameters)){
-							results.add(entity);
+					this.each(function(contents, e){
+						parameters = [contents, e].concat(args.slice(1));
+						if(args[0].apply(this, parameters)){
+							results.add(this);
 						}
 					});
 				}else{
@@ -574,11 +574,12 @@
 			//	Calls a function for each entity in the list.
 			each: function(){
 				var args = Array.prototype.slice.call(arguments);
-
-				if(typeof args[0] === 'function'){
-					this.list().forEach(args[0], this);
+				var e, entity,
+					length = this.size();
+				for(e = 0; e < length; e++){
+					entity = this[e];
+					args[0].call(entity, entity.get(), e);
 				}
-
 				return this;
 			},
 
