@@ -524,18 +524,6 @@
 			has: function(){
 			},
 
-			//	Loops through each item in the list,
-			//	accepting either a function or function name.
-			each: function(){
-				var args = Array.prototype.slice.call(arguments);
-
-				if(typeof args[0] === 'function'){
-					this.list().forEach(args[0], this);
-				}
-
-				return this;
-			},
-
 			//	Adds a class (purely for convenience) to the entity.
 			//	Accepts infinite arguments, space-delimited lists, or arrays.
 			addClass: function(){
@@ -581,6 +569,31 @@
 
 			//	Adds/removes a class based on whether it is already present.
 			toggleClass: function(klass){
+			},
+
+			//	Calls a function for each entity in the list.
+			each: function(){
+				var args = Array.prototype.slice.call(arguments);
+
+				if(typeof args[0] === 'function'){
+					this.list().forEach(args[0], this);
+				}
+
+				return this;
+			},
+
+			//	Returns true if at least one entity in the list satisfies the provided testing function.
+			some: function(){
+				var args = Array.prototype.slice.call(arguments);
+				var e, entity,
+					length = this.size();
+				for(e = 0; e < length; e++){
+					entity = this[e];
+					if(args[0].call(entity, entity.get(), e)){
+						return true;
+					}
+				}
+				return false;
 			}
 		});
 
