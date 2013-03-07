@@ -379,12 +379,12 @@
 				// });
 
 				var results = this.create();
-				var addChildren = function(entity){
-					var filter = entity.filter.apply(entity, args);
+				var addChildren = function(){
+					var filter = this.filter.apply(this, args);
 					results.addEach(filter.list());
-					entity.each(addChildren);
+					this.each(addChildren);
 				};
-				addChildren(this);
+				addChildren.call(this);
 
 				return results;
 			},
