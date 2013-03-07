@@ -571,6 +571,10 @@
 			toggleClass: function(klass){
 			},
 
+			////////////////////////////////////////////////////////////////
+			//	ES5 Corner.
+			////////////////////////////////////////////////////////////////
+
 			//	Calls a function for each entity in the list.
 			each: function(){
 				var args = Array.prototype.slice.call(arguments);
@@ -617,7 +621,13 @@
 					}
 				}
 				return false;
-			}
+			},
+
+			//	Apply a function simultaneously against two entities of the entity (from left-to-right) as to reduce it to a single value.
+			// reduce: function(){
+			// 	var args = Array.prototype.slice.call(arguments);
+			// 	return this.list().reduce.apply(this.list(), args);
+			// }
 		});
 
 		//	Filesystem metaphor aliases.
