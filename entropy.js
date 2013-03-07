@@ -520,10 +520,6 @@
 				return clone;
 			},
 
-			//	Returns whether or not an entity meets a query.
-			has: function(){
-			},
-
 			//	Adds a class (purely for convenience) to the entity.
 			//	Accepts infinite arguments, space-delimited lists, or arrays.
 			addClass: function(){
@@ -583,9 +579,9 @@
 				return self;
 			},
 
-			////////////////////////////////////////////////////////////////
+			////////////////////////////////
 			//	ES5 Corner.
-			////////////////////////////////////////////////////////////////
+			////////////////////////////////
 
 			//	Calls a function for each entity in the list.
 			each: function(){
@@ -633,23 +629,28 @@
 					}
 				}
 				return false;
-			},
+			}
 
-			//	Apply a function simultaneously against two entities of the entity (from left-to-right) as to reduce it to a single value.
-			// reduce: function(){
-			// 	var args = Array.prototype.slice.call(arguments);
-			// 	return this.list().reduce.apply(this.list(), args);
-			// }
+			/*//	Apply a function simultaneously against two entities of the entity (from left-to-right) as to reduce it to a single value.
+			reduce: function(){
+				var args = Array.prototype.slice.call(arguments);
+				return this.list().reduce.apply(this.list(), args);
+			}*/
 		});
 
-		//	Filesystem metaphor aliases.
-		Entity.find;
-		Entity.grep = Entity.filter;
-		Entity.cd = Entity.goto;
-		Entity.ls = Entity.list;
-		Entity.cp = Entity.clone;
-		Entity.rm = Entity.remove;
-		Entity.make = Entity.create;
+		////////////////////////////////
+		//	Aliases.
+		////////////////////////////////
+			//	Filesystem metaphor.
+			// Entity.find;
+			Entity.grep = Entity.filter;
+			Entity.cd = Entity.goto;
+			Entity.ls = Entity.list;
+			Entity.cp = Entity.clone;
+			Entity.rm = Entity.remove;
+			Entity.make = Entity.create;
+			//	Other.
+			Entity.has = Entity.some;
 
 		var entropy = (function(){
 			var entropy = Entity.create();
