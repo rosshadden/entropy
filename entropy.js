@@ -320,7 +320,7 @@
 			_getRelevantPlugins: function(action){
 				var args = Array.prototype.slice.call(arguments, 1);
 				return entropy['.plugins'].filter(function(plugin, p){
-					return plugin[action] && plugin.relevance.call(plugin, args);
+					return plugin[action] && plugin.relevance.apply(plugin, args);
 				});
 			},
 
@@ -406,6 +406,18 @@
 					return this[0];
 				}
 				return false;
+			},
+
+			//	Returns whether an entity matches a given selector.
+			matches: function(){
+				var self = this,
+					args = Array.prototype.slice.call(arguments);
+				//	Get list of relevant plugins.
+				var relevant = this._getRelevantPlugins.apply(this, ['filter'].concat(args));
+				//	Build list of results.
+				return relevant.some(function(plugin, p){
+					return plugin.filter.apply(self, [self.get(), 0].concat(plugin.matches));
+				});
 			},
 
 			//	Returns a specified property or key.
@@ -607,7 +619,8 @@
 					find: 'filter',
 					goto: 'filter',
 
-					relevance: function(args){
+					relevance: function(){
+						var args = Array.prototype.slice.call(arguments);
 						var self = this;
 						this.matches = [];
 						if(~['string', 'number'].indexOf(this.type)){
