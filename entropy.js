@@ -341,7 +341,7 @@
 				}else{
 					//	Get list of relevant plugins.
 					var relevant = this._getRelevantPlugins.apply(this, ['filter'].concat(args));
-
+					//	Build list of results.
 					results = (relevant.length ? this : this.create());
 					relevant.forEach(function(plugin, p){
 						results = results.filter.apply(results, [plugin.filter].concat(plugin.matches));
@@ -370,7 +370,7 @@
 
 				//	Get list of relevant plugins.
 				var relevant = this._getRelevantPlugins.apply(this, ['find'].concat(args));
-
+				//	Build list of results.
 				results = this.create();
 				relevant.forEach(function(plugin, p){
 					var action = (typeof plugin.find === 'string') ? plugin.find : 'find';
@@ -386,6 +386,10 @@
 				var args = Array.prototype.slice.call(arguments);
 
 				if(args.length >= 1){
+					if(typeof args[0] === 'object'){
+						return this.create(args[0])['.bake']();
+					}
+
 					var Swhere = this.filter.apply(this, args);
 					if(Swhere.size() === 1){
 						return Swhere[0];
