@@ -345,8 +345,8 @@
 					results = (relevant.length ? this : this.create());
 					relevant.forEach(function(plugin, p){
 						results = results.filter.apply(results, [plugin.filter].concat(plugin.matches));
+						delete plugin.matches;
 					});
-					delete this.matches;
 				}
 
 				return results;
@@ -356,24 +356,28 @@
 			//	Returns a new entity of entities matching a query.
 			find: function(){
 				var args = Array.prototype.slice.call(arguments);
+				var self = this;
 
-				var results = this.create(),
-					toBeFiltered = this.create(),
-					toBeFound = this.create();
+				var results;
+				var runPlugin = function(plugin, action){
+					var addChildren = function(entity){
+						var filter = entity.filter.apply(entity, [plugin[action]].concat(plugin.matches));
+						results.addEach(filter.list());
+						entity.each(addChildren);
+					};
+					return addChildren;
+				};
+
 				//	Get list of relevant plugins.
 				var relevant = this._getRelevantPlugins.apply(this, ['find'].concat(args));
 
-				var addChildren = function(entity){
-					var filter = entity.filter.apply(entity, args);
-					toBeFiltered.addEach(filter.list());
-					entity.each(addChildren);
-				};
+				results = this.create();
+				relevant.forEach(function(plugin, p){
+					var action = (typeof plugin.find === 'string') ? plugin.find : 'find';
+					runPlugin(plugin, action)(self);
+					delete plugin.matches;
+				});
 
-				addChildren(this);
-
-				results
-					.addEach(toBeFiltered.list())
-					.addEach(toBeFound.list());
 				return results;
 			},
 
