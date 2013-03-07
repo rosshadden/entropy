@@ -40,15 +40,15 @@ S.register({
 
 //	Key.
 //	S('mammal');
-// S.register({
-// 	name: 'key',
-// 	description: 'Key selector.',
-// 	expression: /^([\w\-_]+)$/,
+S.register({
+	name: 'key',
+	description: 'Key selector.',
+	expression: /^([\w\-_]+)$/,
 
-// 	filter: function(contents, index, selector, $key){
-// 		return $key === this['.key'];
-// 	}
-// });
+	filter: function(contents, index, selector, $key){
+		return $key === this['.key'];
+	}
+});
 
 //	Property presence.
 //	S('[property]');
