@@ -578,7 +578,9 @@
 					length = this.size();
 				for(e = 0; e < length; e++){
 					entity = this[e];
-					args[0].call(entity, entity.get(), e);
+					if(typeof args[0] === 'function'){
+						args[0].call(entity, entity.get(), e);
+					}
 				}
 				return this;
 			},
@@ -590,7 +592,10 @@
 					length = this.size();
 				for(e = 0; e < length; e++){
 					entity = this[e];
-					if(!args[0].call(entity, entity.get(), e)){
+					if(typeof args[0] === 'function' && !args[0].call(entity, entity.get(), e)){
+						return false;
+					}
+					if(!entity.matches.apply(entity, args)){
 						return false;
 					}
 				}
@@ -604,7 +609,10 @@
 					length = this.size();
 				for(e = 0; e < length; e++){
 					entity = this[e];
-					if(args[0].call(entity, entity.get(), e)){
+					if(typeof args[0] === 'function' && args[0].call(entity, entity.get(), e)){
+						return true;
+					}
+					if(entity.matches.apply(entity, args)){
 						return true;
 					}
 				}
