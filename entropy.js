@@ -415,8 +415,8 @@
 						return undefined;
 					}
 					//	Return a property on the current entity.
-					return this['.value'][key];
-				};
+					return this['.value'] && this['.value'][key];
+				}
 			},
 
 			//	Sets the given blacklisted property on the entity.
