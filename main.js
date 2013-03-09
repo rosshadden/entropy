@@ -1,6 +1,7 @@
 S.add('dog1', 'mammal dog', {
 	name: 'Fred',
 	nickname: 'Fred',
+	age: 4,
 	speech: 'bark',
 	speak: function(what){
 		console.log(this.name, 'says', what, 'with his', this.speech);
@@ -10,6 +11,7 @@ S.add('dog1', 'mammal dog', {
 S.add('dog2', ['mammal', 'dog'], {
 	name: 'Jim',
 	speech: 'bark',
+	age: 8,
 	father: {
 		name: 'Matt'
 	},
@@ -24,20 +26,24 @@ S.add('today', new Date());
 
 S.add('Jake', 'mammal human', {
 	name: 'Jake',
+	age: 32,
 	handedness: 'right',
 	speech: 'WORDS',
 	speak: function(what){
 		console.log(this.name, 'says', what, 'with his', this.speech);
 	},
 	friends: [{
-		name: 'Steve'
+		name: 'Steve',
+		age: 14
 	},{
-		name: 'Peter'
+		name: 'Peter',
+		age:25
 	}]
 });
 
 S.add({
 	name: 'Tyler',
+	age: 22,
 	speech: 'bark',
 	speak: function(what){
 		console.log(this.name, 'says', what, 'with his', this.speech);
