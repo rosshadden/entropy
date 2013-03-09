@@ -72,10 +72,14 @@ S.register({
 //	S("[property*=='Lu']");
 //	S('[property$=ue]');
 //	S('[property$==uE]');
+//	S('[property<2]');
+//	S('[property>2]');
+//	S('[property<=2]');
+//	S('[property>=2]');
 S.register({
 	name: 'property-comparison',
 	description: 'Returns true if a specified property meets the specified in/equality.',
-	expression: /^\[\s*(!?[\w\-_]+)\s*(=|\^=|\$=|\*=)(=?)\s*(["']?)([^\4]+)\4\]$/,
+	expression: /^\[\s*(!?[\w\-_]+)\s*(=|\^=|\$=|\*=|<|>)(=?)\s*(["']?)([^\4]+)\4\]$/,
 
 	filter: function(contents, index, selector, $property, $operator, $isStrict, $quote, $value){
 		var property = this.get($property);
@@ -97,10 +101,13 @@ S.register({
 				var regex = new RegExp(control + '$');
 				return regex.test(test, 'i');
 			},
-			//	Contains:
-			'*=': function(){
-				var regex = new RegExp(control);
-				return regex.test(test, 'i');
+			//	Less than:
+			'<': function(){
+				return ($isStrict) ? parseInt(test, 10) <= parseInt(control, 10) : parseInt(test, 10) < parseInt(control, 10);
+			},
+			//	Greater than:
+			'>': function(){
+				return ($isStrict) ? parseInt(test, 10) >= parseInt(control, 10) : parseInt(test, 10) > parseInt(control, 10);
 			}
 		};
 
@@ -144,6 +151,8 @@ S.register({
 	expression: /^(\S.+\S)(\s?)>\2(\S.+\S)$/,
 
 	filter: function(contents, index, selector, $left, _space, $right){
-		return this.matches($left) && this.some($right);
+		return entropy['.plugins'].some(function(plugin){
+			return plugin.relevance(selector);
+		}) || this.matches($left) && this.some($right);
 	}
 });
