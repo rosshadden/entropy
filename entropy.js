@@ -94,6 +94,21 @@
 			Item: function(key, value){
 				this.key = key;
 				this.value = value;
+			},
+
+			parseClasses: function(args){
+				args = args || [];
+				if(args.length === 1){
+					if(args[0] instanceof Array){
+						args = args[0];
+					}else if(typeof args[0] === 'string'){
+						args = args[0]
+							.replace(/\s*\./g, ' ')
+							.trim()
+							.split(' ');
+					}
+				}
+				return args;
 			}
 		};
 
@@ -431,7 +446,7 @@
 					//	Get a whitelist of "magic" proeprties.
 					if(/^!/.test(key)){
 						key = key.substr(1);
-						if(~['id'].indexOf(key)){
+						if(~['id', 'classes'].indexOf(key)){
 							return this[key];
 						}else if(~['key', 'list', 'index'].indexOf(key)){
 							return this['.' + key];
@@ -520,23 +535,13 @@
 				return clone;
 			},
 
-			//	Adds a class (purely for convenience) to the entity.
+			//	Adds class(es) (purely for convenience) to the entity.
 			//	Accepts infinite arguments, space-delimited lists, or arrays.
 			addClass: function(){
 				var	self = this,
 					args = Array.prototype.slice.call(arguments);
 
-				if(args.length === 1){
-					if(args[0] instanceof Array){
-						args = args[0];
-					}else if(typeof args[0] === 'string'){
-						args = args[0]
-							.replace(/\s*\./g, ' ')
-							.trim()
-							.split(' ');
-					}
-				}
-
+				args = utilities.parseClasses(args);
 				args.forEach(function(klass, k){
 					if(!~self.classes.indexOf(klass)){
 						self.classes.push(klass);
@@ -546,12 +551,13 @@
 				return this;
 			},
 
-			//	Removes a class from the entity.
+			//	Removes class(es) from the entity.
 			removeClass: function(){
 				var	index,
 					self = this,
 					args = Array.prototype.slice.call(arguments);
 
+				args = utilities.parseClasses(args);
 				args.forEach(function(klass, k){
 					index = self.classes.indexOf(klass);
 
@@ -568,6 +574,7 @@
 				var	self = this,
 					args = Array.prototype.slice.call(arguments);
 
+				args = utilities.parseClasses(args);
 				args.forEach(function(klass, k){
 					if(!~self.classes.indexOf(klass)){
 						self.addClass(klass);
@@ -577,6 +584,17 @@
 				});
 
 				return self;
+			},
+
+			//	Checks for the existence of a class.
+			hasClass: function(){
+				var self = this,
+					args = Array.prototype.slice.call(arguments);
+
+				args = utilities.parseClasses(args);
+				return args.every(function(klass, k){
+					return !!~self.classes.indexOf(klass);
+				});
 			},
 
 			////////////////////////////////
@@ -661,7 +679,7 @@
 			// .addClass('root', 'entropy');
 
 			//	Stuff unique to the entropic root.
-			entropy.VERSION = 0.6;
+			entropy.VERSION = 0.601;
 			entropy['.plugins'] = [];
 			entropy['.adapters'] = [];
 			entropy.utilities = utilities;
