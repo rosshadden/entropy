@@ -408,17 +408,25 @@
 			goto: function(){
 				var args = Array.prototype.slice.call(arguments);
 
+				var entity,
+					index = 0;
 				if(args.length >= 1){
 					if(typeof args[0] === 'object'){
 						return this.create(args[0])['.bake']();
 					}
-
-					var Swhere = this.filter.apply(this, args);
-					if(Swhere.size() >= 1){
-						return Swhere[0];
+					if(typeof args.slice(-1)[0] === 'number'){
+						index = args.splice(-1)[0];
 					}
-				}else if(this.size() >= 1){
-					return this[0];
+				}
+
+				if(args.length >= 1){
+					entity = this.filter.apply(this, args);
+				}else{
+					entity = this;
+				}
+
+				if(entity.size() > index){
+					return entity[index];
 				}
 				return false;
 			},
