@@ -2,11 +2,20 @@
 //	SELECTORS
 ////////////////////////////////////////////////////////////////
 
-//	All.
-//	S('*');
+/**
+ * All selector.
+ * Returns all entities in the set.
+ *
+ * Examples:
+ *
+ * 		s.filter('*')
+ * 		// => [all, entities, directly, contained, by, `s`]
+ * 		s('*')
+ * 		// => [all, entities, contained, at, any, level, by, `s`]
+ */
 S.register({
 	name: 'all',
-	description: 'Selects all entities in the set.',
+	description: 'Returns all entities in the set.',
 	expression: /^\*$/,
 
 	filter: function(){
@@ -14,8 +23,17 @@ S.register({
 	}
 });
 
-//	ID.
-//	S('#Jake');
+/**
+ * ID selector.
+ * Returns all entities in the set with a given ID.
+ *
+ * Examples:
+ *
+ * 		s.filter('#Jake')
+ * 		// => [#Jake]
+ * 		s('#Jake')
+ * 		// => [#Jake]
+ */
 S.register({
 	name: 'id',
 	description: 'ID selector.',
@@ -26,8 +44,17 @@ S.register({
 	}
 });
 
-//	Class.
-//	S('.mammal');
+/**
+ * Class selector.
+ * Returns all entities in the set with a given class.
+ *
+ * Examples:
+ *
+ * 		s.filter('.mammal')
+ * 		// => [#dog1, #dog2, #Jake]
+ * 		s('.mammal')
+ * 		// => [#dog1, #dog2, #Jake, #test]
+ */
 S.register({
 	name: 'class',
 	description: 'Class selector.',
@@ -38,8 +65,17 @@ S.register({
 	}
 });
 
-//	Key.
-//	S('mammal');
+/**
+ * Key selector.
+ * Returns all entities in the set with a given key.
+ *
+ * Examples:
+ *
+ * 		s.filter('name')
+ * 		// => []
+ * 		s('name')
+ * 		// => ["Fred", "Jim", "Matt", "Jake", "Steve", "Peter", "Tyler", "SUCCESSFUL"]
+ */
 S.register({
 	name: 'key',
 	description: 'Key selector.',
@@ -50,8 +86,17 @@ S.register({
 	}
 });
 
-//	Property presence.
-//	S('[property]');
+/**
+ * Property presence selector.
+ * Returns all entities in the set with a given property.
+ *
+ * Examples:
+ *
+ * 		s.filter('[property]')
+ * 		// => [#dog1, #dog2, #Jake]
+ * 		s('[property]')
+ * 		// => [#dog1, #dog2, #Jake, ...]
+ */
 S.register({
 	name: 'property-presence',
 	description: 'Returns true if a property is present.',
@@ -62,23 +107,29 @@ S.register({
 	}
 });
 
-//	Property comparison.
-//	let property = 'VaLuE':
-//	S('[property="value"]');
-//	S('[property=="VaLuE"]');
-//	S("[property^='va']");
-//	S("[property^=='Va']");
-//	S("[property*='lu']");
-//	S("[property*=='Lu']");
-//	S('[property$=ue]');
-//	S('[property$==uE]');
-//	S('[property<2]');
-//	S('[property>2]');
-//	S('[property<=2]');
-//	S('[property>=2]');
+/**
+ * Property comparison selector.
+ * Returns all entities in the set with a given property set to a specified value.
+ *
+ * Examples:
+ *
+ * 		// let property = 'VaLuE':
+ * 		s('[property="value"]');
+ * 		s('[property=="VaLuE"]');
+ * 		s("[property^='va']");
+ * 		s("[property^=='Va']");
+ * 		s("[property*='lu']");
+ * 		s("[property*=='Lu']");
+ * 		s('[property$=ue]');
+ * 		s('[property$==uE]');
+ * 		s('[property<2]');
+ * 		s('[property>2]');
+ * 		s('[property<=2]');
+ * 		s('[property>=2]');
+ */
 S.register({
 	name: 'property-comparison',
-	description: 'Returns true if a specified property meets the specified in/equality.',
+	description: 'Returns true if a specified property meets the specified (in)equality.',
 	expression: /^\[\s*(!?[\w\-_]+)\s*(=|\^=|\$=|\*=|<|>)(=?)\s*(["']?)([^\4]+)\4\]$/,
 
 	filter: function(contents, index, selector, $property, $operator, $isStrict, $quote, $value){
@@ -116,8 +167,17 @@ S.register({
 	}
 });
 
-//	Type.
-//	S('~Array');
+/**
+ * Type selector.
+ * Returns all entities in the set that are a given type.
+ *
+ * Examples:
+ *
+ * 		s.filter('~array')
+ * 		// => [[2, 4, 16, 256, 65536]]
+ * 		s('~array')
+ * 		// => [[], [], [], ..., []]
+ */
 S.register({
 	name: 'type',
 	description: 'Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).',
@@ -129,8 +189,17 @@ S.register({
 	}
 });
 
-//	Index.
-//	S(4);
+/**
+ * Index selector.
+ * Returns all entities in the set at a specified index of their respective parents.
+ *
+ * Examples:
+ *
+ * 		s.filter(4)
+ * 		// => [the fourth element of `s`]
+ * 		s(4)
+ * 		// => [all, entities, that, are, the, 4th, index, of, their, respective, parents]
+ */
 S.register({
 	name: 'index',
 	description: 'Retrieves an entity at a specific index of its parent.',
@@ -142,8 +211,17 @@ S.register({
 	}
 });
 
-//	Lineage.
-//	S('#friends > [name]');
+/**
+ * Lineage selector.
+ * Returns all entities in the set where a specified `key1` exists as a parent to a given `key2`.
+ *
+ * Examples:
+ *
+ * 		s.filter('#friends > [name]')
+ * 		// => [ASDF]
+ * 		s('#friends > [name]')
+ * 		// => [ASDF]
+ */
 S.register({
 	name: 'lineage',
 	description: 'Returns an item if a given key1 exists as a parent to a given key2.',
