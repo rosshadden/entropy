@@ -61,7 +61,7 @@ S.register({
 	expression: /^\.([\w\-_]+)$/,
 
 	filter: function(contents, index, selector, $klass){
-		return !!~this.hasClass($klass);
+		return !!this.hasClass($klass);
 	}
 });
 
