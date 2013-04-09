@@ -142,7 +142,6 @@ S.register({
 	}
 });
 
-//	TODO: In order for this to work, we first need some sort of s.matches function, and preferably an s.some for efficiency.
 //	Lineage.
 //	S('#friends > [name]');
 S.register({
