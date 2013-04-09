@@ -414,10 +414,10 @@
 					}
 
 					var Swhere = this.filter.apply(this, args);
-					if(Swhere.size() === 1){
+					if(Swhere.size() >= 1){
 						return Swhere[0];
 					}
-				}else if(this.size() === 1){
+				}else if(this.size() >= 1){
 					return this[0];
 				}
 				return false;
