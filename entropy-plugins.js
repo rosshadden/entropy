@@ -13,7 +13,7 @@
  * 		S('*');
  *
  * @param {String} *
- * @return {Entity} \[ \{ s \mid s \in S \} \]
+ * @return {Entity} \[ \left\{ s \in S \right\} \]
  */
 S.register({
 	name: 'all',
@@ -28,15 +28,15 @@ S.register({
 /**
  * ID selector.
  *
- * Returns all entities in the set with a given ID.
+ * Returns all entities in the set with a given `id`.
  *
  * Examples:
  *
  * 		S.filter('#Jake')
  * 		S('#Jake')
  *
- * @param {String} #ID ID of an entity
- * @return {Entity} \[ \{ s \mid s \in S \} \]
+ * @param {String} #id id of an entity
+ * @return {Entity} \[ \left\{ s \in S \mid s.id = \text{id} \right\} \]
  */
 S.register({
 	name: 'id',
@@ -51,7 +51,7 @@ S.register({
 /**
  * Class selector.
  *
- * Returns all entities in the set with a given class.
+ * Returns all entities in the set with a given `class`.
  *
  * Examples:
  *
@@ -59,7 +59,7 @@ S.register({
  * 		S('.mammal')
  *
  * @param {String} .class class of an entity
- * @return {Entity} \[ \{ s \mid s \in S \} \]
+ * @return {Entity} \[ \left\{ s \in S \mid s.hasClass(\text{class}) \right\} \]
  */
 S.register({
 	name: 'class',
@@ -74,7 +74,7 @@ S.register({
 /**
  * Key selector.
  *
- * Returns all entities in the set with a given key.
+ * Returns all entities in the set with a given `key`.
  *
  * Examples:
  *
@@ -82,7 +82,7 @@ S.register({
  * 		S('name')
  *
  * @param {String} key keys of entities that are defined in objects
- * @return {Entity} \[ \{ s \mid s \in S \} \]
+ * @return {Entity} \[ \left\{ s \in S \mid s.get(\text{`!key'}) = \text{key} \right\} \]
  */
 S.register({
 	name: 'key',
@@ -97,7 +97,7 @@ S.register({
 /**
  * Property presence selector.
  *
- * Returns all entities in the set with a given property.
+ * Returns all entities in the set with a given `property`.
  *
  * Examples:
  *
@@ -105,7 +105,7 @@ S.register({
  * 		S('[property]')
  *
  * @param {String} [property] name of a property
- * @return {Entity} \[ \{ s \mid s \in S \} \]
+ * @return {Entity} \[ \left\{ s \in S \mid \exists p \in s.get() \ni p = \text{property} \right\} \]
  */
 S.register({
 	name: 'property-presence',
@@ -120,7 +120,7 @@ S.register({
 /**
  * Property comparison selector.
  *
- * Returns all entities in the set with a given property set to a specified value.
+ * Returns all entities in the set with a given `property` set to a specified `value`.
  *
  * Examples:
  *
@@ -139,7 +139,7 @@ S.register({
  * 		S('[property>=2]');
  *
  * @param {String} [property="value"] property/value comparison pair
- * @return {Entity} \[ \{ s \mid s \in S \} \]
+ * @return {Entity} \[ \left\{ s \in S \mid \exists p \in s.get() \land \exists v \in s.map() \ni p = \text{property} \land s.get(p) = v \right\} \]
  */
 S.register({
 	name: 'property-comparison',
@@ -184,8 +184,8 @@ S.register({
 /**
  * Type selector.
  *
- * Returns all entities in the set that are a given type.
- * Note: the types are case insensitive, but currently only native types (and arrays) are supported.
+ * Returns all entities in the set that are a given `type`.
+ * Note: `type` is case insensitive, but currently only native types (and arrays) are supported.
  *
  * Examples:
  *
@@ -193,7 +193,7 @@ S.register({
  * 		S('~date')
  *
  * @param {String} ~type type of an object
- * @return {Entity} \[ \{ s \mid s \in S \} \]
+ * @return {Entity} \[ \left\{ s \in S \mid s.get()\ instanceof \text{ type} \right\} \]
  */
 S.register({
 	name: 'type',
@@ -209,7 +209,7 @@ S.register({
 /**
  * Index selector.
  *
- * Returns all entities in the set at a specified index of their respective parents.
+ * Returns all entities in the set at a specified `index` of their respective parents.
  *
  * Examples:
  *
@@ -217,7 +217,7 @@ S.register({
  * 		s(4)
  *
  * @param {Number} index index of an entity
- * @return {Entity} \[ \{ s \mid s \in S \} \]
+ * @return {Entity} \[ \left\{ s \in S \mid S[\text{index}] = s \right\} \]
  */
 S.register({
 	name: 'index',
@@ -242,7 +242,7 @@ S.register({
  * 		S('#friends > [name]')
  *
  * @param {String} query1>query2
- * @return {Entity} \[ \{ s \mid s \in S \} \]
+ * @return {Entity} \[ \left\{ s \in S \mid s.matches(\text{query1}) \land s.has(\text{query2}) \right\} \]
  */
 S.register({
 	name: 'lineage',
