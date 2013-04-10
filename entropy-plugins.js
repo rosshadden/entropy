@@ -177,6 +177,8 @@ S.register({
  * 		// => [[2, 4, 16, 256, 65536]]
  * 		s('~array')
  * 		// => [[], [], [], ..., []]
+ *
+ * @return {String} testing stuff
  */
 S.register({
 	name: 'type',
@@ -199,6 +201,8 @@ S.register({
  * 		// => [the fourth element of `s`]
  * 		s(4)
  * 		// => [all, entities, that, are, the, 4th, index, of, their, respective, parents]
+ *
+ * @return {Entity} \[ \{ a | (a,b) \in R \} \]
  */
 S.register({
 	name: 'index',
@@ -221,6 +225,8 @@ S.register({
  * 		// => [ASDF]
  * 		s('#friends > [name]')
  * 		// => [ASDF]
+ *
+ * @return {Entity} \[ \{ s \in S \} \]
  */
 S.register({
 	name: 'lineage',
