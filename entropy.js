@@ -154,6 +154,19 @@
 			},
 
 			//	Makes a brand new Entity.
+			/**
+			 * Placeholder.
+			 *
+			 * This makes the docs not fail, until I get around to adding real docs for this file.
+			 *
+			 * Examples:
+			 *
+			 * 		S.filter('*');
+			 * 		S('*');
+			 *
+			 * @param {String} *
+			 * @return {Entity} \[ \left\{ s \in S \right\} \]
+			 */
 			'.create': utilities.functionFactory(Entity),
 			create: function(){
 				var args = Array.prototype.slice.call(arguments);
