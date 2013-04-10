@@ -87,16 +87,30 @@
           <div class="large-6 columns">
             <div id="undefined" class="docblock">
               <div class="docblock-hd">
-                <div class="summary"><p>All selector. Returns all entities in the set.</p></div>
+                <div class="summary"><p>All selector.</p></div>
               </div>
               <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>*</code></td>
+                    <td></td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
+                    <td><code></code></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAAATCAAAAAArXXXJAAAACXBIWXMAAACAAAAAgAC4UaqhAAABNklEQVQ4y62UbXmFMAyFYwELWKgFLNRCLcRCLcRCLNRCLNRCLWQdZdAv7nbZzQ/gOYS3yUkpaIkQtYtB+D1Eyh32K208MLY3aIysKWokIyc0wqSsv0PFBhXnvnm8ntAA+g9oNGkv7CI9gCbCHFdvDq/8p1CyFHJUiQXq76DsmSbQWibXr2IXf5Y9gYa8pqcBWstxbEAWgBUH6OGK2tyCjQO0lj3PTHYrHAjjCzQcpqgiGExj+7WMZishLXc70pPNb2B/8D+G4WomnlbyUGksI8Mj3bnO0/xbaIIB2sixn5MvUFc8F0gddOH6oxPaykjd7HfvxNxNnzjQxNNWVnSNncZjCOTS7ZZKIc02fyPnqrEelGhikhf79PEppRNohPQhKC/XeYo2fgQqG13QfLyGoZP3mcSl4y9fyaNODFeYqAAAADx0RVh0Y29tbWVudAAgSW1hZ2UgZ2VuZXJhdGVkIGJ5IEdQTCBHaG9zdHNjcmlwdCAoZGV2aWNlPXBubXJhdykKMWBuhgAAAABJRU5ErkJggg=="></td>
+                  </tr>
+                </table>
               </div>
-              <div class="description"><p>Examples:</p>
+              <div class="description"><p>Returns all entities in the set.</p>
 
-<pre><code>    s.filter('*')
-    // =&gt; [all, entities, directly, contained, by, `s`]
-    s('*')
-    // =&gt; [all, entities, contained, at, any, level, by, `s`]
+<p>Examples:</p>
+
+<pre><code>    S.filter('*');
+    S('*');
 </code></pre></div>
             </div>
           </div>
@@ -118,16 +132,30 @@
           <div class="large-6 columns">
             <div id="undefined" class="docblock">
               <div class="docblock-hd">
-                <div class="summary"><p>ID selector. Returns all entities in the set with a given ID.</p></div>
+                <div class="summary"><p>ID selector.</p></div>
               </div>
               <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>#ID</code></td>
+                    <td>ID of an entity</td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
+                    <td><code></code></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAAATCAAAAAArXXXJAAAACXBIWXMAAACAAAAAgAC4UaqhAAABNklEQVQ4y62UbXmFMAyFYwELWKgFLNRCLcRCLcRCLNRCLNRCLWQdZdAv7nbZzQ/gOYS3yUkpaIkQtYtB+D1Eyh32K208MLY3aIysKWokIyc0wqSsv0PFBhXnvnm8ntAA+g9oNGkv7CI9gCbCHFdvDq/8p1CyFHJUiQXq76DsmSbQWibXr2IXf5Y9gYa8pqcBWstxbEAWgBUH6OGK2tyCjQO0lj3PTHYrHAjjCzQcpqgiGExj+7WMZishLXc70pPNb2B/8D+G4WomnlbyUGksI8Mj3bnO0/xbaIIB2sixn5MvUFc8F0gddOH6oxPaykjd7HfvxNxNnzjQxNNWVnSNncZjCOTS7ZZKIc02fyPnqrEelGhikhf79PEppRNohPQhKC/XeYo2fgQqG13QfLyGoZP3mcSl4y9fyaNODFeYqAAAADx0RVh0Y29tbWVudAAgSW1hZ2UgZ2VuZXJhdGVkIGJ5IEdQTCBHaG9zdHNjcmlwdCAoZGV2aWNlPXBubXJhdykKMWBuhgAAAABJRU5ErkJggg=="></td>
+                  </tr>
+                </table>
               </div>
-              <div class="description"><p>Examples:</p>
+              <div class="description"><p>Returns all entities in the set with a given ID.</p>
 
-<pre><code>    s.filter('#Jake')
-    // =&gt; [#Jake]
-    s('#Jake')
-    // =&gt; [#Jake]
+<p>Examples:</p>
+
+<pre><code>    S.filter('#Jake')
+    S('#Jake')
 </code></pre></div>
             </div>
           </div>
@@ -149,16 +177,30 @@
           <div class="large-6 columns">
             <div id="undefined" class="docblock">
               <div class="docblock-hd">
-                <div class="summary"><p>Class selector. Returns all entities in the set with a given class.</p></div>
+                <div class="summary"><p>Class selector.</p></div>
               </div>
               <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>.class</code></td>
+                    <td>class of an entity</td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
+                    <td><code></code></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAAATCAAAAAArXXXJAAAACXBIWXMAAACAAAAAgAC4UaqhAAABNklEQVQ4y62UbXmFMAyFYwELWKgFLNRCLcRCLcRCLNRCLNRCLWQdZdAv7nbZzQ/gOYS3yUkpaIkQtYtB+D1Eyh32K208MLY3aIysKWokIyc0wqSsv0PFBhXnvnm8ntAA+g9oNGkv7CI9gCbCHFdvDq/8p1CyFHJUiQXq76DsmSbQWibXr2IXf5Y9gYa8pqcBWstxbEAWgBUH6OGK2tyCjQO0lj3PTHYrHAjjCzQcpqgiGExj+7WMZishLXc70pPNb2B/8D+G4WomnlbyUGksI8Mj3bnO0/xbaIIB2sixn5MvUFc8F0gddOH6oxPaykjd7HfvxNxNnzjQxNNWVnSNncZjCOTS7ZZKIc02fyPnqrEelGhikhf79PEppRNohPQhKC/XeYo2fgQqG13QfLyGoZP3mcSl4y9fyaNODFeYqAAAADx0RVh0Y29tbWVudAAgSW1hZ2UgZ2VuZXJhdGVkIGJ5IEdQTCBHaG9zdHNjcmlwdCAoZGV2aWNlPXBubXJhdykKMWBuhgAAAABJRU5ErkJggg=="></td>
+                  </tr>
+                </table>
               </div>
-              <div class="description"><p>Examples:</p>
+              <div class="description"><p>Returns all entities in the set with a given class.</p>
 
-<pre><code>    s.filter('.mammal')
-    // =&gt; [#dog1, #dog2, #Jake]
-    s('.mammal')
-    // =&gt; [#dog1, #dog2, #Jake, #test]
+<p>Examples:</p>
+
+<pre><code>    S.filter('.mammal')
+    S('.mammal')
 </code></pre></div>
             </div>
           </div>
@@ -180,16 +222,30 @@
           <div class="large-6 columns">
             <div id="undefined" class="docblock">
               <div class="docblock-hd">
-                <div class="summary"><p>Key selector. Returns all entities in the set with a given key.</p></div>
+                <div class="summary"><p>Key selector.</p></div>
               </div>
               <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>key</code></td>
+                    <td>keys of entities that are defined in objects</td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
+                    <td><code></code></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAAATCAAAAAArXXXJAAAACXBIWXMAAACAAAAAgAC4UaqhAAABNklEQVQ4y62UbXmFMAyFYwELWKgFLNRCLcRCLcRCLNRCLNRCLWQdZdAv7nbZzQ/gOYS3yUkpaIkQtYtB+D1Eyh32K208MLY3aIysKWokIyc0wqSsv0PFBhXnvnm8ntAA+g9oNGkv7CI9gCbCHFdvDq/8p1CyFHJUiQXq76DsmSbQWibXr2IXf5Y9gYa8pqcBWstxbEAWgBUH6OGK2tyCjQO0lj3PTHYrHAjjCzQcpqgiGExj+7WMZishLXc70pPNb2B/8D+G4WomnlbyUGksI8Mj3bnO0/xbaIIB2sixn5MvUFc8F0gddOH6oxPaykjd7HfvxNxNnzjQxNNWVnSNncZjCOTS7ZZKIc02fyPnqrEelGhikhf79PEppRNohPQhKC/XeYo2fgQqG13QfLyGoZP3mcSl4y9fyaNODFeYqAAAADx0RVh0Y29tbWVudAAgSW1hZ2UgZ2VuZXJhdGVkIGJ5IEdQTCBHaG9zdHNjcmlwdCAoZGV2aWNlPXBubXJhdykKMWBuhgAAAABJRU5ErkJggg=="></td>
+                  </tr>
+                </table>
               </div>
-              <div class="description"><p>Examples:</p>
+              <div class="description"><p>Returns all entities in the set with a given key.</p>
 
-<pre><code>    s.filter('name')
-    // =&gt; []
-    s('name')
-    // =&gt; ["Fred", "Jim", "Matt", "Jake", "Steve", "Peter", "Tyler", "SUCCESSFUL"]
+<p>Examples:</p>
+
+<pre><code>    S.filter('name')
+    S('name')
 </code></pre></div>
             </div>
           </div>
@@ -211,16 +267,30 @@
           <div class="large-6 columns">
             <div id="undefined" class="docblock">
               <div class="docblock-hd">
-                <div class="summary"><p>Property presence selector. Returns all entities in the set with a given property.</p></div>
+                <div class="summary"><p>Property presence selector.</p></div>
               </div>
               <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>[property]</code></td>
+                    <td>name of a property</td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
+                    <td><code></code></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAAATCAAAAAArXXXJAAAACXBIWXMAAACAAAAAgAC4UaqhAAABNklEQVQ4y62UbXmFMAyFYwELWKgFLNRCLcRCLcRCLNRCLNRCLWQdZdAv7nbZzQ/gOYS3yUkpaIkQtYtB+D1Eyh32K208MLY3aIysKWokIyc0wqSsv0PFBhXnvnm8ntAA+g9oNGkv7CI9gCbCHFdvDq/8p1CyFHJUiQXq76DsmSbQWibXr2IXf5Y9gYa8pqcBWstxbEAWgBUH6OGK2tyCjQO0lj3PTHYrHAjjCzQcpqgiGExj+7WMZishLXc70pPNb2B/8D+G4WomnlbyUGksI8Mj3bnO0/xbaIIB2sixn5MvUFc8F0gddOH6oxPaykjd7HfvxNxNnzjQxNNWVnSNncZjCOTS7ZZKIc02fyPnqrEelGhikhf79PEppRNohPQhKC/XeYo2fgQqG13QfLyGoZP3mcSl4y9fyaNODFeYqAAAADx0RVh0Y29tbWVudAAgSW1hZ2UgZ2VuZXJhdGVkIGJ5IEdQTCBHaG9zdHNjcmlwdCAoZGV2aWNlPXBubXJhdykKMWBuhgAAAABJRU5ErkJggg=="></td>
+                  </tr>
+                </table>
               </div>
-              <div class="description"><p>Examples:</p>
+              <div class="description"><p>Returns all entities in the set with a given property.</p>
 
-<pre><code>    s.filter('[property]')
-    // =&gt; [#dog1, #dog2, #Jake]
-    s('[property]')
-    // =&gt; [#dog1, #dog2, #Jake, ...]
+<p>Examples:</p>
+
+<pre><code>    S.filter('[property]')
+    S('[property]')
 </code></pre></div>
             </div>
           </div>
@@ -242,25 +312,41 @@
           <div class="large-6 columns">
             <div id="undefined" class="docblock">
               <div class="docblock-hd">
-                <div class="summary"><p>Property comparison selector. Returns all entities in the set with a given property set to a specified value.</p></div>
+                <div class="summary"><p>Property comparison selector.</p></div>
               </div>
               <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>[property=&quot;value&quot;]</code></td>
+                    <td>property/value comparison pair</td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
+                    <td><code></code></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAAATCAAAAAArXXXJAAAACXBIWXMAAACAAAAAgAC4UaqhAAABNklEQVQ4y62UbXmFMAyFYwELWKgFLNRCLcRCLcRCLNRCLNRCLWQdZdAv7nbZzQ/gOYS3yUkpaIkQtYtB+D1Eyh32K208MLY3aIysKWokIyc0wqSsv0PFBhXnvnm8ntAA+g9oNGkv7CI9gCbCHFdvDq/8p1CyFHJUiQXq76DsmSbQWibXr2IXf5Y9gYa8pqcBWstxbEAWgBUH6OGK2tyCjQO0lj3PTHYrHAjjCzQcpqgiGExj+7WMZishLXc70pPNb2B/8D+G4WomnlbyUGksI8Mj3bnO0/xbaIIB2sixn5MvUFc8F0gddOH6oxPaykjd7HfvxNxNnzjQxNNWVnSNncZjCOTS7ZZKIc02fyPnqrEelGhikhf79PEppRNohPQhKC/XeYo2fgQqG13QfLyGoZP3mcSl4y9fyaNODFeYqAAAADx0RVh0Y29tbWVudAAgSW1hZ2UgZ2VuZXJhdGVkIGJ5IEdQTCBHaG9zdHNjcmlwdCAoZGV2aWNlPXBubXJhdykKMWBuhgAAAABJRU5ErkJggg=="></td>
+                  </tr>
+                </table>
               </div>
-              <div class="description"><p>Examples:</p>
+              <div class="description"><p>Returns all entities in the set with a given property set to a specified value.</p>
+
+<p>Examples:</p>
 
 <pre><code>    // let property = 'VaLuE':
-    s('[property="value"]');
-    s('[property=="VaLuE"]');
-    s("[property^='va']");
-    s("[property^=='Va']");
-    s("[property*='lu']");
-    s("[property*=='Lu']");
-    s('[property$=ue]');
-    s('[property$==uE]');
-    s('[property&lt;2]');
-    s('[property&gt;2]');
-    s('[property&lt;=2]');
-    s('[property&gt;=2]');
+    S('[property="value"]');
+    S('[property=="VaLuE"]');
+    S("[property^='va']");
+    S("[property^=='Va']");
+    S("[property*='lu']");
+    S("[property*=='Lu']");
+    S('[property$=ue]');
+    S('[property$==uE]');
+    S('[property&lt;2]');
+    S('[property&gt;2]');
+    S('[property&lt;=2]');
+    S('[property&gt;=2]');
 </code></pre></div>
             </div>
           </div>
@@ -312,24 +398,30 @@
           <div class="large-6 columns">
             <div id="undefined" class="docblock">
               <div class="docblock-hd">
-                <div class="summary"><p>Type selector. Returns all entities in the set that are a given type.</p></div>
+                <div class="summary"><p>Type selector.</p></div>
               </div>
               <div class="docblock-bd">
                 <table class="tags">
                   <tr class="tag">
-                    <th><b>return</b></th>
+                    <th><b>param</b></th>
                     <td><span class="label radius secondary">String</span></td>
+                    <td><code>~type</code></td>
+                    <td>type of an object</td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
                     <td><code></code></td>
-                    <td>testing stuff</td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAAATCAAAAAArXXXJAAAACXBIWXMAAACAAAAAgAC4UaqhAAABNklEQVQ4y62UbXmFMAyFYwELWKgFLNRCLcRCLcRCLNRCLNRCLWQdZdAv7nbZzQ/gOYS3yUkpaIkQtYtB+D1Eyh32K208MLY3aIysKWokIyc0wqSsv0PFBhXnvnm8ntAA+g9oNGkv7CI9gCbCHFdvDq/8p1CyFHJUiQXq76DsmSbQWibXr2IXf5Y9gYa8pqcBWstxbEAWgBUH6OGK2tyCjQO0lj3PTHYrHAjjCzQcpqgiGExj+7WMZishLXc70pPNb2B/8D+G4WomnlbyUGksI8Mj3bnO0/xbaIIB2sixn5MvUFc8F0gddOH6oxPaykjd7HfvxNxNnzjQxNNWVnSNncZjCOTS7ZZKIc02fyPnqrEelGhikhf79PEppRNohPQhKC/XeYo2fgQqG13QfLyGoZP3mcSl4y9fyaNODFeYqAAAADx0RVh0Y29tbWVudAAgSW1hZ2UgZ2VuZXJhdGVkIGJ5IEdQTCBHaG9zdHNjcmlwdCAoZGV2aWNlPXBubXJhdykKMWBuhgAAAABJRU5ErkJggg=="></td>
                   </tr>
                 </table>
               </div>
-              <div class="description"><p>Examples:</p>
+              <div class="description"><p>Returns all entities in the set that are a given type. Note: the types are case insensitive, but currently only native types (and arrays) are supported.</p>
 
-<pre><code>    s.filter('~array')
-    // =&gt; [[2, 4, 16, 256, 65536]]
-    s('~array')
-    // =&gt; [[], [], [], ..., []]
+<p>Examples:</p>
+
+<pre><code>    S.filter('~array')
+    S('~array')
 </code></pre></div>
             </div>
           </div>
@@ -352,24 +444,30 @@
           <div class="large-6 columns">
             <div id="undefined" class="docblock">
               <div class="docblock-hd">
-                <div class="summary"><p>Index selector. Returns all entities in the set at a specified index of their respective parents.</p></div>
+                <div class="summary"><p>Index selector.</p></div>
               </div>
               <div class="docblock-bd">
                 <table class="tags">
                   <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">Number</span></td>
+                    <td><code>index</code></td>
+                    <td>index of an entity</td>
+                  </tr>
+                  <tr class="tag">
                     <th><b>return</b></th>
                     <td><span class="label radius secondary">Entity</span></td>
                     <td><code></code></td>
-                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGwAAAATCAAAAABQebcFAAAACXBIWXMAAACAAAAAgAC4UaqhAAAB10lEQVRIx41VCRHEIAzEQi3UAhawgAUsxAIWYgELsYCFWMACV77yHO00M9f20pJNNksQsRhxHKz9CfHZOH417+uDyFdUblqryg1xu5ZyDtZ/BWOUvoOxWNIsYB52S8mIUrB+rRvOEwAU5I/c2cFIxB3YQzSUNZ55refMqSo1ALyA0UMw0wpWIx8Br0Kge1i4dAPxDcy4h5RbJ60dytVIlw2OQrY8H8HQWsYGdizOO2VEyA0n1UP/sWAy2Xj4JzBjK8npF47FeaeM17vQpZwSUP/1ayIHRR8TWO2CTSVrqGA17+5sKaciBE1g9o9xFpaoSf5i09bvSdVQR7ofNIN159CysICBVMX83DKjm3x0eiXyky21XhG8iBPY4KzL0p50ZWO+VKZlF36jY+xZvloVXQHjY3HGTn9ZO/TsTx+ZkCgqmBdhAePrGiREO6qxO13l6HL7Ixfm5R0blsHmyy4TENnv1QjgrDOWK5imyemErTvBmQKLg2zA+HFWKWESvDQBnqTPFw6Hts9qrNvZqOQ2JrSfhuEkkEY6hm8TJMp5NvKigs3merIRjEXYgdE89dczwHw/0dwxCAo0x915RuOkXRLaH3b701PhqF6e4sb25+18pM9Y6GqeP8hPFzvTZJEGAAAAPHRFWHRjb21tZW50ACBJbWFnZSBnZW5lcmF0ZWQgYnkgR1BMIEdob3N0c2NyaXB0IChkZXZpY2U9cG5tcmF3KQoxYG6GAAAAAElFTkSuQmCC"></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAAATCAAAAAArXXXJAAAACXBIWXMAAACAAAAAgAC4UaqhAAABNklEQVQ4y62UbXmFMAyFYwELWKgFLNRCLcRCLcRCLNRCLNRCLWQdZdAv7nbZzQ/gOYS3yUkpaIkQtYtB+D1Eyh32K208MLY3aIysKWokIyc0wqSsv0PFBhXnvnm8ntAA+g9oNGkv7CI9gCbCHFdvDq/8p1CyFHJUiQXq76DsmSbQWibXr2IXf5Y9gYa8pqcBWstxbEAWgBUH6OGK2tyCjQO0lj3PTHYrHAjjCzQcpqgiGExj+7WMZishLXc70pPNb2B/8D+G4WomnlbyUGksI8Mj3bnO0/xbaIIB2sixn5MvUFc8F0gddOH6oxPaykjd7HfvxNxNnzjQxNNWVnSNncZjCOTS7ZZKIc02fyPnqrEelGhikhf79PEppRNohPQhKC/XeYo2fgQqG13QfLyGoZP3mcSl4y9fyaNODFeYqAAAADx0RVh0Y29tbWVudAAgSW1hZ2UgZ2VuZXJhdGVkIGJ5IEdQTCBHaG9zdHNjcmlwdCAoZGV2aWNlPXBubXJhdykKMWBuhgAAAABJRU5ErkJggg=="></td>
                   </tr>
                 </table>
               </div>
-              <div class="description"><p>Examples:</p>
+              <div class="description"><p>Returns all entities in the set at a specified index of their respective parents.</p>
 
-<pre><code>    s.filter(4)
-    // =&gt; [the fourth element of `s`]
+<p>Examples:</p>
+
+<pre><code>    S.filter(4)
     s(4)
-    // =&gt; [all, entities, that, are, the, 4th, index, of, their, respective, parents]
 </code></pre></div>
             </div>
           </div>
@@ -392,24 +490,30 @@
           <div class="large-6 columns">
             <div id="undefined" class="docblock">
               <div class="docblock-hd">
-                <div class="summary"><p>Lineage selector. Returns all entities in the set where a specified <code>key1</code> exists as a parent to a given <code>key2</code>.</p></div>
+                <div class="summary"><p>Lineage selector.</p></div>
               </div>
               <div class="docblock-bd">
                 <table class="tags">
                   <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>query1&gt;query2</code></td>
+                    <td></td>
+                  </tr>
+                  <tr class="tag">
                     <th><b>return</b></th>
                     <td><span class="label radius secondary">Entity</span></td>
                     <td><code></code></td>
-                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD0AAAATCAAAAAAGr1pzAAAACXBIWXMAAACAAAAAgAC4UaqhAAABC0lEQVQ4y5WTa7XEIAyEY6EWagELWMACFmIBC7EQC7EQC1iIhVxuoc/d7mnnR+HQfiEzFPAuqf5Cqn2E5UmRn9GM7Fa9UtCNrvCM1SSuOf+DPG+0wCO4Blu22pFftBE27W1lXIb4iKZE0rQvxE6XO5oL0wbna7k0la2RL7S04mXgNX6GNgHM+EEPQ55aU2mUL/wtiDzD+DaUTsvw444Q0NZ5iF16LhBHT5baG1gmZfWKc/CbvWvPDwed88V3+4/c1gDrNbTS6dxzUbALPfERQrokvvjTcJc5sdDmu+H5ZDkUFKFstydmYieneExN3Zj0x3m/0IGuYG9pnvb7jam+gzXSTrfrLm9g4t7sH9ugDbTOHGwxAAAAPHRFWHRjb21tZW50ACBJbWFnZSBnZW5lcmF0ZWQgYnkgR1BMIEdob3N0c2NyaXB0IChkZXZpY2U9cG5tcmF3KQoxYG6GAAAAAElFTkSuQmCC"></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAAATCAAAAAArXXXJAAAACXBIWXMAAACAAAAAgAC4UaqhAAABNklEQVQ4y62UbXmFMAyFYwELWKgFLNRCLcRCLcRCLNRCLNRCLWQdZdAv7nbZzQ/gOYS3yUkpaIkQtYtB+D1Eyh32K208MLY3aIysKWokIyc0wqSsv0PFBhXnvnm8ntAA+g9oNGkv7CI9gCbCHFdvDq/8p1CyFHJUiQXq76DsmSbQWibXr2IXf5Y9gYa8pqcBWstxbEAWgBUH6OGK2tyCjQO0lj3PTHYrHAjjCzQcpqgiGExj+7WMZishLXc70pPNb2B/8D+G4WomnlbyUGksI8Mj3bnO0/xbaIIB2sixn5MvUFc8F0gddOH6oxPaykjd7HfvxNxNnzjQxNNWVnSNncZjCOTS7ZZKIc02fyPnqrEelGhikhf79PEppRNohPQhKC/XeYo2fgQqG13QfLyGoZP3mcSl4y9fyaNODFeYqAAAADx0RVh0Y29tbWVudAAgSW1hZ2UgZ2VuZXJhdGVkIGJ5IEdQTCBHaG9zdHNjcmlwdCAoZGV2aWNlPXBubXJhdykKMWBuhgAAAABJRU5ErkJggg=="></td>
                   </tr>
                 </table>
               </div>
-              <div class="description"><p>Examples:</p>
+              <div class="description"><p>Returns all entities in the set where a specified <code>key1</code> exists as a parent to a given <code>key2</code>. Note: I think this is broken, though it's likely worthless even when working.</p>
 
-<pre><code>    s.filter('#friends &gt; [name]')
-    // =&gt; [ASDF]
-    s('#friends &gt; [name]')
-    // =&gt; [ASDF]
+<p>Examples:</p>
+
+<pre><code>    S.filter('#friends &gt; [name]')
+    S('#friends &gt; [name]')
 </code></pre></div>
             </div>
           </div>
