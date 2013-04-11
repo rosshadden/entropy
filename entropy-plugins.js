@@ -3,7 +3,11 @@
 ////////////////////////////////////////////////////////////////
 
 /**
- * All selector.
+ * #### Plugins
+ */
+
+/**
+ * ##### All
  *
  * Returns all entities in the set.
  *
@@ -26,7 +30,8 @@ S.register({
 });
 
 /**
- * ID selector.
+ * ##### ID
+ *
  *
  * Returns all entities in the set with a given `id`.
  *
@@ -49,7 +54,7 @@ S.register({
 });
 
 /**
- * Class selector.
+ * ##### Class
  *
  * Returns all entities in the set with a given `class`.
  *
@@ -72,7 +77,7 @@ S.register({
 });
 
 /**
- * Key selector.
+ * ##### Key
  *
  * Returns all entities in the set with a given `key`.
  *
@@ -95,7 +100,7 @@ S.register({
 });
 
 /**
- * Property presence selector.
+ * ##### Property presence
  *
  * Returns all entities in the set with a given `property`.
  *
@@ -118,7 +123,7 @@ S.register({
 });
 
 /**
- * Property comparison selector.
+ * ##### Property comparison
  *
  * Returns all entities in the set with a given `property` set to a specified `value`.
  *
@@ -182,7 +187,7 @@ S.register({
 });
 
 /**
- * Type selector.
+ * ##### Type
  *
  * Returns all entities in the set that are a given `type`.
  * Note: `type` is case insensitive, but currently only native types (and arrays) are supported.
@@ -207,7 +212,7 @@ S.register({
 });
 
 /**
- * Index selector.
+ * ##### Index
  *
  * Returns all entities in the set at a specified `index` of their respective parents.
  *
@@ -231,7 +236,7 @@ S.register({
 });
 
 /**
- * Lineage selector.
+ * ##### Lineage
  *
  * Returns all entities in the set where a specified `key1` exists as a parent to a given `key2`.
  * Note: I think this is broken, though it's likely worthless even when working.

@@ -1,3 +1,7 @@
+/**
+ * #### API
+ */
+
 (function(){
 	var entropy = (function(){
 		'use strict';
