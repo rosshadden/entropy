@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>entropy.js</title>
+    <title>entropy-plugins.js</title>
     <script>
       /*! Modernizr 2.6.2 (Custom Build) | MIT & BSD * Build: http://modernizr.com/download/#-inlinesvg-svg-svgclippaths-touch-shiv-mq-cssclasses-teststyles-prefixes-ie8compat-load */
       window.Modernizr=function(a,b,c){function y(a){j.cssText=a}function z(a,b){return y(m.join(a+";")+(b||""))}function A(a,b){return typeof a===b}function B(a,b){return!!~(""+a).indexOf(b)}function C(a,b,d){for(var e in a){var f=b[a[e]];if(f!==c)return d===!1?a[e]:A(f,"function")?f.bind(d||b):f}return!1}var d="2.6.2",e={},f=!0,g=b.documentElement,h="modernizr",i=b.createElement(h),j=i.style,k,l={}.toString,m=" -webkit- -moz- -o- -ms- ".split(" "),n={svg:"http://www.w3.org/2000/svg"},o={},p={},q={},r=[],s=r.slice,t,u=function(a,c,d,e){var f,i,j,k,l=b.createElement("div"),m=b.body,n=m||b.createElement("body");if(parseInt(d,10))while(d--)j=b.createElement("div"),j.id=e?e[d]:h+(d+1),l.appendChild(j);return f=["&#173;",'<style id="s',h,'">',a,"</style>"].join(""),l.id=h,(m?l:n).innerHTML+=f,n.appendChild(l),m||(n.style.background="",n.style.overflow="hidden",k=g.style.overflow,g.style.overflow="hidden",g.appendChild(n)),i=c(l,a),m?l.parentNode.removeChild(l):(n.parentNode.removeChild(n),g.style.overflow=k),!!i},v=function(b){var c=a.matchMedia||a.msMatchMedia;if(c)return c(b).matches;var d;return u("@media "+b+" { #"+h+" { position: absolute; } }",function(b){d=(a.getComputedStyle?getComputedStyle(b,null):b.currentStyle)["position"]=="absolute"}),d},w={}.hasOwnProperty,x;!A(w,"undefined")&&!A(w.call,"undefined")?x=function(a,b){return w.call(a,b)}:x=function(a,b){return b in a&&A(a.constructor.prototype[b],"undefined")},Function.prototype.bind||(Function.prototype.bind=function(b){var c=this;if(typeof c!="function")throw new TypeError;var d=s.call(arguments,1),e=function(){if(this instanceof e){var a=function(){};a.prototype=c.prototype;var f=new a,g=c.apply(f,d.concat(s.call(arguments)));return Object(g)===g?g:f}return c.apply(b,d.concat(s.call(arguments)))};return e}),o.touch=function(){var c;return"ontouchstart"in a||a.DocumentTouch&&b instanceof DocumentTouch?c=!0:u(["@media (",m.join("touch-enabled),("),h,")","{#modernizr{top:9px;position:absolute}}"].join(""),function(a){c=a.offsetTop===9}),c},o.svg=function(){return!!b.createElementNS&&!!b.createElementNS(n.svg,"svg").createSVGRect},o.inlinesvg=function(){var a=b.createElement("div");return a.innerHTML="<svg/>",(a.firstChild&&a.firstChild.namespaceURI)==n.svg},o.svgclippaths=function(){return!!b.createElementNS&&/SVGClipPath/.test(l.call(b.createElementNS(n.svg,"clipPath")))};for(var D in o)x(o,D)&&(t=D.toLowerCase(),e[t]=o[D](),r.push((e[t]?"":"no-")+t));return e.addTest=function(a,b){if(typeof a=="object")for(var d in a)x(a,d)&&e.addTest(d,a[d]);else{a=a.toLowerCase();if(e[a]!==c)return e;b=typeof b=="function"?b():b,typeof f!="undefined"&&f&&(g.className+=" "+(b?"":"no-")+a),e[a]=b}return e},y(""),i=k=null,function(a,b){function k(a,b){var c=a.createElement("p"),d=a.getElementsByTagName("head")[0]||a.documentElement;return c.innerHTML="x<style>"+b+"</style>",d.insertBefore(c.lastChild,d.firstChild)}function l(){var a=r.elements;return typeof a=="string"?a.split(" "):a}function m(a){var b=i[a[g]];return b||(b={},h++,a[g]=h,i[h]=b),b}function n(a,c,f){c||(c=b);if(j)return c.createElement(a);f||(f=m(c));var g;return f.cache[a]?g=f.cache[a].cloneNode():e.test(a)?g=(f.cache[a]=f.createElem(a)).cloneNode():g=f.createElem(a),g.canHaveChildren&&!d.test(a)?f.frag.appendChild(g):g}function o(a,c){a||(a=b);if(j)return a.createDocumentFragment();c=c||m(a);var d=c.frag.cloneNode(),e=0,f=l(),g=f.length;for(;e<g;e++)d.createElement(f[e]);return d}function p(a,b){b.cache||(b.cache={},b.createElem=a.createElement,b.createFrag=a.createDocumentFragment,b.frag=b.createFrag()),a.createElement=function(c){return r.shivMethods?n(c,a,b):b.createElem(c)},a.createDocumentFragment=Function("h,f","return function(){var n=f.cloneNode(),c=n.createElement;h.shivMethods&&("+l().join().replace(/\w+/g,function(a){return b.createElem(a),b.frag.createElement(a),'c("'+a+'")'})+");return n}")(r,b.frag)}function q(a){a||(a=b);var c=m(a);return r.shivCSS&&!f&&!c.hasCSS&&(c.hasCSS=!!k(a,"article,aside,figcaption,figure,footer,header,hgroup,nav,section{display:block}mark{background:#FF0;color:#000}")),j||p(a,c),a}var c=a.html5||{},d=/^<|^(?:button|map|select|textarea|object|iframe|option|optgroup)$/i,e=/^(?:a|b|code|div|fieldset|h1|h2|h3|h4|h5|h6|i|label|li|ol|p|q|span|strong|style|table|tbody|td|th|tr|ul)$/i,f,g="_html5shiv",h=0,i={},j;(function(){try{var a=b.createElement("a");a.innerHTML="<xyz></xyz>",f="hidden"in a,j=a.childNodes.length==1||function(){b.createElement("a");var a=b.createDocumentFragment();return typeof a.cloneNode=="undefined"||typeof a.createDocumentFragment=="undefined"||typeof a.createElement=="undefined"}()}catch(c){f=!0,j=!0}})();var r={elements:c.elements||"abbr article aside audio bdi canvas data datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video",shivCSS:c.shivCSS!==!1,supportsUnknownElements:j,shivMethods:c.shivMethods!==!1,type:"default",shivDocument:q,createElement:n,createDocumentFragment:o};a.html5=r,q(b)}(this,b),e._version=d,e._prefixes=m,e.mq=v,e.testStyles=u,g.className=g.className.replace(/(^|\s)no-js(\s|$)/,"$1$2")+(f?" js "+r.join(" "):""),e}(this,this.document),function(a,b,c){function d(a){return"[object Function]"==o.call(a)}function e(a){return"string"==typeof a}function f(){}function g(a){return!a||"loaded"==a||"complete"==a||"uninitialized"==a}function h(){var a=p.shift();q=1,a?a.t?m(function(){("c"==a.t?B.injectCss:B.injectJs)(a.s,0,a.a,a.x,a.e,1)},0):(a(),h()):q=0}function i(a,c,d,e,f,i,j){function k(b){if(!o&&g(l.readyState)&&(u.r=o=1,!q&&h(),l.onload=l.onreadystatechange=null,b)){"img"!=a&&m(function(){t.removeChild(l)},50);for(var d in y[c])y[c].hasOwnProperty(d)&&y[c][d].onload()}}var j=j||B.errorTimeout,l=b.createElement(a),o=0,r=0,u={t:d,s:c,e:f,a:i,x:j};1===y[c]&&(r=1,y[c]=[]),"object"==a?l.data=c:(l.src=c,l.type=a),l.width=l.height="0",l.onerror=l.onload=l.onreadystatechange=function(){k.call(this,r)},p.splice(e,0,u),"img"!=a&&(r||2===y[c]?(t.insertBefore(l,s?null:n),m(k,j)):y[c].push(l))}function j(a,b,c,d,f){return q=0,b=b||"j",e(a)?i("c"==b?v:u,a,b,this.i++,c,d,f):(p.splice(this.i++,0,a),1==p.length&&h()),this}function k(){var a=B;return a.loader={load:j,i:0},a}var l=b.documentElement,m=a.setTimeout,n=b.getElementsByTagName("script")[0],o={}.toString,p=[],q=0,r="MozAppearance"in l.style,s=r&&!!b.createRange().compareNode,t=s?l:n.parentNode,l=a.opera&&"[object Opera]"==o.call(a.opera),l=!!b.attachEvent&&!l,u=r?"object":l?"script":"img",v=l?"script":u,w=Array.isArray||function(a){return"[object Array]"==o.call(a)},x=[],y={},z={timeout:function(a,b){return b.length&&(a.timeout=b[0]),a}},A,B;B=function(a){function b(a){var a=a.split("!"),b=x.length,c=a.pop(),d=a.length,c={url:c,origUrl:c,prefixes:a},e,f,g;for(f=0;f<d;f++)g=a[f].split("="),(e=z[g.shift()])&&(c=e(c,g));for(f=0;f<b;f++)c=x[f](c);return c}function g(a,e,f,g,h){var i=b(a),j=i.autoCallback;i.url.split(".").pop().split("?").shift(),i.bypass||(e&&(e=d(e)?e:e[a]||e[g]||e[a.split("/").pop().split("?")[0]]),i.instead?i.instead(a,e,f,g,h):(y[i.url]?i.noexec=!0:y[i.url]=1,f.load(i.url,i.forceCSS||!i.forceJS&&"css"==i.url.split(".").pop().split("?").shift()?"c":c,i.noexec,i.attrs,i.timeout),(d(e)||d(j))&&f.load(function(){k(),e&&e(i.origUrl,h,g),j&&j(i.origUrl,h,g),y[i.url]=2})))}function h(a,b){function c(a,c){if(a){if(e(a))c||(j=function(){var a=[].slice.call(arguments);k.apply(this,a),l()}),g(a,j,b,0,h);else if(Object(a)===a)for(n in m=function(){var b=0,c;for(c in a)a.hasOwnProperty(c)&&b++;return b}(),a)a.hasOwnProperty(n)&&(!c&&!--m&&(d(j)?j=function(){var a=[].slice.call(arguments);k.apply(this,a),l()}:j[n]=function(a){return function(){var b=[].slice.call(arguments);a&&a.apply(this,b),l()}}(k[n])),g(a[n],j,b,n,h))}else!c&&l()}var h=!!a.test,i=a.load||a.both,j=a.callback||f,k=j,l=a.complete||f,m,n;c(h?a.yep:a.nope,!!i),i&&c(i)}var i,j,l=this.yepnope.loader;if(e(a))g(a,0,l,0);else if(w(a))for(i=0;i<a.length;i++)j=a[i],e(j)?g(j,0,l,0):w(j)?B(j):Object(j)===j&&h(j,l);else Object(a)===a&&h(a,l)},B.addPrefix=function(a,b){z[a]=b},B.addFilter=function(a){x.push(a)},B.errorTimeout=1e4,null==b.readyState&&b.addEventListener&&(b.readyState="loading",b.addEventListener("DOMContentLoaded",A=function(){b.removeEventListener("DOMContentLoaded",A,0),b.readyState="complete"},0)),a.yepnope=k(),a.yepnope.executeStack=h,a.yepnope.injectJs=function(a,c,d,e,i,j){var k=b.createElement("script"),l,o,e=e||B.errorTimeout;k.src=a;for(o in d)k.setAttribute(o,d[o]);c=j?h:c||f,k.onreadystatechange=k.onload=function(){!l&&g(k.readyState)&&(l=1,c(),k.onload=k.onreadystatechange=null)},m(function(){l||(l=1,c(1))},e),i?k.onload():n.parentNode.insertBefore(k,n)},a.yepnope.injectCss=function(a,c,d,e,g,i){var e=b.createElement("link"),j,c=i?h:c||f;e.href=a,e.rel="stylesheet",e.type="text/css";for(j in d)e.setAttribute(j,d[j]);g||(n.parentNode.insertBefore(e,n),m(c,0))}}(this,document),Modernizr.load=function(){yepnope.apply(window,[].slice.call(arguments,0))},Modernizr.addTest("ie8compat",function(){return!window.addEventListener&&document.documentMode&&document.documentMode===7});
@@ -73,7 +73,7 @@
         </ul>
         <section class="top-bar-section">
           <ul class="right">
-            <li class="has-dropdown"><a href="entropy.js.html">entropy.js</a>
+            <li class="has-dropdown"><a href="entropy-plugins.js.html">entropy-plugins.js</a>
               <ul class="dropdown">
               </ul>
             </li>
@@ -87,7 +87,7 @@
           <div class="large-6 columns">
             <div id="undefined" class="docblock">
               <div class="docblock-hd">
-                <div class="summary"><p>Placeholder.</p></div>
+                <div class="summary"><p>All selector.</p></div>
               </div>
               <div class="docblock-bd">
                 <table class="tags">
@@ -105,7 +105,7 @@
                   </tr>
                 </table>
               </div>
-              <div class="description"><p>This makes the docs not fail, until I get around to adding real docs for this file.</p>
+              <div class="description"><p>Returns all entities in the set.</p>
 
 <p>Examples:</p>
 
@@ -116,630 +116,420 @@
           </div>
           <div class="large-6 columns">
             <div class="code">
-              <pre><code class="language-javascript">'.create': utilities.functionFactory(Entity),
-			create: function(){
-				var args = Array.prototype.slice.call(arguments);
-
-				var	id = '',
-					value = args[0] || {},
-					classes = [];
-
-				var entity;
-
-				//	Adds an empty object (for some reason?).
-				if(args.length === 0){}
-
-				//	Adds the passed in object, with no ID or classes.
-				if(args.length === 1){
-					value = args[0];
-				}
-
-				//	Adds an object with an ID.
-				if(args.length === 2){
-					value = args[1];
-					//	Has a configuration object.
-					if(typeof args[0] === 'object' &amp;&amp; typeof args[1] === 'object'){
-						id = args[0].id || id;
-						classes = args[0].classes || classes;
-
-						if(/^\/\w+$/.test(id)){
-							id = value[id.substr(1)] || id;
-						}
-
-						if(/^\/\w+$/.test(classes)){
-							classes = typeof value[classes.substr(1)] === 'string' &amp;&amp; value[classes.substr(1)].replace(' ', '-') || classes;
-						}
-					}else{
-						id = args[0];
-					}
-				}
-
-				//	Adds an object with an ID and some classes.
-				if(args.length === 3){
-					id = args[0];
-					classes = args[1];
-					value = args[2];
-				}
-
-				//	Check if the item is already an Entity.
-				var isEntity = typeof value === 'function' &amp;&amp; value['.isEntity'];
-
-				//	If it is not, make it one.
-				//	Otherwise, dance profusely.
-				if(isEntity){
-					entity = value;
-				}else{
-					//	Make the base entity.
-					entity = Entity['.create']();
-
-					//	Setup the usual suspects.
-					entity
-					.set('!id', id)
-					.addClass(classes);
-
-					//	If the item being added is added directly by an entity,
-					//	we don't need to do the deep copy.
-					if(value instanceof utilities.Item){
-						entity['.key'] = value.key;
-
-						value = value.value;
-					}else{
-						//	TODO:  Store the original object as a dotfile,
-						//	and expose the copy with getters/setters that modify
-						//	the original themselves.
-						utilities.copy.call(entity, value);
-					}
-
-					entity['.value'] = value;
-				}
-
-				return entity;
-			},
-
-			//	Converts the value of an entity (which can be any data type)
-			//	into Items and adds them to the entity's bag of entities.
-			'.bake': function(){
-				var item, key, value, shouldWeProceed;
-				//	Only do this if the entity has no entities already, IE if this has not been run yet.
-				if(this.size() === 0){
-					for(key in this.get()){
-						value = this.get(key);
-
-						shouldWeProceed = this.get().hasOwnProperty(key);
-						shouldWeProceed = shouldWeProceed &amp;&amp; (typeof value !== 'string' || value.length &gt; 1);
-
-						if(shouldWeProceed){
-							item = new utilities.Item(key, value);
-							this.add(item);
-						}
-					}
-				}
-				return this;
-			},</code></pre>
-            </div>
-          </div>
-        </div>
-        <div class="row flex">
-          <div class="large-6 columns">
-            <div id="undefined" class="docblock">
-              <div class="docblock-hd">
-                <div class="summary"><p>Adds an item to an entity's list of entities.</p></div>
-              </div>
-              <div class="docblock-bd">
-              </div>
-              <div class="description"></div>
-            </div>
-          </div>
-          <div class="large-6 columns">
-            <div class="code">
-              <pre><code class="language-javascript">add: function(){
-				var entity = this.create.apply(this, arguments)['.bake']();
-				var index = this['.list'].push(entity) - 1;
-
-				Object.defineProperty(this, index, {
-					enumerable: true,
-
-					get: function(){
-						return entity;
-					}
-				});
-
-				this._length += 1;
-				return this;
-			},</code></pre>
-            </div>
-          </div>
-        </div>
-        <div class="row flex">
-          <div class="large-6 columns">
-            <div id="undefined" class="docblock">
-              <div class="docblock-hd">
-                <div class="summary"><p>Adds each item in a given array to an item's list of entities.</p></div>
-              </div>
-              <div class="docblock-bd">
-              </div>
-              <div class="description"><p>This can take an optional configuration object as a first parameter, which can list certain properties like id and classes on each item.</p>
-
-<p>These properties can take a dynamic value like '/asdf' to make the value depend on the property specified.</p></div>
-            </div>
-          </div>
-          <div class="large-6 columns">
-            <div class="code">
-              <pre><code class="language-javascript">addEach: function(){
-				var args = Array.prototype.slice.call(arguments);
-
-				var	items,
-					config = false;
-
-				if(args.length === 1){
-					items = args[0];
-				}
-
-				if(args.length === 2){
-					config = args[0];
-					items = args[1];
-				}
-
-				if(typeof items === 'object'){
-					var item;
-					for(var i in items){
-						item = items[i];
-						if(items.hasOwnProperty(i)){
-							if(!(item instanceof Array)){
-								item = [item];
-							}
-
-							if(config !== false){
-								item = [config].concat(item);
-							}
-
-							this.add.apply(this, item);
-						}
-					}
-				}
-
-				return this;
-			},
-
-			//	Removes an item from an entity's list.
-			remove: function(query){
-			},
-
-			//	Returns the size of the list.
-			size: function(){
-				return this.list().length;
-			},
-
-			//	Returns the index of the specified item in the list.
-			indexOf: function(item){
-			},
-
-			//	Decides which plugins are relevant to the specified action and selector.
-			_getRelevantPlugins: function(action){
-				var args = Array.prototype.slice.call(arguments, 1);
-				return entropy['.plugins'].filter(function(plugin, p){
-					return plugin[action] &amp;&amp; plugin.relevance.apply(plugin, args);
-				});
-			},
-
-			//	Performs a single-level filter based on a query.
-			filter: function(){
-				var self = this,
-					args = Array.prototype.slice.call(arguments);
-
-				var results, parameters;
-				if(typeof args[0] === 'function'){
-					results = this.create();
-					this.each(function(contents, e){
-						parameters = [contents, e].concat(args.slice(1));
-						if(args[0].apply(this, parameters)){
-							results.add(this);
-						}
-					});
-				}else{
-					//	Get list of relevant plugins.
-					var relevant = this._getRelevantPlugins.apply(this, ['filter'].concat(args));
-					//	Build list of results.
-					results = (relevant.length ? this : this.create());
-					relevant.forEach(function(plugin, p){
-						results = results.filter.apply(results, [plugin.filter].concat(plugin.matches));
-						delete plugin.matches;
-					});
-				}
-
-				return results;
-			},
-
-			//	Performs a deep-find on entity.
-			//	Returns a new entity of entities matching a query.
-			find: function(){
-				var args = Array.prototype.slice.call(arguments);
-				var self = this;
-
-				// var results;
-				// var runPlugin = function(plugin, action){
-				// 	var addChildren = function(entity){
-				// 		var filter = entity.filter.apply(entity, [plugin[action]].concat(plugin.matches));
-				// 		results.addEach(filter.list());
-				// 		entity.each(addChildren);
-				// 	};
-				// 	return addChildren;
-				// };
-
-				// //	Get list of relevant plugins.
-				// var relevant = this._getRelevantPlugins.apply(this, ['find'].concat(args));
-				// //	Build list of results.
-				// results = this.create();
-				// relevant.forEach(function(plugin, p){
-				// 	var action = (typeof plugin.find === 'string') ? plugin.find : 'find';
-				// 	runPlugin(plugin, action)(self);
-				// 	delete plugin.matches;
-				// });
-
-				var results = this.create();
-				var addChildren = function(){
-					var filter = this.filter.apply(this, args);
-					results.addEach(filter.list());
-					this.each(addChildren);
-				};
-				addChildren.call(this);
-
-				return results;
-			},
-
-			//	Traverses to an entity if it is the sole result of the passed query.
-			goto: function(){
-				var args = Array.prototype.slice.call(arguments);
-
-				var entity,
-					index = 0;
-				if(args.length &gt;= 1){
-					if(typeof args[0] === 'object'){
-						return this.create(args[0])['.bake']();
-					}
-					if(typeof args.slice(-1)[0] === 'number'){
-						index = args.splice(-1)[0];
-					}
-				}
-
-				if(args.length &gt;= 1){
-					entity = this.filter.apply(this, args);
-				}else{
-					entity = this;
-				}
-
-				if(entity.size() &gt; index){
-					return entity[index];
-				}
-				return false;
-			},
-
-			//	Returns whether an entity matches a given selector.
-			matches: function(){
-				var self = this,
-					args = Array.prototype.slice.call(arguments);
-				//	Get list of relevant plugins.
-				var relevant = this._getRelevantPlugins.apply(this, ['filter'].concat(args));
-				//	Build list of results.
-				return relevant.some(function(plugin, p){
-					return plugin.filter.apply(self, [self.get(), 0].concat(plugin.matches));
-				});
-			},
-
-			//	Returns a specified property or key.
-			get: function(key){
-				var	args = Array.prototype.slice.call(arguments);
-
-				if(args.length === 0){
-					//	Return entity's value.
-					return this['.value'];
-				}else if(args.length === 1){
-					//	Get a whitelist of &quot;magic&quot; proeprties.
-					if(/^!/.test(key)){
-						key = key.substr(1);
-						if(~['id', 'classes'].indexOf(key)){
-							return this[key];
-						}else if(~['key', 'list', 'index'].indexOf(key)){
-							return this['.' + key];
-						}
-						return undefined;
-					}
-					//	Return a property on the current entity.
-					return this['.value'] &amp;&amp; this['.value'][key];
-				}
-			},
-
-			//	Sets the given blacklisted property on the entity.
-			set: function(key, value){
-				var args = Array.prototype.slice.call(arguments);
-
-				if(args.length === 1){
-					this['.value'] = key;
-				}
-
-				if(args.length === 2){
-					if(/^!/.test(key)){
-						key = key.substr(1);
-						//	Set a whitelist of &quot;magic&quot; properties.
-						if(~['id'].indexOf(key)){
-							this[key] = value;
-						}else if(~['key'].indexOf(key)){
-							this['.' + key] = value;
-						}
-					}else{
-						//	Set a property on the entity's value.
-						this['.value'][key] = value;
-					}
-				}
-
-				return this;
-			},
-
-			//	Get a value from all children entities.
-			map: function(key){
-				var	args = Array.prototype.slice.call(arguments);
-
-				if(args.length === 0){
-					//	Return an array of values of child entities.
-					return this.map(function(entity){
-						return entity.get();
-					});
-				}else if(args.length === 1){
-					//	ES5 Array.map.
-					if(typeof key === 'function'){
-						return this.list().map(key, this);
-					}
-					//	Return an array of properties of child entities.
-					return this.map(function(entity){
-						return entity.get(key);
-					});
-				}
-
-				return [];
-			},
-
-			//	Set a value from all children entities.
-			setAll: function(key, value){
-				var	args = Array.prototype.slice.call(arguments);
-
-				if(args.length === 2){
-					//	Set properties on child entities.
-					this.each(function(entity){
-						return entity.set(key, value);
-					});
-				}
-
-				return this;
-			},
-
-			//	Returns a copy of the internal list of entities.
-			list: function(){
-				return this.get('!list').slice();
-			},
-
-			//	Create a clone of the entity.
-			clone: function(){
-				var clone = this.create();
-				this.each(function(entity, e){
-					clone.add(entity);
-				});
-				return clone;
-			},
-
-			//	Adds class(es) (purely for convenience) to the entity.
-			//	Accepts infinite arguments, space-delimited lists, or arrays.
-			addClass: function(){
-				var	self = this,
-					args = Array.prototype.slice.call(arguments);
-
-				args = utilities.parseClasses(args);
-				args.forEach(function(klass, k){
-					if(!~self.classes.indexOf(klass)){
-						self.classes.push(klass);
-					}
-				});
-
-				return this;
-			},
-
-			//	Removes class(es) from the entity.
-			removeClass: function(){
-				var	index,
-					self = this,
-					args = Array.prototype.slice.call(arguments);
-
-				args = utilities.parseClasses(args);
-				args.forEach(function(klass, k){
-					index = self.classes.indexOf(klass);
-
-					if(~index){
-						self.classes.splice(index, 1);
-					}
-				});
-
-				return self;
-			},
-
-			//	Adds/removes a class based on whether it is already present.
-			toggleClass: function(){
-				var	self = this,
-					args = Array.prototype.slice.call(arguments);
-
-				args = utilities.parseClasses(args);
-				args.forEach(function(klass, k){
-					if(!~self.classes.indexOf(klass)){
-						self.addClass(klass);
-					}else{
-						self.removeClass(klass);
-					}
-				});
-
-				return self;
-			},
-
-			//	Checks for the existence of a class.
-			hasClass: function(){
-				var self = this,
-					args = Array.prototype.slice.call(arguments);
-
-				args = utilities.parseClasses(args);
-				return args.every(function(klass, k){
-					return !!~self.classes.indexOf(klass);
-				});
-			},
-
-			////////////////////////////////
-			//	ES5 Corner.
-			////////////////////////////////
-
-			//	Calls a function for each entity in the list.
-			each: function(){
-				var args = Array.prototype.slice.call(arguments);
-				var e, entity,
-					length = this.size();
-				for(e = 0; e &lt; length; e++){
-					entity = this[e];
-					if(typeof args[0] === 'function'){
-						args[0].call(entity, entity.get(), e);
-					}
-				}
-				return this;
-			},
-
-			//	Returns true if every entity in this entity satisfies the provided testing function.
-			every: function(){
-				var args = Array.prototype.slice.call(arguments);
-				var e, entity,
-					length = this.size();
-				for(e = 0; e &lt; length; e++){
-					entity = this[e];
-					if(typeof args[0] === 'function' &amp;&amp; !args[0].call(entity, entity.get(), e)){
-						return false;
-					}
-					if(!entity.matches.apply(entity, args)){
-						return false;
-					}
-				}
-				return true;
-			},
-
-			//	Returns true if at least one entity in this entity satisfies the provided testing function.
-			some: function(){
-				var args = Array.prototype.slice.call(arguments);
-				var e, entity,
-					length = this.size();
-				for(e = 0; e &lt; length; e++){
-					entity = this[e];
-					if(typeof args[0] === 'function' &amp;&amp; args[0].call(entity, entity.get(), e)){
-						return true;
-					}
-					if(entity.matches.apply(entity, args)){
-						return true;
-					}
-				}
-				return false;
-			}</code></pre>
-            </div>
-          </div>
-        </div>
-        <div class="row flex">
-          <div class="large-6 columns">
-            <div id="undefined" class="docblock">
-              <div class="docblock-hd">
-                <div class="summary"><p>/    Apply a function simultaneously against two entities of the entity (from left-to-right) as to reduce it to a single value.             reduce: function(){                 var args = Array.prototype.slice.call(arguments);                 return this.list().reduce.apply(this.list(), args);             }</p></div>
-              </div>
-              <div class="docblock-bd">
-              </div>
-              <div class="description"></div>
-            </div>
-          </div>
-          <div class="large-6 columns">
-            <div class="code">
-              <pre><code class="language-javascript">});
-
-		////////////////////////////////
-		//	Aliases.
-		////////////////////////////////
-			//	Filesystem metaphor.
-			// Entity.find;
-			Entity.grep = Entity.filter;
-			Entity.cd = Entity.goto;
-			Entity.ls = Entity.list;
-			Entity.cp = Entity.clone;
-			Entity.rm = Entity.remove;
-			Entity.make = Entity.create;
-			//	Other.
-			Entity.has = Entity.some;
-
-		var entropy = (function(){
-			var entropy = Entity.create();
-
-			//	Give it something to write home about.
-			entropy
-			// .set('!id', 'root')
-			// .addClass('root', 'entropy');
-
-			//	Stuff unique to the entropic root.
-			entropy.VERSION = 0.602;
-			entropy['.plugins'] = [];
-			entropy['.adapters'] = [];
-			entropy.utilities = utilities;
-
-			entropy.register = (function(){
-				var plugins = entropy['.plugins'];
-
-				var defaults = {
-					name: '',
-					expression: false,
-					type: 'string',
-
-					filter: function(){ return false; },
-					find: 'filter',
-					goto: 'filter',
-
-					relevance: function(){
-						var args = Array.prototype.slice.call(arguments);
-						var self = this;
-						this.matches = [];
-						if(~['string', 'number'].indexOf(this.type)){
-							if(typeof args[0] === this.type &amp;&amp; this.expression &amp;&amp; this.expression.test(args[0])){
-								(''+args[0]).replace(this.expression, function(value){
-									self.matches = Array.prototype.slice.call(arguments).slice(0, -2);
-									return;
-								});
-								return true;
-							}
-						}else{
-							return this.type === typeof args[0];
-						}
-						return false;
-					}
-				};
-
-				return function(parameters){
-					var options = utilities.copy(defaults);
-					plugins.push(utilities.extend(options, parameters));
-
-					return entropy;
-				};
-			})();
-
-			//	Accessibility alias.
-			entropy.Entity = Entity;
-
-			return entropy;
-		})();
-
-		return entropy;
-	})();
-
-	//	Assign globally, whether in a browser or node.js.
-	if(typeof module !== 'undefined' &amp;&amp; typeof require !== 'undefined'){
-		module.exports = entropy;
-	}else{
-		window.entropy = window.S = entropy;
+              <pre><code class="language-javascript">S.register({
+	name: 'all',
+	description: 'Returns all entities in the set.',
+	expression: /^\*$/,
+
+	filter: function(){
+		return true;
 	}
-})();</code></pre>
+});</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><p>ID selector.</p></div>
+              </div>
+              <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>#id</code></td>
+                    <td>id of an entity</td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
+                    <td><code></code></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAI8AAAATCAAAAACMrAF3AAAACXBIWXMAAACAAAAAgAC4UaqhAAAB/ElEQVRIx8WWUZXsIAyGsVALtYAFLGABC7GAhVjAQizEAhawwA0UWrptp8y5e87mYYbOJOQj/ISqvBnF/K19H/FszG2g6ieaMDd7gJBTczUTaWjSJ6LmgyeqORq2lNk5fuFh24vu1JMP2tR87OYT1oOH1NwG6VTh8wsP7v/4Rx9Yegla8vb1iSchiB2lc3DimNgvC+8+0zxokcSOH8w2u5/nWej/eIIPuOO4y2oXP+ps4BnjGDds9P5ZB2xMUSGBRD7zkMzk28TxunxelFrhhmeMS5h1qYqTMpruAod1N0VFaCJId+VpwshW5rCtBD7cCcqtCq48YxzGelr9OsqHDtsbDeW0hKEY2jceMj0MlIbUx9psxmekfc0DzxgnKOW4L/AiH+EhlQaeZEsqVUddogirzg/1idvkcMMzxuW8Ykki3vypjYiDP4nFuZ/6kd4r+9rT/5Sz33gcXnhOcZkWuXzqjNJ92qKs2Q0OHlZ8JOdarBNP2c4DA/Cul7C+6nmPIyPKAZehNs2kYe8Nt/XZGoh/PF8YCAcdgDtJR3sgQpeuPHtcKEmCQy4nSk6y80/3EIGSuyc5Tx5Ubbl35z1ROikGRj1zTgH5tv+c42J9iLGPPlmifj1P3BcvZvJv2sgTVfpznrAM7z9g4x/zsMGBR96H6PsK/yIOhrZD/wAFkpSEsBwB6gAAADx0RVh0Y29tbWVudAAgSW1hZ2UgZ2VuZXJhdGVkIGJ5IEdQTCBHaG9zdHNjcmlwdCAoZGV2aWNlPXBubXJhdykKMWBuhgAAAABJRU5ErkJggg=="></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="description"><p>Returns all entities in the set with a given <code>id</code>.</p>
+
+<p>Examples:</p>
+
+<pre><code>    S.filter('#Jake')
+    S('#Jake')
+</code></pre></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">S.register({
+	name: 'id',
+	description: 'ID selector.',
+	expression: /^#([\w\-_]+)$/,
+
+	filter: function(contents, index, selector, $id){
+		return this.id === $id;
+	}
+});</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><p>Class selector.</p></div>
+              </div>
+              <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>.class</code></td>
+                    <td>class of an entity</td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
+                    <td><code></code></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANQAAAATCAAAAADNWHzIAAAACXBIWXMAAACAAAAAgAC4UaqhAAADJklEQVRIx82XW7EkIQyGsdAWxgIvKwALVB0FWIgFLGABC7GABSxggQ2EW09fpudhtw4PA131h85HLvSIzANj/nZ8b/H9SN94EkJ7FvXXKf/MRQ8+pyZVV6KAt34iuES/5MvHk3Ru3fWS0DJNdDJMqCieIQWNORgT7qFQbzdIoH2MNhjMETb74X2w7Ari+qx04/WvCYXiWZRlqieQP0QK9LWbL+bQdRMR7l+od7G5gYqmkYuPUMkBjRlEAzuYSyh1GYDQY+OLMW73TGjyQ6is4kMopx3SWCwZyn6Cug6AVCOZ7iPKh+gfQ1l7DeWtH6XpzCEbNrvW3gK12lEA0Dnmd9ZGNwVOdDdjnBF9E83F1psTWGxQCSxAKh0EnBoTvVNdQpXzs827qE6SR4gXnECtdhSAjVyvfciQ10pNgdxOIvouGou0tc5cGkBiqFIBYDjQqk+zi69QrViypv11C4b1Z0VmXgKOUKtdy9IXeWBLL9IwBWKXb1xSB9FY8OmnckReNygCKp5bVaLVpwmVpW0PqLqfICT0hgNS8dgXSFLqCLXacQDqJbGVfTecgnkgYZTUQTQWDOVF2tWUt1bkJEkS+7RAJV38FXXVa9/BS+aLSEWuUziBWu04AE6WEyWLIBbBgMLQS+ooGguGcmJtFJ4yoOaYB7mlMQ0oY95rir4WchJvrX82GIYy7gC1s+MAUBr4uqtV2Q+B7ukHHFH6rjmKxiLW9AwcIE6/VDoNmfzULEXgaUIFkd6hSvZOFnBvva96EuSxUQw7LNdFDYBI9A1EuyYJdAV0QeDWkGqW0UsdX+V70bLg95alixUKS1Z7kf/UGyEAT9Otk+7nPLqlNsDsyklaQHQmHaGGnS+nWh2XSGgA1JsNXQNDgNIiWst7VM2JaCw4BgkMUi3QZxI9g0bvJfzQFUq3BvBUE/aypaf9N2OEtVGEnLwLp/fUzi6OTlBvo5h2AnRTG/K5qC+ap/Xjd76Kk7Fq0pDq8PQz6cNQ//yPh0wPhf1SXaGiSL8SCuGh0LRL0m9LfwcdfyNUdvhM1npaULubOD40353jf/jnG77xxPmWcH8BKL7z3wysI+0AAAA8dEVYdGNvbW1lbnQAIEltYWdlIGdlbmVyYXRlZCBieSBHUEwgR2hvc3RzY3JpcHQgKGRldmljZT1wbm1yYXcpCjFgboYAAAAASUVORK5CYII="></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="description"><p>Returns all entities in the set with a given <code>class</code>.</p>
+
+<p>Examples:</p>
+
+<pre><code>    S.filter('.mammal')
+    S('.mammal')
+</code></pre></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">S.register({
+	name: 'class',
+	description: 'Class selector.',
+	expression: /^\.([\w\-_]+)$/,
+
+	filter: function(contents, index, selector, $klass){
+		return !!this.hasClass($klass);
+	}
+});</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><p>Key selector.</p></div>
+              </div>
+              <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>key</code></td>
+                    <td>keys of entities that are defined in objects</td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
+                    <td><code></code></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANkAAAATCAAAAAA4pvd4AAAACXBIWXMAAACAAAAAgAC4UaqhAAADB0lEQVRYw7VXUbXsIAzEQi3UAhawgAUsxAIWYgELsYAFLGCBF6Cl9Jay7Tu7fLA9CxMyJExApNoopLftPSL+1PrWvK+/ovSo3DNLDlyK21T1dk3EjZ03bMLT7cQ8Yv3U/XtwQOkbsyCe8fKa2Cvj/4+Zh9znDgQm0uJuohWWez2J8ASct39tzEg8SxAZyzakt8x04VRcxdIJmi3qIc8PZmJx6nEdnDGLCNyOcBo4MXrObMm5Q8VTW9ejuXNY7IdfMUONxO34Q1Vm9i0zX8wbVwKX/SURp85RyXdrv8jMWYeN2CUb9GL7beyY9TjOI0BXFInAAXd6BR5d6swcrpLQeVGCPALWQkw5Qfibu1htkZo7PwaPmREP2M3FcLXrFyFWGDDrcTxtjYlyAhreG0fbMYtLZ2ln5iXVJCe5RTJ2wtHiAkfDg9ktuGO2HaCkOf56C4t1o4NnVgFXZj0upRVzAsYEWaLyMa3HrN8pWdcPtuRqRi6+Avvq05jR0XxjNgFLW9GkdmdBSNi3DKSq7VxXolJXZj2OhY8/Lfu+KE5G2o/ZiZkpzvnVF3COxcoT7VqLwoXZKBtn4KjZa1E+9rOKsMp0E7NQtQQGzHpcMqrqvBeb+Fh1YYbFOWdzGYFGIC4U8CmzGTgfg9M54/tFivvUSzmx1VGDF2YnXFXQxZWEbNXMpbAMRCAPbfNi8egkh82kVq3BA3D9s2fG7nSEAEfl1surgjQcZUm3Jt8i2HZJF3KJcwXDro2b6oW6aMzQ4m1RXS96Zt1SQ228BV+1ER3hcV4SmNMRkxaI0MQrs4Yrks5KZkHWu5jLgQZbLoz6qIx5Hl+Q2N6ysMgboE1ZZV9VEGa3qwl4oPqRTne1AL2C+BQd+mE9+4Pb45u2v3384GjcSZ+maP/sAXEBf75dfWjjQupdOc2DETl/xHDe9heeUUF9CO6YBRG/xixXBTMMD8HUHAvaaYJ580I7gd1y6A/o8LWYIdmbxxPSNKvQxb+Puedv2g7sFXbKGuar3r4PX77Qfmq96Vnl+A/AOmpbFh7O7AAAADx0RVh0Y29tbWVudAAgSW1hZ2UgZ2VuZXJhdGVkIGJ5IEdQTCBHaG9zdHNjcmlwdCAoZGV2aWNlPXBubXJhdykKMWBuhgAAAABJRU5ErkJggg=="></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="description"><p>Returns all entities in the set with a given <code>key</code>.</p>
+
+<p>Examples:</p>
+
+<pre><code>    S.filter('name')
+    S('name')
+</code></pre></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">S.register({
+	name: 'key',
+	description: 'Key selector.',
+	expression: /^([\w\-_]+)$/,
+
+	filter: function(contents, index, selector, $key){
+		return $key === this['.key'];
+	}
+});</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><p>Property presence selector.</p></div>
+              </div>
+              <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>[property]</code></td>
+                    <td>name of a property</td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
+                    <td><code></code></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAATCAAAAAAVcY/rAAAACXBIWXMAAACAAAAAgAC4UaqhAAAD00lEQVRYw8VYWxXjIBDFQizEQixgAQtYGAtjYSxgYSxgAQtYYHkmkIQ2Pdvu8tGTApk73HkSEcpgFz4dn7/xePifSn8yrK0PIv+SNM8UMmCCr1tlm+Qy7Ne0IwoB7X8lyNFmD4KceEaPVRys1vZEEJShv2Y9SL/K/18fMutBEItnrG4+sxlOBDWe/lonVUQUapz+p3zQeaKS8oogT8kxDufSMBDzhKCziNdj4axNZUa21zjJMD8mCD4niBSl1HJMyCIEnxN0EfE6tIoaunKBDcgnGSj5l/z45RFBBs3uanRxcbVg7ws3BBkkj4RzET1AcEAmFwcGA/FHrZAWm6o8AnhlDykDzDV9SOkQwKYHjzpCGELkbiHriwi+7qBVAHBI/p5z6oQgjgtYD+Dk1cKLECtcCaKWpL3xS1yXZiaiBwh29YFTVOnIo+GWgg5bnvzab+1hhIFj0G59SPI5PmBYKOQTK+oWSsLgre2oFLDwyRT+RFBNLkFFo6jqJGjuMopeBVwIsqXMQyDHKfVrPRPRA4SVUlT5AOmdlKdqCpITgkK1/BmGj2GH8IiCWXCuK/nES7cQkZMeiy07dh9JStWWZ8OqBMt2ZhAbtOIKmyxj7Ee8lC9CLORaL9VMRA9ASWuMXrHIGGG8p6ArQaaKWfcsNMDcDK6BYcsD1r98LERVksutvLtONeq6J1OvkuIiP+EeLGvz44v5XVEPXhIkkySBUyfsALQshd2Kem6U4Y0H7QQNMC8IqseHC0Fc50LoCHI5wNnVQC0e2uegVEp90+rShmBRT9MrgqJpgln8RMQAkP12MTnK9i4obnCzHNQBDjBK7gMGgnCpD6aEWAyqfaHB+o4gLLRgq6n+TNBi+kMB3XVxdntZxZLQjWYiGgCnFgd18v24f00RyCbECCLXVbEOaij/F5g7D0rWjAWlnizvzVm5LVQDoas7fGQPCy84LfNkmOBo8EEP6WdDYCbtrwRV86kUf8i6C6yTiAZgspoACFu5wJjknoCUz6y4heNQutVByBnmhiBjOLoCK5E93scaXmt3WUhzGhip7YieYwru5uZ9kOfh/uOgz7A2lleyL/qgYqmxnRtFnAHa3aLOWj8Qs/c9lNjvW7ALzE0O8uOO+ndYGLc4N/a7D64ab8aVIC+ef6SwJmfEu6XNTxqxxzDTA705aQz0ve/vCXLCf4Mgj+L5N4rULuj7+y3naT1j4T2MQ3H/+Wa6EPbCtatklq5SgHJfIChdKh8zbYlxFifE5ZvQxMxvYdIO/mhh74RNk2wl9aXU0edXwR9eHu1PpT/6+tGY+gOv2SayByJtJwAAADx0RVh0Y29tbWVudAAgSW1hZ2UgZ2VuZXJhdGVkIGJ5IEdQTCBHaG9zdHNjcmlwdCAoZGV2aWNlPXBubXJhdykKMWBuhgAAAABJRU5ErkJggg=="></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="description"><p>Returns all entities in the set with a given <code>property</code>.</p>
+
+<p>Examples:</p>
+
+<pre><code>    S.filter('[property]')
+    S('[property]')
+</code></pre></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">S.register({
+	name: 'property-presence',
+	description: 'Returns true if a property is present.',
+	expression: /^\[\s*(!?[\w+\-]+)\s*\]$/,
+
+	filter: function(contents, index, selector, $property){
+		return this.get($property);
+	}
+});</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><p>Property comparison selector.</p></div>
+              </div>
+              <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>[property=&quot;value&quot;]</code></td>
+                    <td>property/value comparison pair</td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
+                    <td><code></code></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgkAAAATCAAAAAA/28HwAAAACXBIWXMAAACAAAAAgAC4UaqhAAAF60lEQVRo3s1ZbbXsKgzFQi2MhVrAQi3UAhawgAUsxAIWsIAFLuGjpEBpZ73OW4cfc3oGhp1sNiGhzKcG1n/bvv/F4+Z+OvtfBH7N/K+Xx5j0l8VPxfWzH2qhvctDefkSUjOvOaSU9/JyutfhngL/+YbmH+2pH1at5lCCZc90YDbwZt9NowSR2v6WQ0bg5+Yuut+Gewz811sy/2iP/dCfQwnAnqlndVE2vlFCWaH/7MomiAuWLvXg8BLvUzkA/j928jjy2a+Ja5b+sR9p+WdKcAr3XrVoFycFPFFCO8W8LRCtyR5w8jO+P1LCd3AdIx0w4HT6x0oYS5p/o8dIHLS/4PYlJahN4XlMZk42y+dK6KaYR7dkxp6pl7LaKrjzb8N1rQd2OJ3k8EshuGW4OgOPb4jbW8kSAr9Wgpb6iFWqE+W2SKqygRK0VE4qeT0FBfBWKB0zVRBahI/tI7CzMAMVYLNaDJRgVPiwB2VTODRNaWGc0Hv6gZLSKmrzADit1WbIJMS//sTl3EohTHxycg/O6QADpAMtl1K4MkJ9mBCAsSxmQBceT3g7iFtaE1s/TuIh1A2UAKFXZkTbT2MWxj6iV4IqKZzTbgn9XF9NQQG8+TgPGNf2sIIaymlX9wijJ97qezjlV/B2gQdwTsEisUgKHynZ3MMT58TmAXCRQgZv/BO1qWN7oUA/gE/SL8rHtd0U6YiHLKzHCMhL4FBybujxDW+JuGT+yUTWJNnV0hN1RAk5AfCbRDHm0KJHx/D+YaJTgkllnfDKAqah+341BQXwH4VxzXmBv8HDPdvFuwXBaqVWSAQuFj3CPoBTTgcCvYxYm89PG7V5AHwwmTZz4x/UZk6BFj0CBjG9xrWFhXSYWKgtJo8o2xDZqKX82eMb3nKawDsTWVN4V0vP1K0yDQZeFlewVRRVipWndi5LHeeT0yFtN75dTUEBFJIkg/AXHoIcHGlCvyBui8ADOLmRhGEOl0yLuyc6jjsnUVhsHihB5xk/QCcp/l0eucBMfpL5f6gdguHWDDNmCeQ/qEzhLzye8paJK+YTE2clIaXObYEzFh/kEXg/JSZ1O8wmNsRUCTyqS16GFQKw87QyhmWaJb9QQsreBfRwqyIZ7BwujV10vj2JGzJRWGyexYSCffJvooSyzqJVAuSvqgTwj8XgDvYIAp3HM94yccV8YuJMCZS6GEFonoD4jl1VozIB72qmBIbJ0uIupjgBxEgUVsYwV4tiXKjuuE4c2G0AZ/Gw8E/gHI61eT/l0zlQqKvN9jJPqK6e/Nv40cRpdeVSnnQ6HZitHdlfR5Ug43JUgTUez3nLxBXziYmHHwNLCXVpJqqEuGEOOoUa3V6YdVo74JyrupqiAABWunLH4BnGfzCag/YhYCpLUvgCVc7L3fZKcLSanMLFizQMqrhpZLwfc6sIT9XmFrgrL1v/RjEBycW0OnMaB4c8rHakpQxVWB6BEpVxPWR7a1w8nvNWiFtaEzs/aCPU9bWD0qGaqVWs2E8pwioFgNpdr4Sstg2PDgm0rG2mKAA60iKEFGu6w9YYcIRMDGxQImIGzpBmb+HCFEAMnsLF4zOmxqGIw2RJhMpsD0/V5ha4LP9Wpd34N1CC1oCbGzYWo6dDEwXpCF/tAkIhUEaEYBALAL8eSm89nvNWiEvmExPV7BqWUDeoIh2cbjOsoPmXCRWKMpP7hLQDzqf5eYoWoFwv52+NOzlQqvhjxsEFjzNP4Vy8Kc+exLF4WjhqcwuMRWdQHLlE6fwb5AmuGeGg62iGWNtclXUez3nLxCXziYnb9B1Upe7+tvmm9Upw7PlFr9ExSxomM+7iQuMnV3zE5jvge/8umbyhOAT5h3ejN7wREx8TSJRgmXtDCU6y5290sRrdx+ELxCAt+JUQqM03wPf+WcnGr/cvO/yRvYs3eKMmPiZQLzW9FJt9QQn4vuaxpIwCebULFDTv2n/XzjbPge/9wxHwVcdxZ6fdG7wREx8TaLgihYZV379l+eF7GfPT2f8i8Gvmf708RYP/AGyd0PwQ1Xa2AAAAPHRFWHRjb21tZW50ACBJbWFnZSBnZW5lcmF0ZWQgYnkgR1BMIEdob3N0c2NyaXB0IChkZXZpY2U9cG5tcmF3KQoxYG6GAAAAAElFTkSuQmCC"></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="description"><p>Returns all entities in the set with a given <code>property</code> set to a specified <code>value</code>.</p>
+
+<p>Examples:</p>
+
+<pre><code>    // let property = 'VaLuE':
+    S('[property="value"]');
+    S('[property=="VaLuE"]');
+    S("[property^='va']");
+    S("[property^=='Va']");
+    S("[property*='lu']");
+    S("[property*=='Lu']");
+    S('[property$=ue]');
+    S('[property$==uE]');
+    S('[property&lt;2]');
+    S('[property&gt;2]');
+    S('[property&lt;=2]');
+    S('[property&gt;=2]');
+</code></pre></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">S.register({
+	name: 'property-comparison',
+	description: 'Returns true if a specified property meets the specified (in)equality.',
+	expression: /^\[\s*(!?[\w\-_]+)\s*(=|\^=|\$=|\*=|&lt;|&gt;)(=?)\s*([&quot;']?)([^\4]+)\4\]$/,
+
+	filter: function(contents, index, selector, $property, $operator, $isStrict, $quote, $value){
+		var property = this.get($property);
+		var	test = ($isStrict) ? property : !!contents &amp;&amp; (''+property).toLowerCase(),
+			control = ($isStrict) ? $value : (''+$value).toLowerCase();
+
+		var cases = {
+			//	Equality:
+			'=': function(){
+				return test == control;
+			},
+			//	Starts with:
+			'^=': function(){
+				var regex = new RegExp('^' + control);
+				return regex.test(test, 'i');
+			},
+			//	Ends with:
+			'$=': function(){
+				var regex = new RegExp(control + '$');
+				return regex.test(test, 'i');
+			},
+			//	Less than:
+			'&lt;': function(){
+				return ($isStrict) ? parseInt(test, 10) &lt;= parseInt(control, 10) : parseInt(test, 10) &lt; parseInt(control, 10);
+			},
+			//	Greater than:
+			'&gt;': function(){
+				return ($isStrict) ? parseInt(test, 10) &gt;= parseInt(control, 10) : parseInt(test, 10) &gt; parseInt(control, 10);
+			}
+		};
+
+		//	Run the relevant function based on the operator, and return pass/fail.
+		return cases[$operator]();
+	}
+});</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><p>Type selector.</p></div>
+              </div>
+              <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>~type</code></td>
+                    <td>type of an object</td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
+                    <td><code></code></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQMAAAATCAAAAACxGzc4AAAACXBIWXMAAACAAAAAgAC4UaqhAAAD2UlEQVRYw7VYcb21LAymghWsYAUqWIEKq7AKVKDCKlCBClTg2xgIHr3fq/d3D394xLNnbM/Ghpqig1J5O94j8m9AXxsxthtTr96GZ8YFCCU3Uft2Ue9LwfhVvwjz8xj6LQ4OknnGQNypROfi7ziIINc9nzX+KQWA+EZhWAcHZJ4Rt+VKWHnLwT55n9wpNez/Qt6OJYE/VD/IGvNPDrIHHiNFHJx8f87BQrJIc96mx5DXO2H2A/6CA7974jEeWFWLbzmIVb0LOkN8DHk7cDIpL7/kIGAYueQu+bngHMNpwRnH6Q4+1BpLEIAv+yoZ2m2igYseKthnHyAOTR1SPGLyHyIEBLkrb7+6y8Bu0EPmVwM8kUzmlAAI1iYE1cBVQxF3HBDLY3MmXcMcF2NWuOFgxrHYmgtJLjtmMVDb2yMuZuy1shFfaUHJulmTlgPHz60tJxFw4tNQLnPamkX+EmMy7G3mUkQGxDTSLa2ImYO20cvOC+0t1BjuCoRbDVw5mHGlrF5yOReQqivlRMuBvXDgkzQknwOT1vK4a6oQXFtxnERqKbd0KNfSbjT8Jl5rg1gjSalzhsXaBJcqumEziGx3C8wGvXXBZnWcG3q29srBjCtemEfmebGcpdT39g0HLFaDL6FskW+aFLLAURwPkaXZ2pXXeVIOTkWkcyBEwjEnE8FIpV8rIu/inql3vUx5WLfyQx4k5RpuOJhxxVk1N7bgtAjfcrDW5N38EZimqULIHAQeItSUduU6r7Tzz/bBQap7kGpJ6RwQTOs791kP+AxYcpdInyURdVXnLxyccNo9llC3w9HqQ0nXesBVQ87oWZLTryxzaKqQahWzUZ81kR7drlznu9oK7oMDVD9xSOLSoXlomTlgwyfXwd+dWuJ2rYkHjqT3I9+hKF8lshQKp51Poy9MGthoaFuctcPQVCFyGMsbiCeHSF5yU6rK8yJbfVNC7Nx1hTZUunBkjJT0GqTa4W76gg/kx75mC0+lYEMg8i5fOThwoa4DgLDpyTpI8gDKi0LZqe+b0VKdjy18WG+7JoVwR8PgxNoh4kGVduU8x27z+VzlXND5ltTHEKimRHaM8T/1xkynwzw33KkmxpKDj7fngw/ccdJtj2Oefd8nHUn+yXkI5RMkpRuRvtbn77Tb2jzNB0b2MdNh7+Oz8j/G/TkxhlqHbv7RjE22fGVAuB7q6q4hKj/5OHOQTP4zDqR3utuzOum550tfEJaw32h2rqVBQnP9PBCWqUjDnv4sDzzhD+87nvQbwldGCPH2tS+0BgIAn2bFdq40/XvC+/e094j4G9DXRqen/AdjqiR2bCSfQgAAADx0RVh0Y29tbWVudAAgSW1hZ2UgZ2VuZXJhdGVkIGJ5IEdQTCBHaG9zdHNjcmlwdCAoZGV2aWNlPXBubXJhdykKMWBuhgAAAABJRU5ErkJggg=="></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="description"><p>Returns all entities in the set that are a given <code>type</code>. Note: <code>type</code> is case insensitive, but currently only native types (and arrays) are supported.</p>
+
+<p>Examples:</p>
+
+<pre><code>    S.filter('~array')
+    S('~date')
+</code></pre></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">S.register({
+	name: 'type',
+	description: 'Case insensitive, but ONLY WORKS WITH BUILT-IN TYPES (Object, Array, Date, Number, String, Boolean, Function).',
+	expression: /^~(\w+)$/,
+
+	filter: function(contents, index, expression, $type){
+		var type = Object.prototype.toString.call(contents).replace(/\[object (\w+)\]/, '$1');
+		return type.toLowerCase() === $type.toLowerCase();
+	}
+});</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><p>Index selector.</p></div>
+              </div>
+              <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">Number</span></td>
+                    <td><code>index</code></td>
+                    <td>index of an entity</td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
+                    <td><code></code></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAAATCAAAAAAoxrmkAAAACXBIWXMAAACAAAAAgAC4UaqhAAACRUlEQVRIx82WYZHsIAyAsYCFWsACFrCAhVjAQixgIRawgAUscNDSAoXdpbPv3Vx+MB0CydeQBFg8hHx8KvMd9MSSJ7ewyp2L2D6itGsuLNgYylI51WxAc4+zaQK58ksoXIX1bA3VKYpOazfCVk2eRRUGLMWmJuVajLYKS2zt0ETY/2z002jyLPDx5+kb2LL5HWxASFL9aujsN34ajXzv73/BokJK0hg+kMzop9H8Hqw1Fi9Wfd+iuPFzP40mzTopXbRSRiRwRx0lw7sPMAZCzCcWPQB+gL1wZrCUAmQKrR/NOM7YBjPYRpNnA6M82FIZKFNGa1bShURenw5BUGsEqmC847SwJeWiSiZUCZGxsyTWG4PZCVbNPpthY4bNXgK3xZ/buw5P0SbureuMUJWzrTY4whRYkqd/YALOpgNCHtK37SDli3QrmgaWDkRiocACy4HbaDePH3O2wQkqc7D966wZhE3EF5H1R6nBCNtpRlhzpRrUIgscPhdYxdH6nrPpDkqZdhLc68scSBoH2E4zwjrmrjTYA5UHCBt2RpS8pBx0g1M2trA5tyrjleentd2GE2OBdZoR9mhspn75zJqKzL2PbIMz6QZoCaFelKC7dBUGiFCHEbbTyFzFTNExKKYpBm3IpHz16Qso1TduqdIs52nmDWyDM2tdgbo73UNbYC4Gi27WZzvN1Hug8/kTaP1SqDgL1+0HkV9cSV/cYJ6Fvw1refOeBeX/Fax49vhegnUSG9j0vqXHsPMdAA8s0b3lvKi0cvA/hapod296YJIAAAA8dEVYdGNvbW1lbnQAIEltYWdlIGdlbmVyYXRlZCBieSBHUEwgR2hvc3RzY3JpcHQgKGRldmljZT1wbm1yYXcpCjFgboYAAAAASUVORK5CYII="></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="description"><p>Returns all entities in the set at a specified <code>index</code> of their respective parents.</p>
+
+<p>Examples:</p>
+
+<pre><code>    S.filter(4)
+    s(4)
+</code></pre></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">S.register({
+	name: 'index',
+	description: 'Retrieves an entity at a specific index of its parent.',
+	expression: /^(\d+)$/,
+	type: 'number',
+
+	filter: function(contents, index, selector, $index){
+		return index == $index;
+	}
+});</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><p>Lineage selector.</p></div>
+              </div>
+              <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>query1&gt;query2</code></td>
+                    <td></td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Entity</span></td>
+                    <td><code></code></td>
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVwAAAATCAAAAAD5BOr9AAAACXBIWXMAAACAAAAAgAC4UaqhAAAEcElEQVRYw81ZbZHsIBDEAhZiIRawEAtYGAtYwAIWxgIWsIAF3jAQPjZhb3fvXtXmxxZHgG6aoRlyIpUHQ3r3eb/H60/8rFv4Cnjv69+Cf61yr/Fy4FKsTdUvZ+Bx+craz4Y0/g/Afw0f7O67uEG8Jq0/MHmt/Z+Ii4dc4sD7wwGzOuKvwT+Ad6AhjPBu6+KieC3q98grkT4U95hJw7Fs+O62tACCQzHoScJ1zKzB34fPgW6kH+CroM/EjcQZoBPUMIn6trhy3orKrMJKf7ARirhJjXqq9UBL8A/g2QS2Y4D/WVx7WKRnIFTENR+K6x9QxMogtftcXDOIhqCWMSjW7vw2vMhKKDHA34rrjGtebi8LeEgzxcVgOkM/Z2y0DnwEp3lu1phgaabHBrbMGYFeoERroargYBhGntoARKp3Svn8kzezMdSVytHokPcVVQGM4uLA6ghuNKKR5ABe6C3hB/QVvM2q7PsAfycuUmtTCYRrYHopxAY34o79okVpcv5BP5DXR1OBuVXLzZVMS7q6ozTVOGzDxDI7u8UUQbLLY+GYfQn3XDZJ0noJWqNYHbKKm/r2yAa4p1uSI/hJbwXf0J/CB2EH+FHcaqbpMHm5a1rh7kxYbwKu4o79bHREK5mtnhpcYF2L5fJBqrCazEYF4KahDVNWP8rM1olTOOLrOamhkwOrkhs1OXPIq7g5qxmSqpFkB+/0lvCnuE/hDz3B76b+gerUC8QOp0vBrsozm1NU6iru2K/GK/PNEPLUtVquhMH1OAeUilwB+zBldshTwVFcEPmAJUnOnZaVgbQQNx5M955kB+/LvoI/xX0Gb/R0byDwrJvgkmkpzXZupEvkhsIebsQd+5GkbFyusOdVZl1NJY2n6+V+e36J8zBldmYwrCZumjIdCi8MdiUu8AQA70g28E5vDd/FXcLbdozWV1o/em6mE8XgWPP1o9DU9iLu1I9KIeuarWFPFquujmPZ9bOTE00KbedFnIcJsuQW+ChubRn7IFqbtBK3CBmOO5INvNNbw3dbWMHzOWgG+Np0FJejrWkK9u4K4Pfrgdb6YU7z2FTNXnJJk68ccQeCpv1Ex2qUGRZdSTRFpP2w+VLThpHdxaCJm0OJ/cuEPjsvHsVt/E631WEmyRwbeKe3hj/Rl/AeKGM1ozw32YJ1aCfvnOx2NzSG1fEqbuvnMo+SIkDJXAIlBpTh6FwwPF8L6PIm4ERzR8OXaq5pwxysU9SApuxOo5Fi7ECuomP6EOf+2Yt0AZRQ7AD29OC9EvV6JskcO3ijt4Y/0dMKnpIoeiB1+LtULOKUdBPl4UDzKTrrb/PcqV+M7fsQtw7ZJXKdr41K46FFrWnDnALFdnbkN75WzbfYSy5+MmwN8YbkHb01fEN/Gf6F6+8Pz2+/ij25TzYZnjEjJ8HHb1tBfQX8KG4Q8avERWjfpwQuqdGJfIkcHb4C3snhdIMjfJO4lGS0r12wZEaX7PhHH2L/GN6r8bqWgsX3F/g//ifCfxhzXwHfVP8Hf1zrBokUqOoAAAA8dEVYdGNvbW1lbnQAIEltYWdlIGdlbmVyYXRlZCBieSBHUEwgR2hvc3RzY3JpcHQgKGRldmljZT1wbm1yYXcpCjFgboYAAAAASUVORK5CYII="></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="description"><p>Returns all entities in the set where a specified <code>key1</code> exists as a parent to a given <code>key2</code>. Note: I think this is broken, though it's likely worthless even when working.</p>
+
+<p>Examples:</p>
+
+<pre><code>    S.filter('#friends &gt; [name]')
+    S('#friends &gt; [name]')
+</code></pre></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">S.register({
+	name: 'lineage',
+	description: 'Returns an item if a given key1 exists as a parent to a given key2.',
+	expression: /^(\S.+\S)(\s?)&gt;\2(\S.+\S)$/,
+
+	filter: function(contents, index, selector, $left, _space, $right){
+		return entropy['.plugins'].some(function(plugin){
+			return plugin.relevance(selector);
+		}) || this.matches($left) &amp;&amp; this.some($right);
+	}
+});</code></pre>
             </div>
           </div>
         </div>
@@ -747,9 +537,9 @@
       <div class="large-2 pull-10 columns">
         <nav aria-label="Codebase Navigation">
           <ul class="side-nav">
-            <li><a href="entropy-plugins.js.html">entropy-plugins.js</a>
+            <li><a href="entropy-plugins.js.html" class="isCurrent">entropy-plugins.js</a>
             </li>
-            <li><a href="entropy.js.html" class="isCurrent">entropy.js</a>
+            <li><a href="entropy.js.html">entropy.js</a>
             </li>
           </ul>
         </nav>
