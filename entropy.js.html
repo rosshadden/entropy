@@ -87,6 +87,178 @@
           <div class="large-6 columns">
             <div id="undefined" class="docblock">
               <div class="docblock-hd">
+                <div class="summary"><h4>API</h4></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">(function(){
+	var entropy = (function(){
+		'use strict';
+
+		var Entity = Object.create(Function.prototype);
+
+		var utilities = {
+			functionFactory: function(prototype){
+				return function(){
+					var f = function(){
+						return f.call.apply(f, arguments);
+					};
+
+					Object.keys(prototype).forEach(function(key){
+						f[key] = prototype[key];
+					});
+
+					f.constructor.apply(f, arguments);
+
+					return f;
+				};
+			},
+
+			extend: function(destination, source){
+				Object.getOwnPropertyNames(source).forEach(function(key){
+					destination[key] = source[key];
+				});
+				return destination;
+			},
+
+			copy: (function(){
+				var root, current,
+					path = [];
+
+				return function(object, isNested){
+					var i, response, length;
+
+					if(!isNested){
+						root = this;
+					}
+
+					if(window.HTMLElement &amp;&amp; (!(object instanceof HTMLElement) &amp;&amp; !(object instanceof Node)) || object &amp;&amp; !object.nodeType){
+						if(Object.prototype.toString.call(object) === '[object Array]'){
+							response = [];
+							i = 0;
+							length = object.length;
+
+							for(; i &lt; length; i++){
+								if(object === object[i]){
+									continue;
+								}
+
+								path.push(i);
+
+								if(window.HTMLElement &amp;&amp; (!(object[i]  instanceof HTMLElement)) || object[i] &amp;&amp; !object[i].nodeType){
+									response[i] = utilities.copy(object[i], true);
+								}else{
+									response[i] = object[i];
+								}
+
+								path.pop();
+							}
+
+							return response;
+						}
+
+						if(typeof object === 'object'){
+							response = {};
+
+							for(i in object){
+								if(object === object[i]){
+									continue;
+								}
+
+								path.push(i);
+
+								if(window.HTMLElement &amp;&amp; !(object[i]  instanceof HTMLElement) || object[i] &amp;&amp; !object[i].nodeType){
+									response[i] = utilities.copy(object[i], true);
+								}else{
+									response[i] = object[i];
+								}
+
+								path.pop();
+							}
+
+							return response;
+						}
+					}
+
+					return object;
+				};
+			})(),
+
+			Item: function(key, value){
+				this.key = key;
+				this.value = value;
+			},
+
+			parseClasses: function(args){
+				args = args || [];
+				if(args.length === 1){
+					if(args[0] instanceof Array){
+						args = args[0];
+					}else if(typeof args[0] === 'string'){
+						args = args[0]
+							.replace(/\s*\./g, ' ')
+							.trim()
+							.split(' ');
+					}
+				}
+				return args;
+			}
+		};
+
+		utilities.extend(Entity, {
+			_length: 0,
+
+			constructor: function(id, classes, value){
+				//	Setup unique properties.
+				Object.defineProperty(this, '.isEntity', {
+					value: true,
+					writable: false,
+					enumerable: false,
+					configurable: false
+				});
+
+				Object.defineProperty(this, '.list', {
+					value: [],
+					writable: false,
+					enumerable: false,
+					configurable: false
+				});
+
+				//	These are set if the relelvant arguments are passed,
+				//	though I prefer to call Entity['.make']() without arguments,
+				//	and set them afterward.
+				this.id = (typeof id !== 'undefined') ? id : 'Entity';
+				this['.key'] = '';
+				//	TODO:  This should parse classes instead of assuming array.
+				this.classes = (typeof classes !== 'undefined') ? classes : [];
+				//	Note that I am doing the typeof undefined check in case value is boolean.
+				this['.value'] = (typeof value !== 'undefined') ? value : {};
+			},
+
+			//	Called when you invoke the instance as a function.
+			//	This runs a query against the list of the instance.
+			call: function(){
+				return this.find.apply(this, arguments);
+			},
+
+			//	This is mainly useful when playing with entropy in the console.
+			toString: function(){
+				return 'entity';
+			},
+
+			//	Makes a brand new Entity.</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
                 <div class="summary"><p>Placeholder.</p></div>
               </div>
               <div class="docblock-bd">
