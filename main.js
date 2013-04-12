@@ -1285,4 +1285,4 @@ S.add('response', 'huge stupid irritating', {
 
 
 //	Nested.
-S.cd('#Jake').add('test', '.testing.mammal', [5, 4, 3, 2, 1]);
+// S.cd('#Jake').add('test', '.testing.mammal', [5, 4, 3, 2, 1]);

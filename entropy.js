@@ -109,6 +109,62 @@
 					}
 				}
 				return args;
+			},
+
+			sort: function(){
+				var args = Array.prototype.slice.call(arguments);
+
+				var sort = function(left, right, options){
+					var temp = {};
+					var areStrings = typeof left === 'string' && typeof right === 'string';
+					var areNumbers = typeof left === 'number' && typeof right === 'number';
+
+					if(options.expression && areStrings){
+						left = left.replace(options.expression, '');
+						right = right.replace(options.expression, '');
+					}
+
+					if(options.numeric && areStrings){
+						temp.left = parseInt(left.replace(/[$,]/g, '').match(/^\d+/));
+						temp.right = parseInt(right.replace(/[$,]/g, '').match(/^\d+/));
+						if(!isNaN(temp.left)) left = temp.left;
+						if(!isNaN(temp.right)) right = temp.right;
+					}
+
+					if(options.ignoreCase && areStrings){
+						left = left.toLowerCase();
+						right = right.toLowerCase();
+					}
+
+					return (left < right) ? -1 : (left > right) ? 1 : 0;
+				};
+
+				var options = {};
+				if(typeof args[args.length - 1] === 'object'){
+					options = args.splice(-1, 1)[0];
+				}
+
+				if(args.length === 0){
+					return function(left, right){
+						return sort(left, right, options);
+					};
+				}
+
+				var left, right;
+				return function(a, b){
+					var results = args.map(function(property, p){
+						left = a[property];
+						right = b[property];
+
+						return sort(left, right, options);
+					});
+
+					for(var r = 0; r < results.length; r++){
+						if(results[r] !== 0) return results[r];
+					}
+
+					return 0;
+				};
 			}
 		};
 
@@ -117,6 +173,8 @@
 
 			constructor: function(id, classes, value){
 				//	Setup unique properties.
+				this.index = -1;
+
 				Object.defineProperty(this, '.isEntity', {
 					value: true,
 					writable: false,
@@ -275,6 +333,9 @@
 			add: function(){
 				var entity = this.create.apply(this, arguments)['.bake']();
 				var index = this['.set'].push(entity) - 1;
+				if(!this.hasClass('results')){
+					entity.index = index;
+				}
 
 				Object.defineProperty(this, index, {
 					enumerable: true,
@@ -342,7 +403,15 @@
 			},
 
 			//	Returns the index of the specified item in the list.
-			indexOf: function(item){
+			//	If no arguments are passed, returns the index of the entity itself.
+			indexOf: function(){
+				var args = Array.prototype.slice.call(arguments);
+
+				if(!args.length){
+					return this.index;
+				}
+				var item = this.cd.apply(this, args);
+				return item && item.index;
 			},
 
 			//	Decides which plugins are relevant to the specified action and selector.
@@ -360,7 +429,7 @@
 
 				var results, parameters;
 				if(typeof args[0] === 'function'){
-					results = this.create();
+					results = this.create().addClass('results');
 					this.each(function(contents, e){
 						parameters = [contents, e].concat(args.slice(1));
 						if(args[0].apply(this, parameters)){
@@ -371,7 +440,7 @@
 					//	Get list of relevant plugins.
 					var relevant = this._getRelevantPlugins.apply(this, ['filter'].concat(args));
 					//	Build list of results.
-					results = (relevant.length ? this : this.create());
+					results = (relevant.length ? this : this.create()).addClass('results');
 					relevant.forEach(function(plugin, p){
 						results = results.filter.apply(results, [plugin.filter].concat(plugin.matches));
 						delete plugin.matches;
@@ -407,7 +476,7 @@
 				// 	delete plugin.matches;
 				// });
 
-				var results = this.create();
+				var results = this.create().addClass('results');
 				var addChildren = function(){
 					var filter = this.filter.apply(this, args);
 					results.addEach(filter.list());
@@ -426,7 +495,7 @@
 					index = 0;
 				if(args.length >= 1){
 					if(typeof args[0] === 'object'){
-						return this.create(args[0])['.bake']();
+						return this.create(args[0])['.bake']().addClass('results');
 					}
 					if(typeof args.slice(-1)[0] === 'number'){
 						index = args.splice(-1)[0];
@@ -468,9 +537,9 @@
 					//	Get a whitelist of "magic" proeprties.
 					if(/^!/.test(key)){
 						key = key.substr(1);
-						if(~['id', 'classes'].indexOf(key)){
+						if(~['id', 'classes', 'index'].indexOf(key)){
 							return this[key];
-						}else if(~['key', 'set', 'index'].indexOf(key)){
+						}else if(~['key', 'set'].indexOf(key)){
 							return this['.' + key];
 						}
 						return undefined;
@@ -546,6 +615,15 @@
 			//	Returns a copy of the internal list of entities.
 			list: function(){
 				return this.get('!set').slice();
+			},
+
+			//	Sorts the internal set.
+			sort: function(){
+				var args = Array.prototype.slice.call(arguments);
+				var set = this['.set'];
+				// this['.set'] = set.sort(utilities.sort.apply(set, args));
+				this[0] = 2;
+				return this;
 			},
 
 			//	Create a clone of the entity.
