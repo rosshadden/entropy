@@ -124,7 +124,7 @@
 					configurable: false
 				});
 
-				Object.defineProperty(this, '.list', {
+				Object.defineProperty(this, '.set', {
 					value: [],
 					writable: false,
 					enumerable: false,
@@ -274,7 +274,7 @@
 			 */
 			add: function(){
 				var entity = this.create.apply(this, arguments)['.bake']();
-				var index = this['.list'].push(entity) - 1;
+				var index = this['.set'].push(entity) - 1;
 
 				Object.defineProperty(this, index, {
 					enumerable: true,
@@ -470,7 +470,7 @@
 						key = key.substr(1);
 						if(~['id', 'classes'].indexOf(key)){
 							return this[key];
-						}else if(~['key', 'list', 'index'].indexOf(key)){
+						}else if(~['key', 'set', 'index'].indexOf(key)){
 							return this['.' + key];
 						}
 						return undefined;
@@ -545,7 +545,7 @@
 
 			//	Returns a copy of the internal list of entities.
 			list: function(){
-				return this.get('!list').slice();
+				return this.get('!set').slice();
 			},
 
 			//	Create a clone of the entity.
