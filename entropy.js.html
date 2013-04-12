@@ -87,209 +87,41 @@
           <div class="large-6 columns">
             <div id="undefined" class="docblock">
               <div class="docblock-hd">
-                <div class="summary"><h4>API</h4></div>
-              </div>
-              <div class="docblock-bd">
-              </div>
-              <div class="description"></div>
-            </div>
-          </div>
-          <div class="large-6 columns">
-            <div class="code">
-              <pre><code class="language-javascript">(function(){
-	var entropy = (function(){
-		'use strict';
-
-		var Entity = Object.create(Function.prototype);
-
-		var utilities = {
-			functionFactory: function(prototype){
-				return function(){
-					var f = function(){
-						return f.call.apply(f, arguments);
-					};
-
-					Object.keys(prototype).forEach(function(key){
-						f[key] = prototype[key];
-					});
-
-					f.constructor.apply(f, arguments);
-
-					return f;
-				};
-			},
-
-			extend: function(destination, source){
-				Object.getOwnPropertyNames(source).forEach(function(key){
-					destination[key] = source[key];
-				});
-				return destination;
-			},
-
-			copy: (function(){
-				var root, current,
-					path = [];
-
-				return function(object, isNested){
-					var i, response, length;
-
-					if(!isNested){
-						root = this;
-					}
-
-					if(window.HTMLElement &amp;&amp; (!(object instanceof HTMLElement) &amp;&amp; !(object instanceof Node)) || object &amp;&amp; !object.nodeType){
-						if(Object.prototype.toString.call(object) === '[object Array]'){
-							response = [];
-							i = 0;
-							length = object.length;
-
-							for(; i &lt; length; i++){
-								if(object === object[i]){
-									continue;
-								}
-
-								path.push(i);
-
-								if(window.HTMLElement &amp;&amp; (!(object[i]  instanceof HTMLElement)) || object[i] &amp;&amp; !object[i].nodeType){
-									response[i] = utilities.copy(object[i], true);
-								}else{
-									response[i] = object[i];
-								}
-
-								path.pop();
-							}
-
-							return response;
-						}
-
-						if(typeof object === 'object'){
-							response = {};
-
-							for(i in object){
-								if(object === object[i]){
-									continue;
-								}
-
-								path.push(i);
-
-								if(window.HTMLElement &amp;&amp; !(object[i]  instanceof HTMLElement) || object[i] &amp;&amp; !object[i].nodeType){
-									response[i] = utilities.copy(object[i], true);
-								}else{
-									response[i] = object[i];
-								}
-
-								path.pop();
-							}
-
-							return response;
-						}
-					}
-
-					return object;
-				};
-			})(),
-
-			Item: function(key, value){
-				this.key = key;
-				this.value = value;
-			},
-
-			parseClasses: function(args){
-				args = args || [];
-				if(args.length === 1){
-					if(args[0] instanceof Array){
-						args = args[0];
-					}else if(typeof args[0] === 'string'){
-						args = args[0]
-							.replace(/\s*\./g, ' ')
-							.trim()
-							.split(' ');
-					}
-				}
-				return args;
-			}
-		};
-
-		utilities.extend(Entity, {
-			_length: 0,
-
-			constructor: function(id, classes, value){
-				//	Setup unique properties.
-				Object.defineProperty(this, '.isEntity', {
-					value: true,
-					writable: false,
-					enumerable: false,
-					configurable: false
-				});
-
-				Object.defineProperty(this, '.list', {
-					value: [],
-					writable: false,
-					enumerable: false,
-					configurable: false
-				});
-
-				//	These are set if the relelvant arguments are passed,
-				//	though I prefer to call Entity['.make']() without arguments,
-				//	and set them afterward.
-				this.id = (typeof id !== 'undefined') ? id : 'Entity';
-				this['.key'] = '';
-				//	TODO:  This should parse classes instead of assuming array.
-				this.classes = (typeof classes !== 'undefined') ? classes : [];
-				//	Note that I am doing the typeof undefined check in case value is boolean.
-				this['.value'] = (typeof value !== 'undefined') ? value : {};
-			},
-
-			//	Called when you invoke the instance as a function.
-			//	This runs a query against the list of the instance.
-			call: function(){
-				return this.find.apply(this, arguments);
-			},
-
-			//	This is mainly useful when playing with entropy in the console.
-			toString: function(){
-				return 'entity';
-			},
-
-			//	Makes a brand new Entity.</code></pre>
-            </div>
-          </div>
-        </div>
-        <div class="row flex">
-          <div class="large-6 columns">
-            <div id="undefined" class="docblock">
-              <div class="docblock-hd">
-                <div class="summary"><p>Placeholder.</p></div>
+                <div class="summary"><h5>create</h5></div>
               </div>
               <div class="docblock-bd">
                 <table class="tags">
                   <tr class="tag">
                     <th><b>param</b></th>
                     <td><span class="label radius secondary">String</span></td>
-                    <td><code>*</code></td>
+                    <td><code>id</code></td>
                     <td></td>
                   </tr>
                   <tr class="tag">
-                    <th><b>return</b></th>
-                    <td><span class="label radius secondary">Entity</span></td>
-                    <td><code></code></td>
-                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD0AAAATCAAAAAAGr1pzAAAACXBIWXMAAACAAAAAgAC4UaqhAAABC0lEQVQ4y5WTa7XEIAyEY6EWagELWMACFmIBC7EQC7EQC1iIhVxuoc/d7mnnR+HQfiEzFPAuqf5Cqn2E5UmRn9GM7Fa9UtCNrvCM1SSuOf+DPG+0wCO4Blu22pFftBE27W1lXIb4iKZE0rQvxE6XO5oL0wbna7k0la2RL7S04mXgNX6GNgHM+EEPQ55aU2mUL/wtiDzD+DaUTsvw444Q0NZ5iF16LhBHT5baG1gmZfWKc/CbvWvPDwed88V3+4/c1gDrNbTS6dxzUbALPfERQrokvvjTcJc5sdDmu+H5ZDkUFKFstydmYieneExN3Zj0x3m/0IGuYG9pnvb7jam+gzXSTrfrLm9g4t7sH9ugDbTOHGwxAAAAPHRFWHRjb21tZW50ACBJbWFnZSBnZW5lcmF0ZWQgYnkgR1BMIEdob3N0c2NyaXB0IChkZXZpY2U9cG5tcmF3KQoxYG6GAAAAAElFTkSuQmCC"></td>
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">Array</span></td>
+                    <td><code>classes</code></td>
+                    <td></td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">*</span></td>
+                    <td><code>valueundefined</code></td>
+                    <td></td>
                   </tr>
                 </table>
               </div>
-              <div class="description"><p>This makes the docs not fail, until I get around to adding real docs for this file.</p>
+              <div class="description"><p>Makes a brand new Entity.</p>
 
 <p>Examples:</p>
 
-<pre><code>    S.filter('*');
-    S('*');
+<pre><code>    S.create();
 </code></pre></div>
             </div>
           </div>
           <div class="large-6 columns">
             <div class="code">
-              <pre><code class="language-javascript">'.create': utilities.functionFactory(Entity),
-			create: function(){
+              <pre><code class="language-javascript">create: function(){
 				var args = Array.prototype.slice.call(arguments);
 
 				var	id = '',
@@ -406,7 +238,10 @@
             <div class="code">
               <pre><code class="language-javascript">add: function(){
 				var entity = this.create.apply(this, arguments)['.bake']();
-				var index = this['.list'].push(entity) - 1;
+				var index = this['.set'].push(entity) - 1;
+				if(!this.hasClass('results')){
+					entity.index = index;
+				}
 
 				Object.defineProperty(this, index, {
 					enumerable: true,
@@ -483,7 +318,15 @@
 			},
 
 			//	Returns the index of the specified item in the list.
-			indexOf: function(item){
+			//	If no arguments are passed, returns the index of the entity itself.
+			indexOf: function(){
+				var args = Array.prototype.slice.call(arguments);
+
+				if(!args.length){
+					return this.index;
+				}
+				var item = this.cd.apply(this, args);
+				return item &amp;&amp; item.index;
 			},
 
 			//	Decides which plugins are relevant to the specified action and selector.
@@ -501,7 +344,7 @@
 
 				var results, parameters;
 				if(typeof args[0] === 'function'){
-					results = this.create();
+					results = this.create().addClass('results');
 					this.each(function(contents, e){
 						parameters = [contents, e].concat(args.slice(1));
 						if(args[0].apply(this, parameters)){
@@ -512,7 +355,7 @@
 					//	Get list of relevant plugins.
 					var relevant = this._getRelevantPlugins.apply(this, ['filter'].concat(args));
 					//	Build list of results.
-					results = (relevant.length ? this : this.create());
+					results = (relevant.length ? this : this.create()).addClass('results');
 					relevant.forEach(function(plugin, p){
 						results = results.filter.apply(results, [plugin.filter].concat(plugin.matches));
 						delete plugin.matches;
@@ -548,7 +391,7 @@
 				// 	delete plugin.matches;
 				// });
 
-				var results = this.create();
+				var results = this.create().addClass('results');
 				var addChildren = function(){
 					var filter = this.filter.apply(this, args);
 					results.addEach(filter.list());
@@ -567,7 +410,7 @@
 					index = 0;
 				if(args.length &gt;= 1){
 					if(typeof args[0] === 'object'){
-						return this.create(args[0])['.bake']();
+						return this.create(args[0])['.bake']().addClass('results');
 					}
 					if(typeof args.slice(-1)[0] === 'number'){
 						index = args.splice(-1)[0];
@@ -609,9 +452,9 @@
 					//	Get a whitelist of &quot;magic&quot; proeprties.
 					if(/^!/.test(key)){
 						key = key.substr(1);
-						if(~['id', 'classes'].indexOf(key)){
+						if(~['id', 'classes', 'index'].indexOf(key)){
 							return this[key];
-						}else if(~['key', 'list', 'index'].indexOf(key)){
+						}else if(~['key', 'set', 'eid'].indexOf(key)){
 							return this['.' + key];
 						}
 						return undefined;
@@ -686,7 +529,16 @@
 
 			//	Returns a copy of the internal list of entities.
 			list: function(){
-				return this.get('!list').slice();
+				return this.get('!set').slice();
+			},
+
+			//	Sorts the internal set.
+			sort: function(){
+				var args = Array.prototype.slice.call(arguments);
+				var set = this['.set'];
+				// this['.set'] = set.sort(utilities.sort.apply(set, args));
+				this[0] = 2;
+				return this;
 			},
 
 			//	Create a clone of the entity.
@@ -943,13 +795,6 @@
       Prism.languages.css={comment:/\/\*[\w\W]*?\*\//g,atrule:/@[\w-]+?(\s+[^;{]+)?(?=\s*{|\s*;)/gi,url:/url\((["']?).*?\1\)/gi,selector:/[^\{\}\s][^\{\}]*(?=\s*\{)/g,property:/(\b|\B)[a-z-]+(?=\s*:)/ig,string:/("|')(\\?.)*?\1/g,important:/\B!important\b/gi,ignore:/&(lt|gt|amp);/gi,punctuation:/[\{\};:]/g};Prism.languages.markup&&Prism.languages.insertBefore("markup","tag",{style:{pattern:/(&lt;|<)style[\w\W]*?(>|&gt;)[\w\W]*?(&lt;|<)\/style(>|&gt;)/ig,inside:{tag:{pattern:/(&lt;|<)style[\w\W]*?(>|&gt;)|(&lt;|<)\/style(>|&gt;)/ig,inside:Prism.languages.markup.tag.inside},rest:Prism.languages.css}}});;
       Prism.languages.clike={comment:{pattern:/(^|[^\\])(\/\*[\w\W]*?\*\/|[^:]\/\/.*?(\r?\n|$))/g,lookbehind:!0},string:/("|')(\\?.)*?\1/g,keyword:/\b(if|else|while|do|for|return|in|instanceof|function|new|try|catch|finally|null|break|continue)\b/g,"boolean":/\b(true|false)\b/g,number:/\b-?(0x)?\d*\.?[\da-f]+\b/g,operator:/[-+]{1,2}|!|=?&lt;|=?&gt;|={1,2}|(&amp;){1,2}|\|?\||\?|\*|\//g,ignore:/&(lt|gt|amp);/gi,punctuation:/[{}[\];(),.:]/g};;
       Prism.languages.javascript=Prism.languages.extend("clike",{keyword:/\b(var|let|if|else|while|do|for|return|in|instanceof|function|new|with|typeof|try|catch|finally|null|break|continue)\b/g,number:/\b(-?(0x)?\d*\.?[\da-f]+|NaN|-?Infinity)\b/g});Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:/(^|[^/])\/(?!\/)(\[.+?]|\\.|[^/\r\n])+\/[gim]{0,3}(?=\s*($|[\r\n,.;})]))/g,lookbehind:!0}});Prism.languages.markup&&Prism.languages.insertBefore("markup","tag",{script:{pattern:/(&lt;|<)script[\w\W]*?(>|&gt;)[\w\W]*?(&lt;|<)\/script(>|&gt;)/ig,inside:{tag:{pattern:/(&lt;|<)script[\w\W]*?(>|&gt;)|(&lt;|<)\/script(>|&gt;)/ig,inside:Prism.languages.markup.tag.inside},rest:Prism.languages.javascript}}});;
-      
-    </script>
-    <script>
-      var _gaq=[['_setAccount','UA-22430916-6'],['_trackPageview']];
-      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-      g.src='//www.google-analytics.com/ga.js';
-      s.parentNode.insertBefore(g,s)}(document,'script'));
     </script>
   </body>
 </html>
