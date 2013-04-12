@@ -544,7 +544,7 @@
 						key = key.substr(1);
 						if(~['id', 'classes', 'index'].indexOf(key)){
 							return this[key];
-						}else if(~['key', 'set'].indexOf(key)){
+						}else if(~['key', 'set', 'eid'].indexOf(key)){
 							return this['.' + key];
 						}
 						return undefined;
