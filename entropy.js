@@ -168,20 +168,25 @@
 			}
 		};
 
+		var __eid__ = -1;
 		utilities.extend(Entity, {
 			_length: 0,
 
 			constructor: function(id, classes, value){
 				//	Setup unique properties.
 				this.index = -1;
-
+				Object.defineProperty(this, '.eid', {
+					value: ++__eid__,
+					writable: false,
+					enumerable: false,
+					configurable: false
+				});
 				Object.defineProperty(this, '.isEntity', {
 					value: true,
 					writable: false,
 					enumerable: false,
 					configurable: false
 				});
-
 				Object.defineProperty(this, '.set', {
 					value: [],
 					writable: false,
