@@ -1,7 +1,3 @@
-/**
- * #### API
- */
-
 (function(){
 	var entropy = (function(){
 		'use strict';
@@ -157,21 +153,22 @@
 				return 'entity';
 			},
 
-			//	Makes a brand new Entity.
+			'.create': utilities.functionFactory(Entity),
+
 			/**
-			 * Placeholder.
+			 * ##### create
 			 *
-			 * This makes the docs not fail, until I get around to adding real docs for this file.
+			 * Makes a brand new Entity.
 			 *
 			 * Examples:
 			 *
-			 * 		S.filter('*');
-			 * 		S('*');
+			 * 		S.create();
 			 *
-			 * @param {String} *
+			 * @param {String} id
+			 * @param {Array} classes
+			 * @param {*} value
 			 * @return {Entity} \[ \left\{ s \in S \right\} \]
 			 */
-			'.create': utilities.functionFactory(Entity),
 			create: function(){
 				var args = Array.prototype.slice.call(arguments);
 
