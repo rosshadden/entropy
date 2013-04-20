@@ -28,7 +28,6 @@ S.register({
 /**
  * ##### ID
  *
- *
  * Returns all entities in the set with a given `id`.
  *
  * Examples:

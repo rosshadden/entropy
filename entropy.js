@@ -332,7 +332,7 @@
 				return this;
 			},
 
-			/**
+			/*
 			 * Adds an item to an entity's list of entities.
 			 */
 			add: function(){
@@ -737,7 +737,14 @@
 				return true;
 			},
 
-			//	Returns true if at least one entity in this entity satisfies the provided testing function.
+			/**
+			 * ##### some
+			 *
+			 * Returns true if at least one entity in this entity satisfies the provided testing function.
+			 *
+			 * @param {String} query
+			 * @return {Boolean}
+			 */
 			some: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var e, entity,
@@ -754,11 +761,11 @@
 				return false;
 			}
 
-			/*//	Apply a function simultaneously against two entities of the entity (from left-to-right) as to reduce it to a single value.
-			reduce: function(){
-				var args = Array.prototype.slice.call(arguments);
-				return this.list().reduce.apply(this.list(), args);
-			}*/
+			//	Apply a function simultaneously against two entities of the entity (from left-to-right) as to reduce it to a single value.
+			// reduce: function(){
+				// var args = Array.prototype.slice.call(arguments);
+				// return this.list().reduce.apply(this.list(), args);
+			// }
 		});
 
 		////////////////////////////////
