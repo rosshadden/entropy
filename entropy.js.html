@@ -204,27 +204,6 @@
 				}
 
 				return entity;
-			},
-
-			//	Converts the value of an entity (which can be any data type)
-			//	into Items and adds them to the entity's bag of entities.
-			'.bake': function(){
-				var item, key, value, shouldWeProceed;
-				//	Only do this if the entity has no entities already, IE if this has not been run yet.
-				if(this.size() === 0){
-					for(key in this.get()){
-						value = this.get(key);
-
-						shouldWeProceed = this.get().hasOwnProperty(key);
-						shouldWeProceed = shouldWeProceed &amp;&amp; (typeof value !== 'string' || value.length &gt; 1);
-
-						if(shouldWeProceed){
-							item = new utilities.Item(key, value);
-							this.add(item);
-						}
-					}
-				}
-				return this;
 			},</code></pre>
             </div>
           </div>
@@ -233,11 +212,11 @@
           <div class="large-6 columns">
             <div id="undefined" class="docblock">
               <div class="docblock-hd">
-                <div class="summary"><p>Adds an item to an entity's list of entities.</p></div>
+                <div class="summary"><h5>add</h5></div>
               </div>
               <div class="docblock-bd">
               </div>
-              <div class="description"></div>
+              <div class="description"><p>Adds an item to an entity's list of entities.</p></div>
             </div>
           </div>
           <div class="large-6 columns">
@@ -267,11 +246,13 @@
           <div class="large-6 columns">
             <div id="undefined" class="docblock">
               <div class="docblock-hd">
-                <div class="summary"><p>Adds each item in a given array to an item's list of entities.</p></div>
+                <div class="summary"><h5>addEach</h5></div>
               </div>
               <div class="docblock-bd">
               </div>
-              <div class="description"><p>This can take an optional configuration object as a first parameter, which can list certain properties like id and classes on each item.</p>
+              <div class="description"><p>Adds each item in a given array to an item's list of entities.</p>
+
+<p>This can take an optional configuration object as a first parameter, which can list certain properties like id and classes on each item.</p>
 
 <p>These properties can take a dynamic value like '/asdf' to make the value depend on the property specified.</p></div>
             </div>
@@ -312,20 +293,61 @@
 				}
 
 				return this;
-			},
-
-			//	Removes an item from an entity's list.
-			remove: function(query){
-			},
-
-			//	Returns the size of the list.
-			size: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>remove</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Removes an item from an entity's list.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">remove: function(query){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>size</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Returns the size of the list.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">size: function(){
 				return this.list().length;
-			},
-
-			//	Returns the index of the specified item in the list.
-			//	If no arguments are passed, returns the index of the entity itself.
-			indexOf: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>indexOf</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Returns the index of the specified item in the list. If no arguments are passed, returns the index of the entity itself.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">indexOf: function(){
 				var args = Array.prototype.slice.call(arguments);
 
 				if(!args.length){
@@ -333,18 +355,24 @@
 				}
 				var item = this.cd.apply(this, args);
 				return item &amp;&amp; item.index;
-			},
-
-			//	Decides which plugins are relevant to the specified action and selector.
-			_getRelevantPlugins: function(action){
-				var args = Array.prototype.slice.call(arguments, 1);
-				return entropy['.plugins'].filter(function(plugin, p){
-					return plugin[action] &amp;&amp; plugin.relevance.apply(plugin, args);
-				});
-			},
-
-			//	Performs a single-level filter based on a query.
-			filter: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>filter</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Performs a single-level filter based on a query.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">filter: function(){
 				var self = this,
 					args = Array.prototype.slice.call(arguments);
 
@@ -369,11 +397,24 @@
 				}
 
 				return results;
-			},
-
-			//	Performs a deep-find on entity.
-			//	Returns a new entity of entities matching a query.
-			find: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>find</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Performs a deep-find on entity. Returns a new entity of entities matching a query.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">find: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var self = this;
 
@@ -406,10 +447,24 @@
 				addChildren.call(this);
 
 				return results;
-			},
-
-			//	Traverses to an entity if it is the sole result of the passed query.
-			goto: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>goto</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Traverses to an entity if it is the sole result of the passed query.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">goto: function(){
 				var args = Array.prototype.slice.call(arguments);
 
 				var entity,
@@ -433,10 +488,24 @@
 					return entity[index];
 				}
 				return false;
-			},
-
-			//	Returns whether an entity matches a given selector.
-			matches: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>matches</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Returns whether an entity matches a given selector.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">matches: function(){
 				var self = this,
 					args = Array.prototype.slice.call(arguments);
 				//	Get list of relevant plugins.
@@ -445,10 +514,24 @@
 				return relevant.some(function(plugin, p){
 					return plugin.filter.apply(self, [self.get(), 0].concat(plugin.matches));
 				});
-			},
-
-			//	Returns a specified property or key.
-			get: function(key){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>get</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Returns a specified property or key.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">get: function(key){
 				var	args = Array.prototype.slice.call(arguments);
 
 				if(args.length === 0){
@@ -468,10 +551,24 @@
 					//	Return a property on the current entity.
 					return this['.value'] &amp;&amp; this['.value'][key];
 				}
-			},
-
-			//	Sets the given blacklisted property on the entity.
-			set: function(key, value){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>set</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Sets the given blacklisted property on the entity.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">set: function(key, value){
 				var args = Array.prototype.slice.call(arguments);
 
 				if(args.length === 1){
@@ -494,10 +591,24 @@
 				}
 
 				return this;
-			},
-
-			//	Get a value from all children entities.
-			map: function(key){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>map</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Get a value from all children entities.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">map: function(key){
 				var	args = Array.prototype.slice.call(arguments);
 
 				if(args.length === 0){
@@ -517,10 +628,24 @@
 				}
 
 				return [];
-			},
-
-			//	Set a value from all children entities.
-			setAll: function(key, value){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>setAll</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Set a value from all children entities.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">setAll: function(key, value){
 				var	args = Array.prototype.slice.call(arguments);
 
 				if(args.length === 2){
@@ -531,34 +656,89 @@
 				}
 
 				return this;
-			},
-
-			//	Returns a copy of the internal list of entities.
-			list: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>list</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Returns a copy of the internal list of entities.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">list: function(){
 				return this.get('!set').slice();
-			},
-
-			//	Sorts the internal set.
-			sort: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>sort</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Sorts the internal set.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">sort: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var set = this['.set'];
 				// this['.set'] = set.sort(utilities.sort.apply(set, args));
 				this[0] = 2;
 				return this;
-			},
-
-			//	Create a clone of the entity.
-			clone: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>clone</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Create a clone of the entity.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">clone: function(){
 				var clone = this.create();
 				this.each(function(entity, e){
 					clone.add(entity);
 				});
 				return clone;
-			},
-
-			//	Adds class(es) (purely for convenience) to the entity.
-			//	Accepts infinite arguments, space-delimited lists, or arrays.
-			addClass: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>addClass</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Adds class(es) (purely for convenience) to the entity. Accepts infinite arguments, space-delimited lists, or arrays.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">addClass: function(){
 				var	self = this,
 					args = Array.prototype.slice.call(arguments);
 
@@ -570,10 +750,24 @@
 				});
 
 				return this;
-			},
-
-			//	Removes class(es) from the entity.
-			removeClass: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>removeClass</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Removes class(es) from the entity.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">removeClass: function(){
 				var	index,
 					self = this,
 					args = Array.prototype.slice.call(arguments);
@@ -588,10 +782,24 @@
 				});
 
 				return self;
-			},
-
-			//	Adds/removes a class based on whether it is already present.
-			toggleClass: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>toggleClass</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Adds/removes a class based on whether it is already present.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">toggleClass: function(){
 				var	self = this,
 					args = Array.prototype.slice.call(arguments);
 
@@ -605,10 +813,38 @@
 				});
 
 				return self;
-			},
-
-			//	Checks for the existence of a class.
-			hasClass: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>hasClass</h5></div>
+              </div>
+              <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>class</code></td>
+                    <td></td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Boolean</span></td>
+                    <td><code></code></td>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="description"><p>Checks for the existence of a class.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">hasClass: function(){
 				var self = this,
 					args = Array.prototype.slice.call(arguments);
 
@@ -620,10 +856,24 @@
 
 			////////////////////////////////
 			//	ES5 Corner.
-			////////////////////////////////
-
-			//	Calls a function for each entity in the list.
-			each: function(){
+			////////////////////////////////</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>each</h5></div>
+              </div>
+              <div class="docblock-bd">
+              </div>
+              <div class="description"><p>Calls a function for each entity in the list.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">each: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var e, entity,
 					length = this.size();
@@ -634,10 +884,38 @@
 					}
 				}
 				return this;
-			},
-
-			//	Returns true if every entity in this entity satisfies the provided testing function.
-			every: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>every</h5></div>
+              </div>
+              <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>query</code></td>
+                    <td></td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Boolean</span></td>
+                    <td><code></code></td>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="description"><p>Returns true if every entity in this entity satisfies the provided testing function.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">every: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var e, entity,
 					length = this.size();
@@ -651,10 +929,38 @@
 					}
 				}
 				return true;
-			},
-
-			//	Returns true if at least one entity in this entity satisfies the provided testing function.
-			some: function(){
+			},</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="row flex">
+          <div class="large-6 columns">
+            <div id="undefined" class="docblock">
+              <div class="docblock-hd">
+                <div class="summary"><h5>some</h5></div>
+              </div>
+              <div class="docblock-bd">
+                <table class="tags">
+                  <tr class="tag">
+                    <th><b>param</b></th>
+                    <td><span class="label radius secondary">String</span></td>
+                    <td><code>query</code></td>
+                    <td></td>
+                  </tr>
+                  <tr class="tag">
+                    <th><b>return</b></th>
+                    <td><span class="label radius secondary">Boolean</span></td>
+                    <td><code></code></td>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="description"><p>Returns true if at least one entity in this entity satisfies the provided testing function.</p></div>
+            </div>
+          </div>
+          <div class="large-6 columns">
+            <div class="code">
+              <pre><code class="language-javascript">some: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var e, entity,
 					length = this.size();
@@ -668,24 +974,14 @@
 					}
 				}
 				return false;
-			}</code></pre>
-            </div>
-          </div>
-        </div>
-        <div class="row flex">
-          <div class="large-6 columns">
-            <div id="undefined" class="docblock">
-              <div class="docblock-hd">
-                <div class="summary"><p>/    Apply a function simultaneously against two entities of the entity (from left-to-right) as to reduce it to a single value.             reduce: function(){                 var args = Array.prototype.slice.call(arguments);                 return this.list().reduce.apply(this.list(), args);             }</p></div>
-              </div>
-              <div class="docblock-bd">
-              </div>
-              <div class="description"></div>
-            </div>
-          </div>
-          <div class="large-6 columns">
-            <div class="code">
-              <pre><code class="language-javascript">});
+			}
+
+			//	Apply a function simultaneously against two entities of the entity (from left-to-right) as to reduce it to a single value.
+			// reduce: function(){
+				// var args = Array.prototype.slice.call(arguments);
+				// return this.list().reduce.apply(this.list(), args);
+			// }
+		});
 
 		////////////////////////////////
 		//	Aliases.
@@ -808,6 +1104,7 @@
       (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
       g.src='//www.google-analytics.com/ga.js';
       s.parentNode.insertBefore(g,s)}(document,'script'));
+      
     </script>
   </body>
 </html>
