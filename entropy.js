@@ -311,8 +311,21 @@
 				return entity;
 			},
 
-			//	Converts the value of an entity (which can be any data type)
-			//	into Items and adds them to the entity's bag of entities.
+			/**
+			 * ##### bake
+			 *
+			 * Converts the value of an entity (which can be any data type) into Items and adds them to the entity's bag of entities.
+			 *
+			 * Examples:
+			 *
+			 * 		S.create();
+			 *
+			 * @api private
+			 * @param {String} id
+			 * @param {Array} classes
+			 * @param {*} value
+			 * @return {Entity} \[ \left\{ s \in S \right\} \]
+			 */
 			'.bake': function(){
 				var item, key, value, shouldWeProceed;
 				//	Only do this if the entity has no entities already, IE if this has not been run yet.
