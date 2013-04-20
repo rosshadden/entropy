@@ -716,6 +716,8 @@
 			 *
 			 * Adds class(es) (purely for convenience) to the entity.
 			 * Accepts infinite arguments, space-delimited lists, or arrays.
+			 *
+			 * @param {String} class
 			 */
 			addClass: function(){
 				var	self = this,
