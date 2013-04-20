@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////
 
 /**
- * ##### All
+ * ##### all
  *
  * Returns all entities in the set.
  *
@@ -26,7 +26,7 @@ S.register({
 });
 
 /**
- * ##### ID
+ * ##### id
  *
  * Returns all entities in the set with a given `id`.
  *
@@ -49,7 +49,7 @@ S.register({
 });
 
 /**
- * ##### Class
+ * ##### class
  *
  * Returns all entities in the set with a given `class`.
  *
@@ -72,7 +72,7 @@ S.register({
 });
 
 /**
- * ##### Key
+ * ##### key
  *
  * Returns all entities in the set with a given `key`.
  *
@@ -95,7 +95,7 @@ S.register({
 });
 
 /**
- * ##### Property presence
+ * ##### property presence
  *
  * Returns all entities in the set with a given `property`.
  *
@@ -118,7 +118,7 @@ S.register({
 });
 
 /**
- * ##### Property comparison
+ * ##### property comparison
  *
  * Returns all entities in the set with a given `property` set to a specified `value`.
  *
@@ -182,7 +182,7 @@ S.register({
 });
 
 /**
- * ##### Type
+ * ##### type
  *
  * Returns all entities in the set that are a given `type`.
  * Note: `type` is case insensitive, but currently only native types (and arrays) are supported.
@@ -207,7 +207,7 @@ S.register({
 });
 
 /**
- * ##### Index
+ * ##### index
  *
  * Returns all entities in the set at a specified `index` of their respective parents.
  *
@@ -231,7 +231,7 @@ S.register({
 });
 
 /**
- * ##### Lineage
+ * ##### lineage
  *
  * Returns all entities in the set where a specified `key1` exists as a parent to a given `key2`.
  * Note: I think this is broken, though it's likely worthless even when working.

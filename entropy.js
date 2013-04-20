@@ -316,15 +316,7 @@
 			 *
 			 * Converts the value of an entity (which can be any data type) into Items and adds them to the entity's bag of entities.
 			 *
-			 * Examples:
-			 *
-			 * 		S.create();
-			 *
 			 * @api private
-			 * @param {String} id
-			 * @param {Array} classes
-			 * @param {*} value
-			 * @return {Entity} \[ \left\{ s \in S \right\} \]
 			 */
 			'.bake': function(){
 				var item, key, value, shouldWeProceed;
@@ -346,6 +338,8 @@
 			},
 
 			/*
+			 * ##### add
+			 *
 			 * Adds an item to an entity's list of entities.
 			 */
 			add: function(){
@@ -368,6 +362,8 @@
 			},
 
 			/*
+			 * ##### addEach
+			 *
 			 * Adds each item in a given array to an item's list of entities.
 			 *
 			 * This can take an optional configuration object as a first parameter,
@@ -411,17 +407,29 @@
 				return this;
 			},
 
-			//	Removes an item from an entity's list.
+			/*
+			 * ##### remove
+			 *
+			 * Removes an item from an entity's list.
+			 */
 			remove: function(query){
 			},
 
-			//	Returns the size of the list.
+			/*
+			 * ##### size
+			 *
+			 * Returns the size of the list.
+			 */
 			size: function(){
 				return this.list().length;
 			},
 
-			//	Returns the index of the specified item in the list.
-			//	If no arguments are passed, returns the index of the entity itself.
+			/*
+			 * ##### indexOf
+			 *
+			 * Returns the index of the specified item in the list.
+			 * If no arguments are passed, returns the index of the entity itself.
+			 */
 			indexOf: function(){
 				var args = Array.prototype.slice.call(arguments);
 
@@ -432,7 +440,13 @@
 				return item && item.index;
 			},
 
-			//	Decides which plugins are relevant to the specified action and selector.
+			/*
+			 * ##### _getRelevantPlugins
+			 *
+			 * Decides which plugins are relevant to the specified action and selector.
+			 *
+			 * @api private
+			 */
 			_getRelevantPlugins: function(action){
 				var args = Array.prototype.slice.call(arguments, 1);
 				return entropy['.plugins'].filter(function(plugin, p){
@@ -440,7 +454,11 @@
 				});
 			},
 
-			//	Performs a single-level filter based on a query.
+			/*
+			 * ##### filter
+			 *
+			 * Performs a single-level filter based on a query.
+			 */
 			filter: function(){
 				var self = this,
 					args = Array.prototype.slice.call(arguments);
@@ -468,8 +486,12 @@
 				return results;
 			},
 
-			//	Performs a deep-find on entity.
-			//	Returns a new entity of entities matching a query.
+			/*
+			 * ##### find
+			 *
+			 * Performs a deep-find on entity.
+			 * Returns a new entity of entities matching a query.
+			 */
 			find: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var self = this;
@@ -505,7 +527,11 @@
 				return results;
 			},
 
-			//	Traverses to an entity if it is the sole result of the passed query.
+			/*
+			 * ##### goto
+			 *
+			 * Traverses to an entity if it is the sole result of the passed query.
+			 */
 			goto: function(){
 				var args = Array.prototype.slice.call(arguments);
 
@@ -532,7 +558,11 @@
 				return false;
 			},
 
-			//	Returns whether an entity matches a given selector.
+			/*
+			 * ##### matches
+			 *
+			 * Returns whether an entity matches a given selector.
+			 */
 			matches: function(){
 				var self = this,
 					args = Array.prototype.slice.call(arguments);
@@ -544,7 +574,11 @@
 				});
 			},
 
-			//	Returns a specified property or key.
+			/*
+			 * ##### get
+			 *
+			 * Returns a specified property or key.
+			 */
 			get: function(key){
 				var	args = Array.prototype.slice.call(arguments);
 
@@ -567,7 +601,11 @@
 				}
 			},
 
-			//	Sets the given blacklisted property on the entity.
+			/*
+			 * ##### set
+			 *
+			 * Sets the given blacklisted property on the entity.
+			 */
 			set: function(key, value){
 				var args = Array.prototype.slice.call(arguments);
 
@@ -593,7 +631,11 @@
 				return this;
 			},
 
-			//	Get a value from all children entities.
+			/*
+			 * ##### map
+			 *
+			 * Get a value from all children entities.
+			 */
 			map: function(key){
 				var	args = Array.prototype.slice.call(arguments);
 
@@ -616,7 +658,11 @@
 				return [];
 			},
 
-			//	Set a value from all children entities.
+			/*
+			 * ##### setAll
+			 *
+			 * Set a value from all children entities.
+			 */
 			setAll: function(key, value){
 				var	args = Array.prototype.slice.call(arguments);
 
@@ -630,12 +676,20 @@
 				return this;
 			},
 
-			//	Returns a copy of the internal list of entities.
+			/*
+			 * ##### list
+			 *
+			 * Returns a copy of the internal list of entities.
+			 */
 			list: function(){
 				return this.get('!set').slice();
 			},
 
-			//	Sorts the internal set.
+			/*
+			 * ##### sort
+			 *
+			 * Sorts the internal set.
+			 */
 			sort: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var set = this['.set'];
@@ -644,7 +698,11 @@
 				return this;
 			},
 
-			//	Create a clone of the entity.
+			/*
+			 * ##### clone
+			 *
+			 * Create a clone of the entity.
+			 */
 			clone: function(){
 				var clone = this.create();
 				this.each(function(entity, e){
@@ -653,8 +711,12 @@
 				return clone;
 			},
 
-			//	Adds class(es) (purely for convenience) to the entity.
-			//	Accepts infinite arguments, space-delimited lists, or arrays.
+			/*
+			 * ##### addClass
+			 *
+			 * Adds class(es) (purely for convenience) to the entity.
+			 * Accepts infinite arguments, space-delimited lists, or arrays.
+			 */
 			addClass: function(){
 				var	self = this,
 					args = Array.prototype.slice.call(arguments);
@@ -669,7 +731,11 @@
 				return this;
 			},
 
-			//	Removes class(es) from the entity.
+			/*
+			 * ##### removeClass
+			 *
+			 * Removes class(es) from the entity.
+			 */
 			removeClass: function(){
 				var	index,
 					self = this,
@@ -687,7 +753,11 @@
 				return self;
 			},
 
-			//	Adds/removes a class based on whether it is already present.
+			/*
+			 * ##### toggleClass
+			 *
+			 * Adds/removes a class based on whether it is already present.
+			 */
 			toggleClass: function(){
 				var	self = this,
 					args = Array.prototype.slice.call(arguments);
@@ -704,7 +774,14 @@
 				return self;
 			},
 
-			//	Checks for the existence of a class.
+			/*
+			 * ##### hasClass
+			 *
+			 * Checks for the existence of a class.
+			 *
+			 * @param {String} class
+			 * @return {Boolean}
+			 */
 			hasClass: function(){
 				var self = this,
 					args = Array.prototype.slice.call(arguments);
@@ -719,7 +796,11 @@
 			//	ES5 Corner.
 			////////////////////////////////
 
-			//	Calls a function for each entity in the list.
+			/*
+			 * ##### each
+			 *
+			 * Calls a function for each entity in the list.
+			 */
 			each: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var e, entity,
@@ -733,7 +814,14 @@
 				return this;
 			},
 
-			//	Returns true if every entity in this entity satisfies the provided testing function.
+			/*
+			 * ##### every
+			 *
+			 * Returns true if every entity in this entity satisfies the provided testing function.
+			 *
+			 * @param {String} query
+			 * @return {Boolean}
+			 */
 			every: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var e, entity,
