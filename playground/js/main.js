@@ -16,7 +16,17 @@ var terminal = $('#console').console({
 			className: "jquery-console-message-type"
 		}];
 	},
-	charInsertTrigger: function(keycode, line){
-		return true;
+	charInsertTrigger: function(key, line){
+		console.log(key);
+		return(
+			!line.length
+			&& key === 115
+			||(
+				!!line.match(/^s/)
+				&& key === 46
+			)||(
+				!!line.match(/^s\.[\w(),.:|]*$/)
+			)
+		);
 	}
 });
