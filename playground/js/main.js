@@ -1,4 +1,4 @@
-$('#console').console({
+var terminal = $('#console').console({
 	promptLabel: 'λ ',
 	autofocus: true,
 	animateScroll: true,
@@ -16,7 +16,7 @@ $('#console').console({
 			className: "jquery-console-message-type"
 		}];
 	},
-	charInsertTrigger: function(keycode,line){
+	charInsertTrigger: function(keycode, line){
 		return true;
 	}
 });
