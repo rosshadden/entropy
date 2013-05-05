@@ -224,7 +224,11 @@
 
 			//	This is mainly useful when playing with entropy in the console.
 			toString: function(){
-				return 'entity';
+				var string = 'e';
+				if(this.id){
+					string += '#' + this.id;
+				}
+				return string;
 			},
 
 			'.create': utilities.functionFactory(Entity),
