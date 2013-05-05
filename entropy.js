@@ -194,6 +194,17 @@
 					configurable: false
 				});
 
+				/*
+				 * ##### size
+				 *
+				 * Returns the size of the list.
+				 */
+				Object.defineProperty(this, 'size', {
+					get: function(){
+						return this.list().length;
+					}
+				});
+
 				//	These are set if the relelvant arguments are passed,
 				//	though I prefer to call Entity['.make']() without arguments,
 				//	and set them afterward.
@@ -321,7 +332,7 @@
 			'.bake': function(){
 				var item, key, value, shouldWeProceed;
 				//	Only do this if the entity has no entities already, IE if this has not been run yet.
-				if(this.size() === 0){
+				if(this.size === 0){
 					for(key in this.get()){
 						value = this.get(key);
 
@@ -413,15 +424,6 @@
 			 * Removes an item from an entity's list.
 			 */
 			remove: function(query){
-			},
-
-			/*
-			 * ##### size
-			 *
-			 * Returns the size of the list.
-			 */
-			size: function(){
-				return this.list().length;
 			},
 
 			/*
@@ -552,7 +554,7 @@
 					entity = this;
 				}
 
-				if(entity.size() > index){
+				if(entity.size > index){
 					return entity[index];
 				}
 				return false;
@@ -717,7 +719,8 @@
 			 * Adds class(es) (purely for convenience) to the entity.
 			 * Accepts infinite arguments, space-delimited lists, or arrays.
 			 *
-			 * @param {String} class
+			 * @param {String|Array} class(es)
+			 * @param {String} class...
 			 */
 			addClass: function(){
 				var	self = this,
@@ -806,7 +809,7 @@
 			each: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var e, entity,
-					length = this.size();
+					length = this.size;
 				for(e = 0; e < length; e++){
 					entity = this[e];
 					if(typeof args[0] === 'function'){
@@ -827,7 +830,7 @@
 			every: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var e, entity,
-					length = this.size();
+					length = this.size;
 				for(e = 0; e < length; e++){
 					entity = this[e];
 					if(typeof args[0] === 'function' && !args[0].call(entity, entity.get(), e)){
@@ -851,7 +854,7 @@
 			some: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var e, entity,
-					length = this.size();
+					length = this.size;
 				for(e = 0; e < length; e++){
 					entity = this[e];
 					if(typeof args[0] === 'function' && args[0].call(entity, entity.get(), e)){
