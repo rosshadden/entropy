@@ -950,6 +950,11 @@
 				return this;
 			},
 
+			sort: function(){
+				var args = Array.prototype.slice.call(arguments);
+				return Array.prototype.sort.apply(this, utilities.sort.apply(null, args));
+			},
+
 			map: function(callback, thisArg){
 				var T, A, k;
 
