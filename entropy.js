@@ -848,7 +848,12 @@
 				for(e = 0; e < length; e++){
 					entity = this[e];
 					if(typeof args[0] === 'function'){
-						args[0].call(entity, entity.get(), e);
+						try{
+							args[0].call(entity, entity.get(), e);
+						}catch(e){
+							//	Allows for s.forEach(console.log, console), s.forEach(alert), etc.
+							args[0].call(args[1] || null, entity.get(), e);
+						}
 					}
 				}
 				return this;
