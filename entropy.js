@@ -905,7 +905,7 @@
 		});
 
 		utilities.extend(Set.prototype, {
-			get size() {
+			get size(){
 				return this.reduce(function(size){ return size + 1; }, 0);
 			},
 
@@ -920,13 +920,17 @@
 				var set = this;
 				var args = Array.prototype.slice.call(arguments);
 				args.forEach(function(arg){
-					set.push(arg);
+					if(!set.has(arg)){
+						set.push(arg);
+					}
 				});
+				return this;
 			},
 
 			delete: function(item){
 				var index = this.indexOf(item);
 				this.splice(index, 1);
+				return this;
 			},
 
 			has: function(value){
@@ -937,6 +941,7 @@
 
 			clear: function(){
 				this.splice(0, this.size);
+				return this;
 			},
 
 			map: function(callback, thisArg){
