@@ -6,9 +6,14 @@
 		var Entity = Object.create(Function.prototype);
 
 		//	Subtype Array.
-		var Set = function(length){
-			var instance = (typeof length === 'undefined') ? new Array() : new Array(length);
+		var Set = function(values){
+			var instance = (typeof values === 'number') ? new Array(values) : new Array();
 			instance.__proto__ = Set.prototype;
+			if(typeof values === 'object'){
+				for(var item in values){
+					instance.add(values[item]);
+				}
+			}
 			return instance;
 		};
 		Set.prototype = Object.create(Array.prototype);
