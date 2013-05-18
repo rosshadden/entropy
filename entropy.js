@@ -927,9 +927,15 @@
 				return this;
 			},
 
-			delete: function(item){
-				var index = this.indexOf(item);
-				this.splice(index, 1);
+			delete: function(){
+				var set = this;
+				var args = Array.prototype.slice.call(arguments);
+				args.forEach(function(arg){
+					if(set.has(arg)){
+						var index = set.indexOf(arg);
+						set.splice(index, 1);
+					}
+				});
 				return this;
 			},
 
