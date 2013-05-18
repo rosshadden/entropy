@@ -214,7 +214,7 @@
 				 */
 				Object.defineProperty(this, 'size', {
 					get: function(){
-						return this.list().length;
+						return this['.set'].length;
 					}
 				});
 
