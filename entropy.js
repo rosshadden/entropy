@@ -710,10 +710,12 @@
 			 */
 			sort: function(){
 				var args = Array.prototype.slice.call(arguments);
-				var set = this['.set'];
-				// this['.set'] = set.sort(utilities.sort.apply(set, args));
-				this[0] = 2;
-				return this;
+				var set = this['.set'].slice().sort(utilities.sort.apply(set, args));
+				var entity = this.create();
+				set.forEach(function(e, element){
+					entity.add(element);
+				});
+				return entity;
 			},
 
 			/*
@@ -978,6 +980,7 @@
 
 			//	Accessibility alias.
 			entropy.Entity = Entity;
+			entropy.Set = Set;
 
 			return entropy;
 		})();
