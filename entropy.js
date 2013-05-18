@@ -918,10 +918,18 @@
 				});
 			},
 
+			delete: function(item){
+				var index = this.indexOf(item);
+				this.splice(index, 1);
+			},
+
 			has: function(value){
 				return !!this.filter(function(item){
 					return item === value;
 				}).length;
+			},
+
+			clear: function(){
 			},
 
 			map: function(callback, thisArg){
