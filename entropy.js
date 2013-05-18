@@ -918,6 +918,9 @@
 				});
 			},
 
+			has: function(){
+			},
+
 			map: function(callback, thisArg){
 				var T, A, k;
 
@@ -948,6 +951,24 @@
 					k++;
 				}
 				return A;
+			},
+
+			filter: function(fun) {
+				if (this == null) throw new TypeError();
+
+				var t = Object(this);
+				var len = t.length >>> 0;
+				if (typeof fun != "function") throw new TypeError();
+
+				var res = new Set();
+				var thisp = arguments[1];
+				for (var i = 0; i < len; i++) {
+					if (i in t) {
+						var val = t[i];
+						if (fun.call(thisp, val, i, t)) res.push(val);
+					}
+				}
+				return res;
 			},
 
 			union: function(){
