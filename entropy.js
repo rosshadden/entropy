@@ -1011,8 +1011,18 @@
 			},
 
 			union: function(){
-				var set = new Set();
-				return set.concat.apply(set, [this].concat(arguments));
+				var set = this.slice();
+				var args = Array.prototype.slice.call(arguments);
+				args.forEach(function(arg){
+					if(Array.isArray(arg)){
+						arg.forEach(function(item){
+							set.add(item);
+						});
+					}else{
+						set.add(arg);
+					}
+				});
+				return set;
 			},
 
 			intersect: function(){},
