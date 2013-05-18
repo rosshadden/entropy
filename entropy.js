@@ -225,6 +225,11 @@
 			//	This is mainly useful when playing with entropy in the console.
 			toString: function(){
 				var string = 'e';
+
+				if(this.size === 0){
+					return '∅';
+				}
+
 				if(this.id){
 					string += '#' + this.id;
 				}
