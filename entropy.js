@@ -905,10 +905,9 @@
 
 			slice: function(){
 				var set = new Set();
-				this.forEach(function(item){
-					set.add(item);
+				return this.map(function(item){
+					return item;
 				});
-				return set;
 			},
 
 			add: function(){
