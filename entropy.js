@@ -930,6 +930,7 @@
 			},
 
 			clear: function(){
+				this.splice(0, this.size);
 			},
 
 			map: function(callback, thisArg){
