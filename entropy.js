@@ -706,7 +706,7 @@
 			 * Returns a copy of the internal list of entities.
 			 */
 			list: function(){
-				return this.get('!set')//.slice();
+				return this.get('!set').slice();
 			},
 
 			/*
@@ -901,6 +901,14 @@
 		utilities.extend(Set.prototype, {
 			get size() {
 				return this.reduce(function(size){ return size + 1; }, 0);
+			},
+
+			slice: function(){
+				var set = new Set();
+				this.forEach(function(item){
+					set.add(item);
+				});
+				return set;
 			},
 
 			add: function(){
