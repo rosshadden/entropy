@@ -638,9 +638,14 @@
 			 * ##### set
 			 *
 			 * Sets the given blacklisted property on the entity.
+			 * If no arguments are passed, returns the entity's set.
 			 */
 			set: function(key, value){
 				var args = Array.prototype.slice.call(arguments);
+
+				if(args.length === 0){
+					return this.list();
+				}
 
 				if(args.length === 1){
 					this['.value'] = key;
