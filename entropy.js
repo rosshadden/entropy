@@ -932,7 +932,7 @@
 				return this;
 			},
 
-			delete: function(){
+			remove: function(){
 				var set = this;
 				var args = Array.prototype.slice.call(arguments);
 				args.forEach(function(arg){
@@ -1025,7 +1025,18 @@
 				return set;
 			},
 
-			intersect: function(){},
+			intersect: function(){
+				var set = this.slice();
+				var args = Array.prototype.slice.call(arguments);
+				this.forEach(function(item){
+					if(!args.every(function(set){
+						return set.has(item);
+					})){
+						set.remove(item);
+					}
+				})
+				return set;
+			},
 
 			difference: function(){}
 		});
