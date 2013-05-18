@@ -58,7 +58,7 @@
 					}
 
 					if(window.HTMLElement && (!(object instanceof HTMLElement) && !(object instanceof Node)) || object && !object.nodeType){
-						if(Object.prototype.toString.call(object) === '[object Array]'){
+						if(Array.isArray(object)){
 							response = [];
 							i = 0;
 							length = object.length;
