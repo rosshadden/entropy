@@ -237,7 +237,7 @@
 			//	Called when you invoke the instance as a function.
 			//	This runs a query against the set of the instance.
 			call: function(){
-				return this.find.apply(this, arguments);
+				return this.filter.apply(this, arguments);
 			},
 
 			//	This is mainly useful when playing with entropy in the console.
@@ -1065,6 +1065,7 @@
 			//	Other.
 			Entity.has = Entity.some;
 			//	SET
+			Set.prototype.concat = Set.prototype.union;
 			Set.prototype.plus = Set.prototype.union;
 			Set.prototype.minus = Set.prototype.difference;
 
@@ -1077,7 +1078,7 @@
 			// .addClass('root', 'entropy');
 
 			//	Stuff unique to the entropic root.
-			entropy.VERSION = 0.66
+			entropy.VERSION = 0.67
 			entropy['.plugins'] = [];
 			entropy['.adapters'] = [];
 			entropy.utilities = utilities;
