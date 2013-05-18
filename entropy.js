@@ -924,9 +924,9 @@
 			},
 
 			has: function(value){
-				return !!this.filter(function(item){
+				return this.some(function(item){
 					return item === value;
-				}).length;
+				});
 			},
 
 			clear: function(){
