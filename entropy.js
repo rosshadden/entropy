@@ -9,6 +9,7 @@
 		var Set = function(length){
 			var instance = (typeof length === 'undefined') ? new Array() : new Array(length);
 			instance.__proto__ = Set.prototype;
+			instance.constructor.apply(instance, arguments);
 			return instance;
 		};
 		Set.prototype = Object.create(Array.prototype);
@@ -899,6 +900,8 @@
 		});
 
 		utilities.extend(Set.prototype, {
+			constructor: function(){},
+
 			add: function(){
 				var set = this;
 				var args = Array.prototype.slice.call(arguments);
