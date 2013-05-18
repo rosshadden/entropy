@@ -1033,6 +1033,7 @@
 		////////////////////////////////
 		//	Aliases.
 		////////////////////////////////
+			//	ENTITY
 			//	Filesystem metaphor.
 			// Entity.find;
 			Entity.grep = Entity.filter;
@@ -1043,6 +1044,9 @@
 			Entity.make = Entity.create;
 			//	Other.
 			Entity.has = Entity.some;
+			//	SET
+			Set.prototype.plus = Set.prototype.union;
+			Set.prototype.minus = Set.prototype.difference;
 
 		var entropy = (function(){
 			var entropy = Entity.create();
