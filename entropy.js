@@ -9,7 +9,6 @@
 		var Set = function(length){
 			var instance = (typeof length === 'undefined') ? new Array() : new Array(length);
 			instance.__proto__ = Set.prototype;
-			instance.constructor.apply(instance, arguments);
 			return instance;
 		};
 		Set.prototype = Object.create(Array.prototype);
@@ -707,7 +706,7 @@
 			 * Returns a copy of the internal list of entities.
 			 */
 			list: function(){
-				return this.get('!set').slice();
+				return this.get('!set')//.slice();
 			},
 
 			/*
@@ -900,7 +899,9 @@
 		});
 
 		utilities.extend(Set.prototype, {
-			constructor: function(){},
+			get size() {
+				return this.reduce(function(size){ return size + 1; }, 0);
+			},
 
 			add: function(){
 				var set = this;
