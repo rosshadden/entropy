@@ -499,7 +499,7 @@
 				var results, parameters;
 				if(typeof args[0] === 'function'){
 					results = this.create().addClass('results');
-					this.each(function(contents, e){
+					this.forEach(function(contents, e){
 						parameters = [contents, e].concat(args.slice(1));
 						if(args[0].apply(this, parameters)){
 							results.add(this);
@@ -534,7 +534,7 @@
 				// 	var addChildren = function(entity){
 				// 		var filter = entity.filter.apply(entity, [plugin[action]].concat(plugin.matches));
 				// 		results.addEach(filter.list());
-				// 		entity.each(addChildren);
+				// 		entity.forEach(addChildren);
 				// 	};
 				// 	return addChildren;
 				// };
@@ -553,7 +553,7 @@
 				var addChildren = function(){
 					var filter = this.filter.apply(this, args);
 					results.addEach(filter.list());
-					this.each(addChildren);
+					this.forEach(addChildren);
 				};
 				addChildren.call(this);
 
@@ -706,7 +706,7 @@
 
 				if(args.length === 2){
 					//	Set properties on child entities.
-					this.each(function(entity){
+					this.forEach(function(entity){
 						return entity.set(key, value);
 					});
 				}
@@ -742,7 +742,7 @@
 			 */
 			clone: function(){
 				var clone = this.create();
-				this.each(function(entity, e){
+				this.forEach(function(entity, e){
 					clone.add(entity);
 				});
 				return clone;
@@ -837,11 +837,11 @@
 			////////////////////////////////
 
 			/*
-			 * ##### each
+			 * ##### forEach
 			 *
 			 * Calls a function for each entity in the set.
 			 */
-			each: function(){
+			forEach: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var e, entity,
 					length = this.size;
