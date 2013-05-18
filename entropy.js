@@ -1038,7 +1038,16 @@
 				return set;
 			},
 
-			difference: function(){}
+			difference: function(){
+				var set = this.slice();
+				var args = Array.prototype.slice.call(arguments);
+				args.forEach(function(arg){
+					arg.forEach(function(item){
+						set.remove(item);
+					});
+				});
+				return set;
+			}
 		});
 
 		////////////////////////////////
