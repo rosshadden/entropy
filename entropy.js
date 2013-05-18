@@ -3,6 +3,9 @@
 		'use strict';
 
 		var Entity = Object.create(Function.prototype);
+		var Set = function(){};
+
+		Set.prototype = new Array;
 
 		var utilities = {
 			functionFactory: function(prototype){
@@ -188,7 +191,7 @@
 					configurable: false
 				});
 				Object.defineProperty(this, '.set', {
-					value: [],
+					value: new Set(),
 					writable: false,
 					enumerable: false,
 					configurable: false
@@ -881,6 +884,25 @@
 				// var args = Array.prototype.slice.call(arguments);
 				// return this.list().reduce.apply(this.list(), args);
 			// }
+		});
+
+		utilities.extend(Set.prototype, {
+			add: function(){
+				var set = this;
+				var args = Array.prototype.slice.call(arguments);
+				args.forEach(function(arg){
+					set.push(arg);
+				});
+			},
+
+			union: function(){
+				var set = new Set();
+				return set.concat.apply(set, [this].concat(arguments));
+			},
+
+			intersect: function(){},
+
+			difference: function(){}
 		});
 
 		////////////////////////////////
