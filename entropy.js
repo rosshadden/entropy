@@ -918,7 +918,10 @@
 				});
 			},
 
-			has: function(){
+			has: function(value){
+				return !!this.filter(function(item){
+					return item === value;
+				}).length;
 			},
 
 			map: function(callback, thisArg){
