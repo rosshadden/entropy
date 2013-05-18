@@ -215,11 +215,11 @@
 				/*
 				 * ##### size
 				 *
-				 * Returns the size of the list.
+				 * Returns the size of the set.
 				 */
 				Object.defineProperty(this, 'size', {
 					get: function(){
-						return this['.set'].length;
+						return this.get('!set').size;
 					}
 				});
 
@@ -235,7 +235,7 @@
 			},
 
 			//	Called when you invoke the instance as a function.
-			//	This runs a query against the list of the instance.
+			//	This runs a query against the set of the instance.
 			call: function(){
 				return this.find.apply(this, arguments);
 			},
@@ -378,11 +378,11 @@
 			/*
 			 * ##### add
 			 *
-			 * Adds an item to an entity's list of entities.
+			 * Adds an item to an entity's set of entities.
 			 */
 			add: function(){
 				var entity = this.create.apply(this, arguments)['.bake']();
-				var index = this['.set'].push(entity) - 1;
+				var index = this.get('!set').push(entity) - 1;
 				if(!this.hasClass('results')){
 					entity.index = index;
 				}
@@ -402,10 +402,10 @@
 			/*
 			 * ##### addEach
 			 *
-			 * Adds each item in a given array to an item's list of entities.
+			 * Adds each item in a given array to an item's set of entities.
 			 *
 			 * This can take an optional configuration object as a first parameter,
-			 * which can list certain properties like id and classes on each item.
+			 * which can set certain properties like id and classes on each item.
 			 *
 			 * These properties can take a dynamic value like '/asdf' to make the value depend on the property specified.
 			 */
@@ -452,7 +452,7 @@
 			 */
 			delete: function(){
 				var args = Array.prototype.slice.call(arguments);
-				var entity = this.goto.apply(this, args);
+				var entity = this.cd.apply(this, args);
 				this.get('!set').delete(entity);
 				return this;
 			},
@@ -460,7 +460,7 @@
 			/*
 			 * ##### indexOf
 			 *
-			 * Returns the index of the specified item in the list.
+			 * Returns the index of the specified item in the set.
 			 * If no arguments are passed, returns the index of the entity itself.
 			 */
 			indexOf: function(){
@@ -470,7 +470,7 @@
 					return this.index;
 				}
 				var item = this.cd.apply(this, args);
-				return item && item.index;
+				return this.get('!set').indexOf(item);
 			},
 
 			/*
@@ -723,15 +723,7 @@
 			 *
 			 * Sorts the internal set.
 			 */
-			sort: function(){
-				var args = Array.prototype.slice.call(arguments);
-				var set = this['.set'].slice().sort(utilities.sort.apply(set, args));
-				var entity = this.create();
-				set.forEach(function(e, element){
-					entity.add(element);
-				});
-				return entity;
-			},
+			sort: function(){},
 
 			/*
 			 * ##### clone
@@ -837,7 +829,7 @@
 			/*
 			 * ##### each
 			 *
-			 * Calls a function for each entity in the list.
+			 * Calls a function for each entity in the set.
 			 */
 			each: function(){
 				var args = Array.prototype.slice.call(arguments);
