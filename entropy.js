@@ -26,7 +26,11 @@
 
 			extend: function(destination, source){
 				Object.getOwnPropertyNames(source).forEach(function(key){
-					destination[key] = source[key];
+					Object.defineProperty(
+						destination,
+						key,
+						Object.getOwnPropertyDescriptor(source, key)
+					);
 				});
 				return destination;
 			},
