@@ -2,10 +2,16 @@
 	var entropy = (function(){
 		'use strict';
 
+		//	Subtype Function.
 		var Entity = Object.create(Function.prototype);
-		var Set = function(){};
 
-		Set.prototype = new Array;
+		//	Subtype Array.
+		var Set = function(length){
+			var instance = (typeof length === 'undefined') ? new Array() : new Array(length);
+			instance.__proto__ = Set.prototype;
+			return instance;
+		};
+		Set.prototype = Object.create(Array.prototype);
 
 		var utilities = {
 			functionFactory: function(prototype){
