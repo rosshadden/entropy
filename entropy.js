@@ -728,7 +728,12 @@
 			 *
 			 * Sorts the internal set.
 			 */
-			sort: function(){},
+			sort: function(){
+				var set = this.get('!set');
+				var args = Array.prototype.slice.call(arguments);
+				set.sort.apply(set, args);
+				return this;
+			},
 
 			/*
 			 * ##### clone
