@@ -825,11 +825,7 @@
 			 * Create a clone of the entity.
 			 */
 			clone: function(){
-				var clone = this.create();
-				this.forEach(function(entity, e){
-					clone.add(entity);
-				});
-				return clone;
+				return this.slice();
 			},
 
 			/*
