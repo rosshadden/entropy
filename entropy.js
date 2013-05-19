@@ -788,6 +788,18 @@
 			},
 
 			/*
+			 * ##### slice
+			 *
+			 * Slices the entity, returning a new entity.
+			 */
+			slice: function(){
+				var args = Array.prototype.slice.call(arguments);
+				var set = this.children();
+				set = set.slice.apply(set, args);
+				return this.create(set);
+			},
+
+			/*
 			 * ##### clone
 			 *
 			 * Create a clone of the entity.
