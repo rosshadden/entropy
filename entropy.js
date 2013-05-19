@@ -188,7 +188,9 @@
 
 		var __eid__ = -1;
 		utilities.extend(Entity, {
-			constructor: function(id, classes, value){
+			constructor: function(){
+				var args = Array.prototype.slice.call(arguments);
+
 				//	Setup unique properties.
 				this.index = -1;
 				Object.defineProperty(this, '.eid', {
@@ -197,8 +199,9 @@
 					enumerable: false,
 					configurable: false
 				});
+				var set = (args[0] && args[0]['.type'] === 'set') ? args[0] : new Set();
 				Object.defineProperty(this, '.set', {
-					value: new Set(),
+					value: set,
 					writable: false,
 					enumerable: false,
 					configurable: false
@@ -335,6 +338,7 @@
 
 				//	Check if the item is already an Entity.
 				var isEntity = typeof value === 'function' && value['.type'] === 'entity';
+				var isSet = typeof value === 'object' && value['.type'] === 'set';
 
 				//	If it is, dance profusely.
 				//	Otherwise, make it one.
@@ -342,7 +346,12 @@
 					entity = value;
 				}else{
 					//	Make the base entity.
-					entity = Entity['.create']();
+					if(isSet){
+						entity = Entity['.create'](value);
+						value = {};
+					}else{
+						entity = Entity['.create']();
+					}
 
 					//	Setup the usual suspects.
 					entity
