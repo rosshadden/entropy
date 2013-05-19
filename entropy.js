@@ -382,7 +382,8 @@
 			 */
 			add: function(){
 				var entity = this.create.apply(this, arguments)['.bake']();
-				var index = this.get('!set').push(entity) - 1;
+				this.get('!set').add(entity);
+				var index = this.get('!set').indexOf(entity);
 				if(!this.hasClass('results')){
 					entity.index = index;
 				}
@@ -693,7 +694,7 @@
 					});
 				}
 
-				return [];
+				return new Set();
 			},
 
 			/*
@@ -1074,6 +1075,7 @@
 			//	Other.
 			Entity.has = Entity.some;
 			//	SET
+			// Set.prototype.push = Set.prototype.add;
 			Set.prototype.concat = Set.prototype.union;
 			Set.prototype.plus = Set.prototype.union;
 			Set.prototype.minus = Set.prototype.difference;
