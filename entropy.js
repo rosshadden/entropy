@@ -987,10 +987,17 @@
 				return this.reduce(function(size){ return size + 1; }, 0);
 			},
 
-			slice: function(){
+			slice: function(start, end){
 				var set = new Set();
-				return this.map(function(item){
-					return item;
+
+				start = start || 0;
+				end = end || Infinity;
+				return this.map(function(item, i){
+					if(i >= start && i < end){
+						return item;
+					}
+				}).filter(function(item){
+					return typeof item !== 'undefined';
 				});
 			},
 
