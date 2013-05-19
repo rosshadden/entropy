@@ -241,11 +241,11 @@
 			//	This is mainly useful when playing with entropy in the console.
 			toString: (function(){
 				var buildString = function(item){
+					var string = 'e';
 					if(item.size === 0){
-						return '∅';
+						string = '∅';
 					}
 
-					var string = 'e';
 					var id = item.id,
 						key = item.get('!key'),
 						value = item.get();
@@ -265,7 +265,7 @@
 				return function(){
 					var string = buildString(this);
 					if(this.size){
-						var items = this.list().map(buildString);
+						var items = this.map(buildString);
 						string += ':[' + items.join(', ') + ']';
 					}
 					return string;
