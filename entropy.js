@@ -447,14 +447,14 @@
 			},
 
 			/*
-			 * ##### delete
+			 * ##### remove
 			 *
 			 * Removes an item from an entity's set.
 			 */
-			delete: function(){
+			remove: function(){
 				var args = Array.prototype.slice.call(arguments);
 				var entity = this.cd.apply(this, args);
-				this.get('!set').delete(entity);
+				this.get('!set').remove(entity);
 				return this;
 			},
 
