@@ -932,7 +932,7 @@
 				var args = Array.prototype.slice.call(arguments);
 				args.forEach(function(arg){
 					if(!set.has(arg)){
-						set.push(arg);
+						Array.prototype.push.call(set, arg);
 					}
 				});
 				return this;
@@ -1010,7 +1010,7 @@
 				for (var i = 0; i < len; i++) {
 					if (i in t) {
 						var val = t[i];
-						if (fun.call(thisp, val, i, t)) res.push(val);
+						if (fun.call(thisp, val, i, t)) Array.prototype.push.call(res, val);
 					}
 				}
 				return res;
@@ -1075,7 +1075,7 @@
 			//	Other.
 			Entity.has = Entity.some;
 			//	SET
-			// Set.prototype.push = Set.prototype.add;
+			Set.prototype.push = Set.prototype.add;
 			Set.prototype.concat = Set.prototype.union;
 			Set.prototype.plus = Set.prototype.union;
 			Set.prototype.minus = Set.prototype.difference;
