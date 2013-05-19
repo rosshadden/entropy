@@ -424,10 +424,7 @@
 					enumerable: true,
 
 					get: function(){
-						var test = function(){
-							return self.children()[index];
-						};
-						return test();
+						return self.children()[index];
 					}
 				});
 
