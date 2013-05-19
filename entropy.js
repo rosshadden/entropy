@@ -741,6 +741,15 @@
 			},
 
 			/*
+			 * ##### parents
+			 *
+			 * Returns a copy of the internal set of parents.
+			 */
+			parents: function(){
+				return this.get('!parents').slice();
+			},
+
+			/*
 			 * ##### children
 			 *
 			 * Returns a copy of the internal set of entities.
