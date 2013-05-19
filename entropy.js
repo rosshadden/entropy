@@ -209,6 +209,12 @@
 					enumerable: false,
 					configurable: false
 				});
+				Object.defineProperty(this, '.parents', {
+					value: new Set(),
+					writable: false,
+					enumerable: false,
+					configurable: false
+				});
 
 				/*
 				 * ##### size
@@ -218,6 +224,12 @@
 				Object.defineProperty(this, 'size', {
 					get: function(){
 						return this.get('!set').size;
+					}
+				});
+
+				Object.defineProperty(this, '.children', {
+					get: function(){
+						return this.get('!set');
 					}
 				});
 
@@ -401,6 +413,8 @@
 			add: function(){
 				var entity = this.create.apply(this, arguments)['.bake']();
 				this.get('!set').add(entity);
+				entity['.parents'].add(this);
+
 				var index = this.get('!set').indexOf(entity);
 				if(!this.hasClass('results')){
 					entity.index = index;
