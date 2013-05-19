@@ -188,8 +188,6 @@
 
 		var __eid__ = -1;
 		utilities.extend(Entity, {
-			_length: 0,
-
 			constructor: function(id, classes, value){
 				//	Setup unique properties.
 				this.index = -1;
@@ -396,7 +394,6 @@
 					}
 				});
 
-				this._length += 1;
 				return this;
 			},
 
@@ -623,7 +620,7 @@
 					//	Get a whitelist of "magic" proeprties.
 					if(/^!/.test(key)){
 						key = key.substr(1);
-						if(~['id', 'classes', 'index'].indexOf(key)){
+						if(~['id', 'classes', 'index', 'size'].indexOf(key)){
 							return this[key];
 						}else if(~['key', 'set', 'eid'].indexOf(key)){
 							return this['.' + key];
