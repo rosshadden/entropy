@@ -773,9 +773,12 @@
 			 */
 			parents: function(){
 				var args = Array.prototype.slice.call(arguments);
-
+				var parents = this.get('!parents').slice();
 				if(!args.length){
-					return this.get('!parents').slice();
+					return parents;
+				}else{
+					parents = this.goto(parents);
+					return parents.children.apply(parents, args);
 				}
 			},
 
