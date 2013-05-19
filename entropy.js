@@ -413,7 +413,7 @@
 			add: function(){
 				var entity = this.create.apply(this, arguments)['.bake']();
 				this.get('!set').add(entity);
-				entity['.parents'].add(this);
+				entity.get('!parents').add(this);
 
 				var index = this.get('!set').indexOf(entity);
 				if(!this.hasClass('results')){
@@ -656,7 +656,7 @@
 						key = key.substr(1);
 						if(~['id', 'classes', 'index', 'size'].indexOf(key)){
 							return this[key];
-						}else if(~['key', 'set', 'eid'].indexOf(key)){
+						}else if(~['key', 'set', 'eid', 'parents', 'children'].indexOf(key)){
 							return this['.' + key];
 						}
 						return undefined;
