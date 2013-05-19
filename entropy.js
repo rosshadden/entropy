@@ -372,6 +372,7 @@
 					}
 
 					entity['.value'] = value;
+					entity['.bake']();
 				}
 
 				return entity;
@@ -409,7 +410,7 @@
 			 * Adds an item to an entity's set of entities.
 			 */
 			add: function(){
-				var entity = this.create.apply(this, arguments)['.bake']();
+				var entity = this.create.apply(this, arguments);
 				this.get('!set').add(entity);
 				entity.get('!parents').add(this);
 
@@ -602,7 +603,7 @@
 					index = 0;
 				if(args.length >= 1){
 					if(typeof args[0] === 'object'){
-						return this.create(args[0])['.bake']();
+						return this.create(args[0]);
 					}
 					if(typeof args.slice(-1)[0] === 'number'){
 						index = args.splice(-1)[0];
