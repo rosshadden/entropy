@@ -388,6 +388,7 @@
 			'.bake': function(){
 				var item, key, value, shouldWeProceed;
 				//	Only do this if the entity has no entities already, IE if this has not been run yet.
+				//	Otherwise, (re)setup the indices.
 				if(this.size === 0){
 					for(key in this.get()){
 						value = this.get(key);
@@ -402,6 +403,28 @@
 					}
 				}
 				return this;
+			},
+
+			'.setupIndices': function(index){
+				var self = this;
+				var setupIndices = function(index){
+					Object.defineProperty(self, index, {
+						enumerable: true,
+
+						get: function(){
+							return self.get('!set')[index];
+						}
+					});
+				};
+
+				if(typeof index === 'number'){
+					setupIndices(index);
+				}else{
+					var length = this.size;
+					for(index = 0; index < length; index++){
+						setupIndices(index);
+					}
+				}
 			},
 
 			/*
@@ -420,13 +443,7 @@
 					entity.index = index;
 				}
 
-				Object.defineProperty(this, index, {
-					enumerable: true,
-
-					get: function(){
-						return self.children()[index];
-					}
-				});
+				this['.setupIndices'](index);
 
 				return this;
 			},
