@@ -401,6 +401,8 @@
 							this.add(item);
 						}
 					}
+				}else{
+					this['.setupIndices']();
 				}
 				return this;
 			},
