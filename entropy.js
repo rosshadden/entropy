@@ -410,6 +410,7 @@
 			 * Adds an item to an entity's set of entities.
 			 */
 			add: function(){
+				var self = this;
 				var entity = this.create.apply(this, arguments);
 				this.get('!set').add(entity);
 				entity.get('!parents').add(this);
@@ -423,7 +424,10 @@
 					enumerable: true,
 
 					get: function(){
-						return entity;
+						var test = function(){
+							return self.children()[index];
+						};
+						return test();
 					}
 				});
 
@@ -914,7 +918,7 @@
 					if(typeof args[0] === 'function'){
 						try{
 							args[0].call(entity, entity.get(), e);
-						}catch(e){
+						}catch(error){
 							//	Allows for s.forEach(console.log, console), s.forEach(alert), etc.
 							args[0].call(args[1] || null, entity.get(), e);
 						}
