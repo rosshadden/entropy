@@ -197,12 +197,6 @@
 					enumerable: false,
 					configurable: false
 				});
-				Object.defineProperty(this, '.isEntity', {
-					value: true,
-					writable: false,
-					enumerable: false,
-					configurable: false
-				});
 				Object.defineProperty(this, '.set', {
 					value: new Set(),
 					writable: false,
@@ -340,7 +334,7 @@
 				}
 
 				//	Check if the item is already an Entity.
-				var isEntity = typeof value === 'function' && value['.isEntity'];
+				var isEntity = typeof value === 'function' && value['.type'] === 'entity';
 
 				//	If it is, dance profusely.
 				//	Otherwise, make it one.
