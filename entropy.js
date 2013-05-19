@@ -1179,7 +1179,7 @@
 			// .addClass('root', 'entropy');
 
 			//	Stuff unique to the entropic root.
-			entropy.VERSION = 0.680
+			entropy.VERSION = 0.6845;
 			entropy['.plugins'] = [];
 			entropy['.adapters'] = [];
 			entropy.utilities = utilities;
