@@ -227,15 +227,11 @@
 					}
 				});
 
-				//	These are set if the relelvant arguments are passed,
-				//	though I prefer to call Entity['.make']() without arguments,
-				//	and set them afterward.
-				this.id = (typeof id !== 'undefined') ? id : 'Entity';
+				//	Defaults.
+				this.id = '';
 				this['.key'] = '';
-				//	TODO:  This should parse classes instead of assuming array.
-				this.classes = (typeof classes !== 'undefined') ? classes : [];
-				//	Note that I am doing the typeof undefined check in case value is boolean.
-				this['.value'] = (typeof value !== 'undefined') ? value : {};
+				this.classes = [];
+				this['.value'] = {};
 			},
 
 			//	Called when you invoke the instance as a function.
@@ -341,8 +337,8 @@
 				//	Check if the item is already an Entity.
 				var isEntity = typeof value === 'function' && value['.isEntity'];
 
-				//	If it is not, make it one.
-				//	Otherwise, dance profusely.
+				//	If it is, dance profusely.
+				//	Otherwise, make it one.
 				if(isEntity){
 					entity = value;
 				}else{
