@@ -503,7 +503,7 @@
 			 */
 			remove: function(){
 				var args = Array.prototype.slice.call(arguments);
-				var entity = this.cd.apply(this, args);
+				var entity = this.goto.apply(this, args);
 				this.get('!set').remove(entity);
 				return this;
 			},
@@ -520,7 +520,7 @@
 				if(!args.length){
 					return this.index;
 				}
-				var item = this.cd.apply(this, args);
+				var item = this.goto.apply(this, args);
 				return this.get('!set').indexOf(item);
 			},
 
