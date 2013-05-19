@@ -227,12 +227,6 @@
 					}
 				});
 
-				Object.defineProperty(this, '.children', {
-					get: function(){
-						return this.get('!set');
-					}
-				});
-
 				//	These are set if the relelvant arguments are passed,
 				//	though I prefer to call Entity['.make']() without arguments,
 				//	and set them afterward.
@@ -565,7 +559,7 @@
 				// var runPlugin = function(plugin, action){
 				// 	var addChildren = function(entity){
 				// 		var filter = entity.filter.apply(entity, [plugin[action]].concat(plugin.matches));
-				// 		results.addEach(filter.list());
+				// 		results.addEach(filter.children());
 				// 		entity.forEach(addChildren);
 				// 	};
 				// 	return addChildren;
@@ -584,7 +578,7 @@
 				var results = this.create().addClass('results');
 				var addChildren = function(){
 					var filter = this.filter.apply(this, args);
-					results.addEach(filter.list());
+					results.addEach(filter.children());
 					this.forEach(addChildren);
 				};
 				addChildren.call(this);
@@ -656,7 +650,7 @@
 						key = key.substr(1);
 						if(~['id', 'classes', 'index', 'size'].indexOf(key)){
 							return this[key];
-						}else if(~['key', 'set', 'eid', 'parents', 'children'].indexOf(key)){
+						}else if(~['key', 'set', 'eid', 'parents'].indexOf(key)){
 							return this['.' + key];
 						}
 						return undefined;
@@ -676,7 +670,7 @@
 				var args = Array.prototype.slice.call(arguments);
 
 				if(args.length === 0){
-					return this.list();
+					return this.children();
 				}
 
 				if(args.length === 1){
@@ -717,7 +711,7 @@
 				}else if(args.length === 1){
 					//	ES5 Array.map.
 					if(typeof key === 'function'){
-						return this.list().map(key, this);
+						return this.children().map(key, this);
 					}
 					//	Return an array of properties of child entities.
 					return this.map(function(entity){
@@ -747,11 +741,11 @@
 			},
 
 			/*
-			 * ##### list
+			 * ##### children
 			 *
-			 * Returns a copy of the internal list of entities.
+			 * Returns a copy of the internal set of entities.
 			 */
-			list: function(){
+			children: function(){
 				return this.get('!set').slice();
 			},
 
@@ -942,7 +936,7 @@
 			//	Apply a function simultaneously against two entities of the entity (from left-to-right) as to reduce it to a single value.
 			// reduce: function(){
 				// var args = Array.prototype.slice.call(arguments);
-				// return this.list().reduce.apply(this.list(), args);
+				// return this.children().reduce.apply(this.children(), args);
 			// }
 		});
 
@@ -1106,7 +1100,7 @@
 			// Entity.find;
 			Entity.grep = Entity.filter;
 			Entity.cd = Entity.goto;
-			Entity.ls = Entity.list;
+			Entity.ls = Entity.children;
 			Entity.cp = Entity.clone;
 			Entity.rm = Entity.remove;
 			Entity.make = Entity.create;
