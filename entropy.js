@@ -215,6 +215,11 @@
 					enumerable: false,
 					configurable: false
 				});
+				Object.defineProperty(this, '.type', {
+					get: function(){
+						return 'entity';
+					}
+				});
 
 				/*
 				 * ##### size
@@ -958,6 +963,10 @@
 		});
 
 		utilities.extend(Set.prototype, {
+			get '.type'(){
+				return 'set';
+			},
+
 			get size(){
 				return this.reduce(function(size){ return size + 1; }, 0);
 			},
