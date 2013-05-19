@@ -1048,7 +1048,7 @@
 				return set;
 			},
 
-			intersect: function(){
+			intersection: function(){
 				var set = this.slice();
 				var args = Array.prototype.slice.call(arguments);
 				this.forEach(function(item){
@@ -1070,6 +1070,13 @@
 					});
 				});
 				return set;
+			},
+
+			symmetricDifference: function(){
+				var args = Array.prototype.slice.call(arguments);
+				return new Set(args).reduce(function(result, set){
+					return result.union(set).minus(result.intersection(set));
+				}, this);
 			},
 
 			toArray: function(){
@@ -1096,6 +1103,7 @@
 			Set.prototype.concat = Set.prototype.union;
 			Set.prototype.plus = Set.prototype.union;
 			Set.prototype.minus = Set.prototype.difference;
+			Set.prototype.intersect = Set.prototype.intersection;
 
 		var entropy = (function(){
 			var entropy = Entity.create();
@@ -1106,7 +1114,7 @@
 			// .addClass('root', 'entropy');
 
 			//	Stuff unique to the entropic root.
-			entropy.VERSION = 0.67
+			entropy.VERSION = 0.680
 			entropy['.plugins'] = [];
 			entropy['.adapters'] = [];
 			entropy.utilities = utilities;
