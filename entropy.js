@@ -744,18 +744,30 @@
 			 * ##### parents
 			 *
 			 * Returns a copy of the internal set of parents.
+			 * When given a query, returns a filtered set.
 			 */
 			parents: function(){
-				return this.get('!parents').slice();
+				var args = Array.prototype.slice.call(arguments);
+
+				if(!args.length){
+					return this.get('!parents').slice();
+				}
 			},
 
 			/*
 			 * ##### children
 			 *
 			 * Returns a copy of the internal set of entities.
+			 * When given a query, returns a filtered set.
 			 */
 			children: function(){
-				return this.get('!set').slice();
+				var args = Array.prototype.slice.call(arguments);
+
+				if(!args.length){
+					return this.get('!set').slice();
+				}else{
+					return this.filter.apply(this, args).children();
+				}
 			},
 
 			/*
