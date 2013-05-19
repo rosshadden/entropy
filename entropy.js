@@ -992,6 +992,14 @@
 
 				start = start || 0;
 				end = end || Infinity;
+
+				if(start < 0){
+					start += this.size;
+				}
+				if(end < 0){
+					end += this.size;
+				}
+
 				return this.map(function(item, i){
 					if(i >= start && i < end){
 						return item;
