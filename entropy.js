@@ -1254,6 +1254,8 @@
 			Entity.make = Entity.create;
 			//	Other.
 			Entity.has = Entity.some;
+			Entity.not = Entity.difference;
+			Entity.minus = Entity.difference;
 			//	SET
 			Set.prototype.push = Set.prototype.add;
 			Set.prototype.concat = Set.prototype.union;
@@ -1270,7 +1272,7 @@
 			// .addClass('root', 'entropy');
 
 			//	Stuff unique to the entropic root.
-			entropy.VERSION = 0.685;
+			entropy.VERSION = 0.686;
 			entropy['.plugins'] = [];
 			entropy['.adapters'] = [];
 			entropy.utilities = utilities;
