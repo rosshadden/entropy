@@ -991,10 +991,10 @@
 			},
 
 			//	Apply a function simultaneously against two entities of the entity (from left-to-right) as to reduce it to a single value.
-			// reduce: function(){
-				// var args = Array.prototype.slice.call(arguments);
-				// return this.children().reduce.apply(this.children(), args);
-			// }
+			reduce: function(){
+				var args = Array.prototype.slice.call(arguments);
+				return this.children().reduce.apply(this.children(), args);
+			},
 
 			union: function(){
 				var self = this;
