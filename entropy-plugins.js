@@ -159,12 +159,17 @@ S.register({
 			//	Starts with:
 			'^=': function(){
 				var regex = new RegExp('^' + control);
-				return regex.test(test, 'i');
+				return regex.test(test, ($isStrict) ? '' : 'i');
 			},
 			//	Ends with:
 			'$=': function(){
 				var regex = new RegExp(control + '$');
-				return regex.test(test, 'i');
+				return regex.test(test, ($isStrict) ? '' : 'i');
+			},
+			//	Contains:
+			'*=': function(){
+				var regex = new RegExp(control);
+				return regex.test(test, ($isStrict) ? '' : 'i');
 			},
 			//	Less than:
 			'<': function(){
