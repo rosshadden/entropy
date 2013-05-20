@@ -997,9 +997,13 @@
 			// }
 
 			union: function(){
+				var self = this;
 				var args = Array.prototype.slice.call(arguments);
 				var children = this.children();
 				var sets = args.map(function(arg){
+					if(typeof arg === 'string'){
+						return self.filter(arg).children();
+					}
 					if(arg['.type'] === 'entity'){
 						return arg.children();
 					}
@@ -1011,9 +1015,13 @@
 			},
 
 			intersection: function(){
+				var self = this;
 				var args = Array.prototype.slice.call(arguments);
 				var children = this.children();
 				var sets = args.map(function(arg){
+					if(typeof arg === 'string'){
+						return self.filter(arg).children();
+					}
 					if(arg['.type'] === 'entity'){
 						return arg.children();
 					}
@@ -1025,9 +1033,13 @@
 			},
 
 			difference: function(){
+				var self = this;
 				var args = Array.prototype.slice.call(arguments);
 				var children = this.children();
 				var sets = args.map(function(arg){
+					if(typeof arg === 'string'){
+						return self.filter(arg).children();
+					}
 					if(arg['.type'] === 'entity'){
 						return arg.children();
 					}
@@ -1039,9 +1051,13 @@
 			},
 
 			symmetricDifference: function(){
+				var self = this;
 				var args = Array.prototype.slice.call(arguments);
 				var children = this.children();
 				var sets = args.map(function(arg){
+					if(typeof arg === 'string'){
+						return self.filter(arg).children();
+					}
 					if(arg['.type'] === 'entity'){
 						return arg.children();
 					}
