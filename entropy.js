@@ -1038,7 +1038,19 @@
 				return this.goto(children.difference.apply(children, sets));
 			},
 
-			symmetricDifference: function(){}
+			symmetricDifference: function(){
+				var args = Array.prototype.slice.call(arguments);
+				var children = this.children();
+				var sets = args.map(function(arg){
+					if(arg['.type'] === 'entity'){
+						return arg.children();
+					}
+					if(arg['.type'] === 'set'){
+						return arg;
+					}
+				});
+				return this.goto(children.symmetricDifference.apply(children, sets));
+			}
 		});
 
 		utilities.extend(Set.prototype, {
