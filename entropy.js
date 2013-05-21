@@ -623,7 +623,7 @@
 					index = 0;
 				if(args.length >= 1){
 					if(typeof args[0] === 'object'){
-						return this.create(args[0]);
+						return this.wrap(args[0]);
 					}
 					if(typeof args.slice(-1)[0] === 'number'){
 						index = args.splice(-1)[0];
