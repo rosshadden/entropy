@@ -560,7 +560,7 @@
 					//	Get list of relevant plugins.
 					var relevant = this._getRelevantPlugins.apply(this, ['filter'].concat(args));
 					//	Build list of results.
-					results = (relevant.length ? this : this.create()).addClass('results');
+					results = (relevant.length ? this.clone() : this.create()).addClass('results');
 					relevant.forEach(function(plugin, p){
 						results = results.filter.apply(results, [plugin.filter].concat(plugin.matches));
 						delete plugin.matches;
