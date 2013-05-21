@@ -639,7 +639,7 @@
 				if(entity.size > index){
 					return entity[index];
 				}
-				return false;
+				return S.wrap(false);
 			},
 
 			/*
