@@ -643,6 +643,23 @@
 			},
 
 			/*
+			 * ##### wrap
+			 *
+			 * Wraps given primitive(s) as an Entity.
+			 */
+			wrap: function(){
+				var args = Array.prototype.slice.call(arguments);
+
+				if(args.length === 0){
+					return this.create({});
+				}
+				if(args.length === 1){
+					return this.create(args[0]);
+				}
+				return this.create(args);
+			},
+
+			/*
 			 * ##### matches
 			 *
 			 * Returns whether an entity matches a given selector.
