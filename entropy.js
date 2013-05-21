@@ -233,7 +233,7 @@
 				this.id = '';
 				this['.key'] = '';
 				this.classes = [];
-				this['.value'] = {};
+				this['.value'] = undefined;
 			},
 
 			//	Called when you invoke the instance as a function.
@@ -296,12 +296,12 @@
 				var args = Array.prototype.slice.call(arguments);
 
 				var	id = '',
-					value = args[0] || {},
+					value = args[0] || undefined,
 					classes = [];
 
 				var entity;
 
-				//	Adds an empty object (for some reason?).
+				//	Adds an empty object.
 				if(args.length === 0){}
 
 				//	Adds the passed in object, with no ID or classes.
