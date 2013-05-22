@@ -2,13 +2,16 @@
 	var entropy = (function(){
 		'use strict';
 
-		var CACHE = window.CACHE = {};
-		CACHE.array = Array();
-		CACHE.slice = CACHE.array.slice;
-		CACHE.object = Object();
-		CACHE.keys = Object.keys;
-		CACHE.create = Object.create;
-		CACHE.defineProperty = Object.defineProperty;
+		var CACHE = (function(){
+			var cache = {};
+			cache.array = Array();
+			cache.slice = cache.array.slice;
+			cache.object = Object();
+			cache.keys = Object.keys;
+			cache.create = Object.create;
+			cache.defineProperty = Object.defineProperty;
+			return cache;
+		})();
 
 		//	Subtype Function.
 		var Entity = CACHE.create(Function.prototype);
