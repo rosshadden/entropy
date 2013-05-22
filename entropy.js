@@ -211,7 +211,7 @@
 					configurable: false
 				});
 				var set = (args[0] && args[0]['.type'] === 'set') ? args[0] : new Set();
-				CACHE.defineProperty(this, '.set', {
+				CACHE.defineProperty(this, '.children', {
 					value: set,
 					writable: false,
 					enumerable: false,
@@ -236,7 +236,7 @@
 				 */
 				CACHE.defineProperty(this, 'size', {
 					get: function(){
-						return this.get('!set').size;
+						return this.get('!children').size;
 					}
 				});
 
@@ -425,7 +425,7 @@
 						enumerable: true,
 
 						get: function(){
-							return self.get('!set')[index];
+							return self.get('!children')[index];
 						}
 					});
 				};
@@ -448,10 +448,10 @@
 			add: function(){
 				var self = this;
 				var entity = this.create.apply(this, arguments);
-				this.get('!set').add(entity);
+				this.get('!children').add(entity);
 				entity.get('!parents').add(this);
 
-				var index = this.get('!set').indexOf(entity);
+				var index = this.get('!children').indexOf(entity);
 				if(!this.hasClass('results')){
 					entity.index = index;
 				}
@@ -515,7 +515,7 @@
 			remove: function(){
 				var args = CACHE.slice.call(arguments);
 				var entity = this.goto.apply(this, args);
-				this.get('!set').remove(entity);
+				this.get('!children').remove(entity);
 				return this;
 			},
 
@@ -532,7 +532,7 @@
 					return this.index;
 				}
 				var item = this.goto.apply(this, args);
-				return this.get('!set').indexOf(item);
+				return this.get('!children').indexOf(item);
 			},
 
 			/*
@@ -703,7 +703,9 @@
 						key = key.substr(1);
 						if(~['id', 'classes', 'index', 'size'].indexOf(key)){
 							return this[key];
-						}else if(~['key', 'set', 'eid', 'parents'].indexOf(key)){
+						}else if(~['children', 'parents'].indexOf(key)){
+							return this['.' + key];
+						}else if(~['key', 'eid'].indexOf(key)){
 							return this['.' + key];
 						}
 						return undefined;
@@ -820,7 +822,7 @@
 				var args = CACHE.slice.call(arguments);
 
 				if(!args.length){
-					return this.get('!set').slice();
+					return this.get('!children').slice();
 				}else{
 					return this.filter.apply(this, args).children();
 				}
@@ -832,7 +834,7 @@
 			 * Sorts the internal set.
 			 */
 			sort: function(){
-				var set = this.get('!set');
+				var set = this.get('!children');
 				var args = CACHE.slice.call(arguments);
 				set.sort.apply(set, args);
 				return this;
@@ -1300,7 +1302,7 @@
 			// .addClass('root', 'entropy');
 
 			//	Stuff unique to the entropic root.
-			entropy.VERSION = 0.691;
+			entropy.VERSION = 0.692;
 			entropy['.plugins'] = [];
 			entropy['.adapters'] = [];
 			entropy.utilities = utilities;
