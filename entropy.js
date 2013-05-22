@@ -68,7 +68,7 @@
 						root = this;
 					}
 
-					if(window.HTMLElement && (!(object instanceof HTMLElement) && !(object instanceof Node)) || object && !object.nodeType){
+					if(typeof window !== 'undefined' && window.HTMLElement && (!(object instanceof HTMLElement) && !(object instanceof Node)) || object && !object.nodeType){
 						if(Array.isArray(object)){
 							response = [];
 							i = 0;
