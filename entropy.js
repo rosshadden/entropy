@@ -813,7 +813,7 @@
 				if(!args.length){
 					return parents;
 				}else{
-					parents = this.goto(parents);
+					parents = this.wrap(parents);
 					return parents.children.apply(parents, args);
 				}
 			},
@@ -1047,7 +1047,7 @@
 						return arg;
 					}
 				});
-				return this.goto(children.union.apply(children, sets));
+				return this.wrap(children.union.apply(children, sets));
 			},
 
 			intersection: function(){
@@ -1065,7 +1065,7 @@
 						return arg;
 					}
 				});
-				return this.goto(children.intersection.apply(children, sets));
+				return this.wrap(children.intersection.apply(children, sets));
 			},
 
 			difference: function(){
@@ -1083,7 +1083,7 @@
 						return arg;
 					}
 				});
-				return this.goto(children.difference.apply(children, sets));
+				return this.wrap(children.difference.apply(children, sets));
 			},
 
 			symmetricDifference: function(){
@@ -1101,7 +1101,7 @@
 						return arg;
 					}
 				});
-				return this.goto(children.symmetricDifference.apply(children, sets));
+				return this.wrap(children.symmetricDifference.apply(children, sets));
 			}
 		});
 
