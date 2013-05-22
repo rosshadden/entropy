@@ -210,6 +210,11 @@
 					enumerable: false,
 					configurable: false
 				});
+				CACHE.defineProperty(this, '.type', {
+					get: function(){
+						return 'entity';
+					}
+				});
 				var set = (args[0] && args[0]['.type'] === 'set') ? args[0] : new Set();
 				CACHE.defineProperty(this, '.children', {
 					value: set,
@@ -222,11 +227,6 @@
 					writable: false,
 					enumerable: false,
 					configurable: false
-				});
-				CACHE.defineProperty(this, '.type', {
-					get: function(){
-						return 'entity';
-					}
 				});
 
 				/*
@@ -413,12 +413,12 @@
 						}
 					}
 				}else{
-					this['.setupIndices']();
+					this._setupIndices();
 				}
 				return this;
 			},
 
-			'.setupIndices': function(index){
+			_setupIndices: function(index){
 				var self = this;
 				var setupIndices = function(index){
 					CACHE.defineProperty(self, index, {
@@ -456,7 +456,7 @@
 					entity.index = index;
 				}
 
-				this['.setupIndices'](index);
+				this._setupIndices(index);
 
 				return this;
 			},
