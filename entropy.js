@@ -203,7 +203,6 @@
 				var args = CACHE.slice.call(arguments);
 
 				//	Setup unique properties.
-				this.index = -1;
 				CACHE.defineProperty(this, '.eid', {
 					value: ++__eid__,
 					writable: false,
@@ -452,10 +451,6 @@
 				entity.get('!parents').add(this);
 
 				var index = this.get('!children').indexOf(entity);
-				if(!this.hasClass('results')){
-					entity.index = index;
-				}
-
 				this._setupIndices(index);
 
 				return this;
