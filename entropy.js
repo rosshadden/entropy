@@ -2,13 +2,16 @@
 	var entropy = (function(){
 		'use strict';
 
-		var CACHE = {};
-		CACHE.array = {};
+		var CACHE = window.CACHE = {};
 		CACHE.array = Array();
-		CACHE.arraySlice = CACHE.array.slice;
+		CACHE.slice = CACHE.array.slice;
+		CACHE.object = Object();
+		CACHE.keys = Object.keys;
+		CACHE.create = Object.create;
+		CACHE.defineProperty = Object.defineProperty;
 
 		//	Subtype Function.
-		var Entity = Object.create(Function.prototype);
+		var Entity = CACHE.create(Function.prototype);
 
 		//	Subtype Array.
 		var Set = function(values){
@@ -21,7 +24,7 @@
 			}
 			return instance;
 		};
-		Set.prototype = Object.create(CACHE.array);
+		Set.prototype = CACHE.create(CACHE.array);
 
 		var utilities = {
 			functionFactory: function(prototype){
@@ -30,7 +33,7 @@
 						return f.call.apply(f, arguments);
 					};
 
-					Object.keys(prototype).forEach(function(key){
+					CACHE.keys(prototype).forEach(function(key){
 						f[key] = prototype[key];
 					});
 
@@ -42,7 +45,7 @@
 
 			extend: function(destination, source){
 				Object.getOwnPropertyNames(source).forEach(function(key){
-					Object.defineProperty(
+					CACHE.defineProperty(
 						destination,
 						key,
 						Object.getOwnPropertyDescriptor(source, key)
@@ -135,7 +138,7 @@
 			},
 
 			sort: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 
 				var sort = function(left, right, options){
 					var temp = {};
@@ -194,30 +197,30 @@
 		var __eid__ = -1;
 		utilities.extend(Entity, {
 			constructor: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 
 				//	Setup unique properties.
 				this.index = -1;
-				Object.defineProperty(this, '.eid', {
+				CACHE.defineProperty(this, '.eid', {
 					value: ++__eid__,
 					writable: false,
 					enumerable: false,
 					configurable: false
 				});
 				var set = (args[0] && args[0]['.type'] === 'set') ? args[0] : new Set();
-				Object.defineProperty(this, '.set', {
+				CACHE.defineProperty(this, '.set', {
 					value: set,
 					writable: false,
 					enumerable: false,
 					configurable: false
 				});
-				Object.defineProperty(this, '.parents', {
+				CACHE.defineProperty(this, '.parents', {
 					value: new Set(),
 					writable: false,
 					enumerable: false,
 					configurable: false
 				});
-				Object.defineProperty(this, '.type', {
+				CACHE.defineProperty(this, '.type', {
 					get: function(){
 						return 'entity';
 					}
@@ -228,7 +231,7 @@
 				 *
 				 * Returns the size of the set.
 				 */
-				Object.defineProperty(this, 'size', {
+				CACHE.defineProperty(this, 'size', {
 					get: function(){
 						return this.get('!set').size;
 					}
@@ -298,7 +301,7 @@
 			 * @return {Entity} \[ \left\{ s \in S \right\} \]
 			 */
 			create: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 
 				var	id = '',
 					value = args[0] || undefined,
@@ -415,7 +418,7 @@
 			'.setupIndices': function(index){
 				var self = this;
 				var setupIndices = function(index){
-					Object.defineProperty(self, index, {
+					CACHE.defineProperty(self, index, {
 						enumerable: true,
 
 						get: function(){
@@ -466,7 +469,7 @@
 			 * These properties can take a dynamic value like '/asdf' to make the value depend on the property specified.
 			 */
 			addEach: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 
 				var	items,
 					config = false;
@@ -507,7 +510,7 @@
 			 * Removes an item from an entity's set.
 			 */
 			remove: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				var entity = this.goto.apply(this, args);
 				this.get('!set').remove(entity);
 				return this;
@@ -520,7 +523,7 @@
 			 * If no arguments are passed, returns the index of the entity itself.
 			 */
 			indexOf: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 
 				if(!args.length){
 					return this.index;
@@ -537,7 +540,7 @@
 			 * @api private
 			 */
 			_getRelevantPlugins: function(action){
-				var args = CACHE.arraySlice.call(arguments, 1);
+				var args = CACHE.slice.call(arguments, 1);
 				return entropy['.plugins'].filter(function(plugin, p){
 					return plugin[action] && plugin.relevance.apply(plugin, args);
 				});
@@ -550,7 +553,7 @@
 			 */
 			filter: function(){
 				var self = this,
-					args = CACHE.arraySlice.call(arguments);
+					args = CACHE.slice.call(arguments);
 
 				var results, parameters;
 				if(typeof args[0] === 'function'){
@@ -582,7 +585,7 @@
 			 * Returns a new entity of entities matching a query.
 			 */
 			find: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				var self = this;
 
 				// var results;
@@ -622,7 +625,7 @@
 			 * Traverses to an entity if it is the sole result of the passed query.
 			 */
 			goto: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 
 				var entity,
 					index = 0;
@@ -653,7 +656,7 @@
 			 * Wraps given primitive(s) as an Entity.
 			 */
 			wrap: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 
 				if(args.length === 0){
 					return this.create({});
@@ -671,7 +674,7 @@
 			 */
 			matches: function(){
 				var self = this,
-					args = CACHE.arraySlice.call(arguments);
+					args = CACHE.slice.call(arguments);
 				//	Get list of relevant plugins.
 				var relevant = this._getRelevantPlugins.apply(this, ['filter'].concat(args));
 				//	Build list of results.
@@ -686,7 +689,7 @@
 			 * Returns a specified property or key.
 			 */
 			get: function(key){
-				var	args = CACHE.arraySlice.call(arguments);
+				var	args = CACHE.slice.call(arguments);
 
 				if(args.length === 0){
 					//	Return entity's value.
@@ -714,7 +717,7 @@
 			 * If no arguments are passed, returns the entity's set.
 			 */
 			set: function(key, value){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 
 				if(args.length === 0){
 					return this.children();
@@ -748,7 +751,7 @@
 			 * Get a value from all children entities.
 			 */
 			map: function(key){
-				var	args = CACHE.arraySlice.call(arguments);
+				var	args = CACHE.slice.call(arguments);
 
 				if(args.length === 0){
 					//	Return an array of values of child entities.
@@ -775,7 +778,7 @@
 			 * Set a value from all children entities.
 			 */
 			setAll: function(key, value){
-				var	args = CACHE.arraySlice.call(arguments);
+				var	args = CACHE.slice.call(arguments);
 
 				if(args.length === 2){
 					//	Set properties on child entities.
@@ -794,7 +797,7 @@
 			 * When given a query, returns a filtered set.
 			 */
 			parents: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				var parents = this.get('!parents').slice();
 				if(!args.length){
 					return parents;
@@ -811,7 +814,7 @@
 			 * When given a query, returns a filtered set.
 			 */
 			children: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 
 				if(!args.length){
 					return this.get('!set').slice();
@@ -827,7 +830,7 @@
 			 */
 			sort: function(){
 				var set = this.get('!set');
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				set.sort.apply(set, args);
 				return this;
 			},
@@ -838,7 +841,7 @@
 			 * Slices the entity, returning a new entity.
 			 */
 			slice: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				var set = this.children();
 				set = set.slice.apply(set, args);
 				return this.create(set);
@@ -864,7 +867,7 @@
 			 */
 			addClass: function(){
 				var	self = this,
-					args = CACHE.arraySlice.call(arguments);
+					args = CACHE.slice.call(arguments);
 
 				args = utilities.parseClasses(args);
 				args.forEach(function(klass, k){
@@ -884,7 +887,7 @@
 			removeClass: function(){
 				var	index,
 					self = this,
-					args = CACHE.arraySlice.call(arguments);
+					args = CACHE.slice.call(arguments);
 
 				args = utilities.parseClasses(args);
 				args.forEach(function(klass, k){
@@ -905,7 +908,7 @@
 			 */
 			toggleClass: function(){
 				var	self = this,
-					args = CACHE.arraySlice.call(arguments);
+					args = CACHE.slice.call(arguments);
 
 				args = utilities.parseClasses(args);
 				args.forEach(function(klass, k){
@@ -929,7 +932,7 @@
 			 */
 			hasClass: function(){
 				var self = this,
-					args = CACHE.arraySlice.call(arguments);
+					args = CACHE.slice.call(arguments);
 
 				args = utilities.parseClasses(args);
 				return args.every(function(klass, k){
@@ -947,7 +950,7 @@
 			 * Calls a function for each entity in the set.
 			 */
 			forEach: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				var e, entity,
 					length = this.size;
 				for(e = 0; e < length; e++){
@@ -973,7 +976,7 @@
 			 * @return {Boolean}
 			 */
 			every: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				var e, entity,
 					length = this.size;
 				for(e = 0; e < length; e++){
@@ -997,7 +1000,7 @@
 			 * @return {Boolean}
 			 */
 			some: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				var e, entity,
 					length = this.size;
 				for(e = 0; e < length; e++){
@@ -1014,13 +1017,13 @@
 
 			//	Apply a function simultaneously against two entities of the entity (from left-to-right) as to reduce it to a single value.
 			reduce: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				return this.children().reduce.apply(this.children(), args);
 			},
 
 			union: function(){
 				var self = this;
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				var children = this.children();
 				var sets = args.map(function(arg){
 					if(typeof arg === 'string'){
@@ -1038,7 +1041,7 @@
 
 			intersection: function(){
 				var self = this;
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				var children = this.children();
 				var sets = args.map(function(arg){
 					if(typeof arg === 'string'){
@@ -1056,7 +1059,7 @@
 
 			difference: function(){
 				var self = this;
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				var children = this.children();
 				var sets = args.map(function(arg){
 					if(typeof arg === 'string'){
@@ -1074,7 +1077,7 @@
 
 			symmetricDifference: function(){
 				var self = this;
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				var children = this.children();
 				var sets = args.map(function(arg){
 					if(typeof arg === 'string'){
@@ -1124,7 +1127,7 @@
 
 			add: function(){
 				var set = this;
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				args.forEach(function(arg){
 					if(!set.has(arg)){
 						CACHE.array.push.call(set, arg);
@@ -1135,7 +1138,7 @@
 
 			remove: function(){
 				var set = this;
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				args.forEach(function(arg){
 					if(set.has(arg)){
 						var index = set.indexOf(arg);
@@ -1157,7 +1160,7 @@
 			},
 
 			sort: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				return CACHE.array.sort.apply(this, utilities.sort.apply(null, args));
 			},
 
@@ -1213,7 +1216,7 @@
 
 			union: function(){
 				var set = this.slice();
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				args.forEach(function(arg){
 					if(Array.isArray(arg)){
 						arg.forEach(function(item){
@@ -1228,7 +1231,7 @@
 
 			intersection: function(){
 				var set = this.slice();
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				this.forEach(function(item){
 					if(!args.every(function(set){
 						return set.has(item);
@@ -1241,7 +1244,7 @@
 
 			difference: function(){
 				var set = this.slice();
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				args.forEach(function(arg){
 					arg.forEach(function(item){
 						set.remove(item);
@@ -1251,14 +1254,14 @@
 			},
 
 			symmetricDifference: function(){
-				var args = CACHE.arraySlice.call(arguments);
+				var args = CACHE.slice.call(arguments);
 				return new Set(args).reduce(function(result, set){
 					return result.union(set).minus(result.intersection(set));
 				}, this);
 			},
 
 			toArray: function(){
-				return CACHE.arraySlice.call(this);
+				return CACHE.slice.call(this);
 			}
 		});
 
@@ -1312,13 +1315,13 @@
 					goto: 'filter',
 
 					relevance: function(){
-						var args = CACHE.arraySlice.call(arguments);
+						var args = CACHE.slice.call(arguments);
 						var self = this;
 						this.matches = [];
 						if(~['string', 'number'].indexOf(this.type)){
 							if(typeof args[0] === this.type && this.expression && this.expression.test(args[0])){
 								(''+args[0]).replace(this.expression, function(value){
-									self.matches = CACHE.arraySlice.call(arguments).slice(0, -2);
+									self.matches = CACHE.slice.call(arguments).slice(0, -2);
 									return;
 								});
 								return true;
