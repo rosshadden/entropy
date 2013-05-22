@@ -523,16 +523,24 @@
 			 * ##### indexOf
 			 *
 			 * Returns the index of the specified item in the set.
-			 * If no arguments are passed, returns the index of the entity itself.
+			 * If no arguments are passed, returns the index of the entity itself in its FIRST parent.
+			 * Accepts nothing, a query, or an Entity.
 			 */
 			indexOf: function(){
 				var args = CACHE.slice.call(arguments);
 
-				if(!args.length){
-					return this.index;
+				var entity, item;
+				if(args.length === 0){
+					entity = this.parents()[0];
+					item = this;
+				}else if(args[0]['.type'] && args[0]['.type'] === 'entity'){
+					entity = this.children();
+					item = args[0];
+				}else{
+					entity = this.children();
+					item = this.goto.apply(this, args);
 				}
-				var item = this.goto.apply(this, args);
-				return this.get('!children').indexOf(item);
+				return entity.indexOf(item);
 			},
 
 			/*
