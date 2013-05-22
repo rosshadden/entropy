@@ -1,10 +1,11 @@
-var entropy = require('../entropy');
+var S = require('../entropy');
 
-var assert = require('assert');
+var should = require('should');
+
 describe('entropy', function(){
-	describe('#size()', function(){
-		it('should return 0 when the list is empty', function(){
-			assert.equal(0, entropy.size());
+	describe('#size', function(){
+		it('should return 0 when children is empty', function(){
+			should.equal(0, S.size);
 		});
 	});
 });
