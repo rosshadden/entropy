@@ -144,7 +144,7 @@ S.register({
 S.register({
 	name: 'property-comparison',
 	description: 'Returns true if a specified property meets the specified (in)equality.',
-	expression: /^\[\s*(!?[\w\-_]+)\s*(=|\^=|\$=|\*=|<|>)(=?)(?!\\)('|"|)(.*?)(?!\\)\4\]$/,
+	expression: /^\[\s*(!?[\w\-_]+)\s*(=|\^=|\$=|\*=|<|>)(=?)(['"]?)(.*)\4\]$/,
 
 	filter: function(contents, index, selector, $property, $operator, $isStrict, $quote, $value){
 		var property = this.get($property);
