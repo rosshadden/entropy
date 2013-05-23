@@ -144,12 +144,13 @@ S.register({
 S.register({
 	name: 'property-comparison',
 	description: 'Returns true if a specified property meets the specified (in)equality.',
-	expression: /^\[\s*(!?[\w\-_]+)\s*(=|\^=|\$=|\*=|<|>)(=?)(['"]?)(.*)\4\]$/,
+	expression: /^\[\s*(!?[\w\-_]+)\s*(!?)(=|\^=|\$=|\*=|<|>)(=?)(['"]?)(.*)\5\]$/,
 
-	filter: function(contents, index, selector, $property, $operator, $isStrict, $quote, $value){
+	filter: function(contents, index, selector, $property, $not, $operator, $isStrict, $quote, $value){
 		var property = this.get($property);
 		var	test = ($isStrict) ? property : !!contents && (''+property).toLowerCase(),
-			control = ($isStrict) ? $value : (''+$value).toLowerCase();
+			control = ($isStrict) ? $value : (''+$value).toLowerCase(),
+			isNegated = !!$not;
 
 		var cases = {
 			//	Equality:
@@ -182,7 +183,8 @@ S.register({
 		};
 
 		//	Run the relevant function based on the operator, and return pass/fail.
-		return cases[$operator]();
+		var result = cases[$operator]();
+		return (isNegated) ? !result : result;
 	}
 });
 
