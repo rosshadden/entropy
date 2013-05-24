@@ -280,7 +280,7 @@
 					var string = buildString(this);
 					if(this.size){
 						var items = this.map(buildString);
-						string += ':[' + items.join(', ') + ']';
+						string += ':[\n    ' + items.join(', \n    ') + '\n]';
 					}
 					return string;
 				};
