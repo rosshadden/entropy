@@ -534,10 +534,10 @@
 					entity = this.parents()[0];
 					item = this;
 				}else if(args[0]['.type'] && args[0]['.type'] === 'entity'){
-					entity = this.children();
+					entity = this.list();
 					item = args[0];
 				}else{
-					entity = this.children();
+					entity = this.list();
 					item = this.goto.apply(this, args);
 				}
 				return entity.indexOf(item);
@@ -603,7 +603,7 @@
 				// var runPlugin = function(plugin, action){
 				// 	var addChildren = function(entity){
 				// 		var filter = entity.filter.apply(entity, [plugin[action]].concat(plugin.matches));
-				// 		results.addEach(filter.children());
+				// 		results.addEach(filter.list());
 				// 		entity.forEach(addChildren);
 				// 	};
 				// 	return addChildren;
@@ -622,7 +622,7 @@
 				var results = this.create().addClass('results');
 				var addChildren = function(){
 					var filter = this.filter.apply(this, args);
-					results.addEach(filter.children());
+					results.addEach(filter.list());
 					this.forEach(addChildren);
 				};
 				addChildren.call(this);
@@ -736,7 +736,7 @@
 				var args = CACHE.slice.call(arguments);
 
 				if(args.length === 0){
-					return this.children();
+					return this.list();
 				}
 
 				if(args.length === 1){
@@ -777,7 +777,7 @@
 				}else if(args.length === 1){
 					//	ES5 Array.map.
 					if(typeof key === 'function'){
-						return this.children().map(key, this);
+						return this.list().map(key, this);
 					}
 					//	Return an array of properties of child entities.
 					return this.map(function(entity){
@@ -816,26 +816,26 @@
 				var args = CACHE.slice.call(arguments);
 				var parents = this.get('!parents').slice();
 				if(!args.length){
-					return parents;
+					return this.wrap(parents);
 				}else{
 					parents = this.wrap(parents);
-					return parents.children.apply(parents, args);
+					return parents.filter.apply(parents, args);
 				}
 			},
 
 			/*
-			 * ##### children
+			 * ##### list
 			 *
 			 * Returns a copy of the internal set of entities.
 			 * When given a query, returns a filtered set.
 			 */
-			children: function(){
+			list: function(){
 				var args = CACHE.slice.call(arguments);
 
 				if(!args.length){
 					return this.get('!children').slice();
 				}else{
-					return this.filter.apply(this, args).children();
+					return this.filter.apply(this, args).list();
 				}
 			},
 
@@ -858,7 +858,7 @@
 			 */
 			slice: function(){
 				var args = CACHE.slice.call(arguments);
-				var set = this.children();
+				var set = this.list();
 				set = set.slice.apply(set, args);
 				return this.create(set);
 			},
@@ -1034,19 +1034,19 @@
 			//	Apply a function simultaneously against two entities of the entity (from left-to-right) as to reduce it to a single value.
 			reduce: function(){
 				var args = CACHE.slice.call(arguments);
-				return this.children().reduce.apply(this.children(), args);
+				return this.list().reduce.apply(this.list(), args);
 			},
 
 			union: function(){
 				var self = this;
 				var args = CACHE.slice.call(arguments);
-				var children = this.children();
+				var children = this.list();
 				var sets = args.map(function(arg){
 					if(typeof arg === 'string'){
-						return self.filter(arg).children();
+						return self.filter(arg).list();
 					}
 					if(arg['.type'] === 'entity'){
-						return arg.children();
+						return arg.list();
 					}
 					if(arg['.type'] === 'set'){
 						return arg;
@@ -1058,13 +1058,13 @@
 			intersection: function(){
 				var self = this;
 				var args = CACHE.slice.call(arguments);
-				var children = this.children();
+				var children = this.list();
 				var sets = args.map(function(arg){
 					if(typeof arg === 'string'){
-						return self.filter(arg).children();
+						return self.filter(arg).list();
 					}
 					if(arg['.type'] === 'entity'){
-						return arg.children();
+						return arg.list();
 					}
 					if(arg['.type'] === 'set'){
 						return arg;
@@ -1076,13 +1076,13 @@
 			difference: function(){
 				var self = this;
 				var args = CACHE.slice.call(arguments);
-				var children = this.children();
+				var children = this.list();
 				var sets = args.map(function(arg){
 					if(typeof arg === 'string'){
-						return self.filter(arg).children();
+						return self.filter(arg).list();
 					}
 					if(arg['.type'] === 'entity'){
-						return arg.children();
+						return arg.list();
 					}
 					if(arg['.type'] === 'set'){
 						return arg;
@@ -1094,13 +1094,13 @@
 			symmetricDifference: function(){
 				var self = this;
 				var args = CACHE.slice.call(arguments);
-				var children = this.children();
+				var children = this.list();
 				var sets = args.map(function(arg){
 					if(typeof arg === 'string'){
-						return self.filter(arg).children();
+						return self.filter(arg).list();
 					}
 					if(arg['.type'] === 'entity'){
-						return arg.children();
+						return arg.list();
 					}
 					if(arg['.type'] === 'set'){
 						return arg;
