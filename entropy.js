@@ -228,6 +228,11 @@
 					configurable: false
 				});
 
+				var temp = utilities.extend({}, this.all);
+				this.all = utilities.extend(temp, {
+					entity: this
+				});
+
 				/*
 				 * ##### size
 				 *
@@ -1102,6 +1107,15 @@
 					}
 				});
 				return this.wrap(children.symmetricDifference.apply(children, sets));
+			},
+
+			all: {
+				map: function(){
+					var args = Array.prototype.slice.call(arguments);
+					return this.entity.map(function(entity){
+						return entity.map.apply(entity, args);
+					});
+				}
 			}
 		});
 
