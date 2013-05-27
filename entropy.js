@@ -1110,6 +1110,13 @@
 			},
 
 			all: {
+				parents: function(){
+					var args = Array.prototype.slice.call(arguments);
+					return this.map(function(entity){
+						return entity.parents.apply(entity, args);
+					})
+				},
+
 				map: function(){
 					var args = Array.prototype.slice.call(arguments);
 					return this.entity.map(function(entity){
