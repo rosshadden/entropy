@@ -264,25 +264,37 @@
 			//	This is mainly useful when playing with entropy in the console.
 			toString: (function(){
 				var buildString = function(item){
-					var string = 'e';
-					if(item.size === 0){
-						string = '∅';
-					}
+					try{
+						var string;
 
-					var id = item.id;
-					var key = item.get('!key');
-					var value = item.get();
-					if(id){
-						string += '#' + id;
-					}
-					if(key){
-						string += '~' + key;
-					}
-					string += item.classes.reduce(function(list, klass){
-						return list += '.' + klass;
-					}, '');
+						if(typeof item === 'function' && item.type === 'entity'){
+							string = 'e';
+							if(item.size === 0){
+								string = '∅';
+							}
 
-					return string;
+							var id = item.id;
+							var key = item.get('!key');
+							var value = item.get();
+							if(id){
+								string += '#' + id;
+							}
+							if(key){
+								string += '~' + key;
+							}
+							string += item.classes.reduce(function(list, klass){
+								return list += '.' + klass;
+							}, '');
+						}else if(~['number', 'string'].indexOf(typeof item)){
+							string = item;
+						}else{
+							string = typeof item;
+						}
+
+						return string;
+					}catch(e){
+						return 'Error';
+					}
 				};
 
 				return function(){
