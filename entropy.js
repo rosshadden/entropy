@@ -17,13 +17,17 @@
 		var Entity = CACHE.create(Function.prototype);
 
 		//	Subtype Array.
-		var Set = function(values){
-			var instance = (typeof values === 'number') ? new Array(values) : new Array();
+		var Set = function(){
+			var args = Array.prototype.slice.call(arguments);
+
+			if(args.length === 1 && Array.isArray(args[0])){
+				args = args[0];
+			}
+
+			var instance = new Array();
 			instance.__proto__ = Set.prototype;
-			if(typeof values === 'object'){
-				for(var item in values){
-					instance.add(values[item]);
-				}
+			for(var item in args){
+				instance.add(args[item]);
 			}
 			return instance;
 		};
