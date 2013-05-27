@@ -712,7 +712,7 @@
 					//	Get a whitelist of "magic" proeprties.
 					if(/^!/.test(key)){
 						key = key.substr(1);
-						if(~['id', 'classes', 'index', 'size'].indexOf(key)){
+						if(~['id', 'classes', 'index', 'size', 'type'].indexOf(key)){
 							return this[key];
 						}else if(~['children', 'parents'].indexOf(key)){
 							return this['.' + key];
