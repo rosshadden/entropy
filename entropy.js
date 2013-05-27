@@ -209,12 +209,12 @@
 					enumerable: false,
 					configurable: false
 				});
-				CACHE.defineProperty(this, '.type', {
+				CACHE.defineProperty(this, 'type', {
 					get: function(){
 						return 'entity';
 					}
 				});
-				var set = (args[0] && args[0]['.type'] === 'set') ? args[0] : new Set();
+				var set = (args[0] && args[0].type === 'set') ? args[0] : new Set();
 				CACHE.defineProperty(this, '.children', {
 					value: set,
 					writable: false,
@@ -352,8 +352,8 @@
 				}
 
 				//	Check if the item is already an Entity.
-				var isEntity = typeof value === 'function' && value['.type'] === 'entity';
-				var isSet = typeof value === 'object' && value['.type'] === 'set';
+				var isEntity = typeof value === 'function' && value.type === 'entity';
+				var isSet = typeof value === 'object' && value.type === 'set';
 
 				//	If it is, dance profusely.
 				//	Otherwise, make it one.
@@ -533,7 +533,7 @@
 				if(args.length === 0){
 					entity = this.parents()[0];
 					item = this;
-				}else if(args[0]['.type'] && args[0]['.type'] === 'entity'){
+				}else if(args[0].type && args[0].type === 'entity'){
 					entity = this.list();
 					item = args[0];
 				}else{
@@ -642,7 +642,7 @@
 					index = 0;
 				if(args.length >= 1){
 					if(typeof args[0] === 'object'){
-						if(args[0]['.type'] === 'entity'){
+						if(args[0].type === 'entity'){
 							return args[0];
 						}
 						return this.wrap(args[0]);
@@ -1045,10 +1045,10 @@
 					if(typeof arg === 'string'){
 						return self.filter(arg).list();
 					}
-					if(arg['.type'] === 'entity'){
+					if(arg.type === 'entity'){
 						return arg.list();
 					}
-					if(arg['.type'] === 'set'){
+					if(arg.type === 'set'){
 						return arg;
 					}
 				});
@@ -1063,10 +1063,10 @@
 					if(typeof arg === 'string'){
 						return self.filter(arg).list();
 					}
-					if(arg['.type'] === 'entity'){
+					if(arg.type === 'entity'){
 						return arg.list();
 					}
-					if(arg['.type'] === 'set'){
+					if(arg.type === 'set'){
 						return arg;
 					}
 				});
@@ -1081,10 +1081,10 @@
 					if(typeof arg === 'string'){
 						return self.filter(arg).list();
 					}
-					if(arg['.type'] === 'entity'){
+					if(arg.type === 'entity'){
 						return arg.list();
 					}
-					if(arg['.type'] === 'set'){
+					if(arg.type === 'set'){
 						return arg;
 					}
 				});
@@ -1099,10 +1099,10 @@
 					if(typeof arg === 'string'){
 						return self.filter(arg).list();
 					}
-					if(arg['.type'] === 'entity'){
+					if(arg.type === 'entity'){
 						return arg.list();
 					}
-					if(arg['.type'] === 'set'){
+					if(arg.type === 'set'){
 						return arg;
 					}
 				});
@@ -1127,7 +1127,7 @@
 		});
 
 		utilities.extend(Set.prototype, {
-			get '.type'(){
+			get type(){
 				return 'set';
 			},
 
