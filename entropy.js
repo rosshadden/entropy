@@ -265,9 +265,9 @@
 						string = '∅';
 					}
 
-					var id = item.id,
-						key = item.get('!key'),
-						value = item.get();
+					var id = item.id;
+					var key = item.get('!key');
+					var value = item.get();
 					if(id){
 						string += '#' + id;
 					}
@@ -282,7 +282,7 @@
 				};
 
 				return function(){
-					var string = buildString(this);
+					var string = buildString(this, -1);
 					if(this.size){
 						var items = this.map(buildString);
 						string += ':[\n    ' + items.join(', \n    ') + '\n]';
@@ -1305,7 +1305,7 @@
 			// Entity.find;
 			Entity.grep = Entity.filter;
 			Entity.cd = Entity.goto;
-			Entity.ls = Entity.children;
+			Entity.ls = Entity.list;
 			Entity.cp = Entity.clone;
 			Entity.rm = Entity.remove;
 			Entity.make = Entity.create;
