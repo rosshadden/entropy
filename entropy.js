@@ -232,8 +232,8 @@
 					configurable: false
 				});
 
-				var temp = utilities.extend({}, this.all);
-				this.all = utilities.extend(temp, {
+				var temp = utilities.extend({}, this.each);
+				this.each = utilities.extend(temp, {
 					entity: this
 				});
 
@@ -1127,7 +1127,7 @@
 				return this.wrap(children.symmetricDifference.apply(children, sets));
 			},
 
-			all: {
+			each: {
 				parents: function(){
 					var args = Array.prototype.slice.call(arguments);
 					return this.mapEntity(function(entity){
