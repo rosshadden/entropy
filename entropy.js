@@ -211,11 +211,11 @@
 			getType: function(what){
 				var type = typeof what;
 				if(type === 'object'){
-					if(Array.isArray(what)){
-						return 'array';
-					}
 					if(utilities.isSet(what)){
 						return 'set';
+					}
+					if(Array.isArray(what)){
+						return 'array';
 					}
 				}
 				if(type === 'function'){
