@@ -1188,6 +1188,10 @@
 				return this.reduce(function(size){ return size + 1; }, 0);
 			},
 
+			toString: function(){
+				return (this.size === 0) ? '∅' : '{ ' + this.join(', ') + ' }';
+			},
+
 			slice: function(start, end){
 				var set = new Set();
 
