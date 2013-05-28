@@ -18,7 +18,7 @@
 
 		//	Subtype Array.
 		var Set = function(){
-			var args = Array.prototype.slice.call(arguments);
+			var args = CACHE.slice.call(arguments);
 
 			if(args.length === 1 && Array.isArray(args[0])){
 				args = args[0];
@@ -198,6 +198,28 @@
 
 					return 0;
 				};
+			},
+
+			isEntity: function(what){
+			},
+
+			isSet: function(what){
+			},
+
+			getType: function(what){
+				var type = typeof what;
+				if(type === 'object'){
+					if(Array.isArray(what)){
+						return 'array';
+					}
+					if(utilities.isEntity(what)){
+						return 'entity';
+					}
+					if(utilities.isSet(what)){
+						return 'set';
+					}
+				}
+				return type;
 			}
 		};
 
@@ -1129,14 +1151,14 @@
 
 			each: {
 				parents: function(){
-					var args = Array.prototype.slice.call(arguments);
+					var args = CACHE.slice.call(arguments);
 					return this.mapEntity(function(entity){
 						return entity.parents.apply(entity, args);
 					});
 				},
 
 				map: function(){
-					var args = Array.prototype.slice.call(arguments);
+					var args = CACHE.slice.call(arguments);
 					return this.entity.wrap(
 						this.entity.map(function(entity){
 							return entity.map.apply(entity, args);
@@ -1145,7 +1167,7 @@
 				},
 
 				mapEntity: function(){
-					var args = Array.prototype.slice.call(arguments);
+					var args = CACHE.slice.call(arguments);
 					return this.entity.wrap(
 						this.map.apply(this, args)
 					);
