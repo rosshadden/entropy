@@ -285,6 +285,8 @@
 							string += item.classes.reduce(function(list, klass){
 								return list += '.' + klass;
 							}, '');
+						}else if(typeof item === 'object' && item.type === 'set'){
+							string = 'set';
 						}else if(~['number', 'string'].indexOf(typeof item)){
 							string = item;
 						}else{
