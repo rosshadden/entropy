@@ -201,9 +201,11 @@
 			},
 
 			isEntity: function(what){
+				return typeof what === 'function' && what.type === 'entity';
 			},
 
 			isSet: function(what){
+				return typeof what === 'object' && what.type === 'set';
 			},
 
 			getType: function(what){
@@ -212,11 +214,13 @@
 					if(Array.isArray(what)){
 						return 'array';
 					}
-					if(utilities.isEntity(what)){
-						return 'entity';
-					}
 					if(utilities.isSet(what)){
 						return 'set';
+					}
+				}
+				if(type === 'function'){
+					if(utilities.isEntity(what)){
+						return 'entity';
 					}
 				}
 				return type;
