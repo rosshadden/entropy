@@ -1130,16 +1130,25 @@
 			all: {
 				parents: function(){
 					var args = Array.prototype.slice.call(arguments);
-					return this.map(function(entity){
+					return this.mapEntity(function(entity){
 						return entity.parents.apply(entity, args);
 					});
 				},
 
 				map: function(){
 					var args = Array.prototype.slice.call(arguments);
-					return this.entity.wrap(this.entity.map(function(entity){
-						return entity.map.apply(entity, args);
-					}));
+					return this.entity.wrap(
+						this.entity.map(function(entity){
+							return entity.map.apply(entity, args);
+						})
+					);
+				},
+
+				mapEntity: function(){
+					var args = Array.prototype.slice.call(arguments);
+					return this.entity.wrap(
+						this.map.apply(this, args)
+					);
 				}
 			}
 		});
