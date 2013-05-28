@@ -295,9 +295,6 @@
 
 						if(typeof item === 'function' && item.type === 'entity'){
 							string = 'e';
-							if(item.size === 0){
-								string = '∅';
-							}
 
 							var id = item.id;
 							var key = item.get('!key');
@@ -329,7 +326,9 @@
 					var string = buildString(this, -1);
 					if(this.size){
 						var items = this.map(buildString);
-						string += ':[\n    ' + items.join(', \n    ') + '\n]';
+						string += ':{\n    ' + items.join(', \n    ') + '\n}';
+					}else{
+						string += ':∅';
 					}
 					return string;
 				};
