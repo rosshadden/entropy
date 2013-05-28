@@ -1229,7 +1229,7 @@
 					T = thisArg;
 				}
 
-				A = new Set(len);
+				A = new Set();
 				k = 0;
 
 				while (k < len) {
