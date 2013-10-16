@@ -5,3 +5,5 @@ node_modules
 *.fuse_hidden*
 docs
 build.sh
+index.html
+main.js

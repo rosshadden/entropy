@@ -1,0 +1,26 @@
+{
+  "name": "entropy",
+  "version": "0.7.1",
+  "description": "The selector engine to rule them all.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rosshadden/entropy.git"
+  },
+  "keywords": [
+    "entropy",
+    "selector",
+    "es6"
+  ],
+  "author": "Ross Hadden",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/rosshadden/entropy/issues"
+  }
+}
