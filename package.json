@@ -22,5 +22,9 @@
   "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/rosshadden/entropy/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "traceur": "git://github.com/google/traceur-compiler.git#324cbca70c0d4457bdacaa86387b43a5a8c3f10f"
   }
 }
