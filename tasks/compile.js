@@ -77,7 +77,7 @@ module.exports = function(grunt) {
 					grunt.file.write(output + '.map', traceurOptions.sourceMap);
 				}
 
-				console.log(output + ' successful.');
+				console.log("✔", output);
 			});
 		});
 	});
