@@ -7,6 +7,13 @@ module.exports = function(grunt) {
 
 	// Project configuration.
 	grunt.initConfig({
+		watch: {
+			scripts: {
+				files: [input],
+				tasks: ["compile"]
+			}
+		},
+
 		compile: {
 			custom: {
 				files: [{
@@ -17,6 +24,7 @@ module.exports = function(grunt) {
 		}
 	});
 
+	grunt.loadNpmTasks("grunt-contrib-watch");
 	grunt.loadTasks("tasks");
 
 	// Default task(s).
