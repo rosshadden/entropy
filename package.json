@@ -25,6 +25,6 @@
   },
   "devDependencies": {
     "grunt": "~0.4.1",
-    "traceur": "git://github.com/google/traceur-compiler.git#324cbca70c0d4457bdacaa86387b43a5a8c3f10f"
+    "traceur": "git://github.com/google/traceur-compiler.git#25f2bed720a137df63c0d68fc31431a144b902e2"
   }
 }
