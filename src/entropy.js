@@ -14,17 +14,21 @@
 
 		// MANIPULATION
 			// DIRECT
-			add(item) {
-				if (!this.has(item)) {
-					Array.prototype.push.call(this, item);
-				}
+			add(...items) {
+				items.forEach((item) => {
+					if (!this.has(item)) {
+						Array.prototype.push.call(this, item);
+					}
+				})
 				return this;
 			}
 
-			remove(item) {
-				if (set.has(item)) {
-					this.splice(this.indexOf(item), 1);
-				}
+			remove(...items) {
+				items.forEach((item) => {
+					if (this.has(item)) {
+						Array.prototype.splice(null, this.indexOf(item), 1);
+					}
+				})
 				return this;
 			}
 
