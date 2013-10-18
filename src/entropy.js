@@ -20,7 +20,6 @@
 				}
 				return this;
 			}
-			push(item) { return this.add(item); }
 
 			remove(item) {
 				if (set.has(item)) {
@@ -77,6 +76,14 @@
 				}
 				return set;
 			}
+
+		// PATCHING
+			pop() {}
+			push() {}
+			shift() {}
+			unshift() {}
+			splice() {}
+			concat() {}
 
 		// CONVERSION
 			toArray() { return Array.prototype.slice.call(this); }
