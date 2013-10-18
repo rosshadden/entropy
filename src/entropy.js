@@ -31,15 +31,12 @@
 
 			// INDIRECT
 			slice(start = 0, end = Infinity) {
-				if (start < 0) start += this.size;
-				if (end < 0) end += this.size;
+				if (start < 0) start += this.length;
+				if (end < 0) end += this.length;
 
-				return this
-					.map((item, i) => {
-						if (i >= start && i < end) return item;
-					})
-					.filter((item) => (typeof item !== "undefined"))
-				;
+				return this.filter((item, i) => {
+					return i >= start && i < end;
+				});
 			}
 
 		// ITERATION
