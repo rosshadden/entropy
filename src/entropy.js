@@ -2,7 +2,9 @@
 	"use strict";
 
 	class Set extends Array {
-		constructor() {}
+		constructor(...args) {
+			this.add(...args)
+		}
 
 		// PROPERTIES
 			get type() { return "set"; }
