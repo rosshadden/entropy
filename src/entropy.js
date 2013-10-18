@@ -10,38 +10,40 @@
 			get type() { return "set"; }
 
 		// RETRIEVAL
-			has(item) {
-				return !!~this.indexOf(item);
+			has(element) {
+				return !!~this.indexOf(element);
 			}
 
 		// MANIPULATION
 			// DIRECT
-			add(...items) {
-				items.forEach((item) => {
-					if (!this.has(item)) {
-						Array.prototype.push.call(this, item);
+			add(...elements) {
+				elements.forEach((element) => {
+					if (!this.has(element)) {
+						Array.prototype.push.call(this, element);
 					}
 				})
 				return this;
 			}
 
-			remove(...items) {
-				items.forEach((item) => {
-					if (this.has(item)) {
-						Array.prototype.splice(null, this.indexOf(item), 1);
+			remove(...elements) {
+				elements.forEach((element) => {
+					if (this.has(element)) {
+						Array.prototype.splice(null, this.indexOf(element), 1);
 					}
 				})
 				return this;
+			}
+
+			splice(...args) {
+				var spliced = Array.prototype.splice.apply(this, args);
+				return new Set(...spliced);
 			}
 
 			// INDIRECT
-			slice(start = 0, end = Infinity) {
-				if (start < 0) start += this.length;
+			slice(begin = 0, end = Infinity) {
+				if (begin < 0) begin += this.length;
 				if (end < 0) end += this.length;
-
-				return this.filter((item, i) => {
-					return i >= start && i < end;
-				});
+				return this.filter((element, e) => (e >= begin && e < end));
 			}
 
 		// ITERATION
@@ -88,7 +90,6 @@
 			push() {}
 			shift() {}
 			unshift() {}
-			splice() {}
 			concat() {}
 
 		// CONVERSION
@@ -103,6 +104,7 @@
 	var entropy = (function() {
 		var entropy = new Set();
 
+		entropy.Set = Set;
 		entropy.version = 0.7;
 		entropy.plugins = [];
 
