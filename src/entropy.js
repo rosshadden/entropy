@@ -87,6 +87,10 @@
 
 		// CONVERSION
 			toArray() { return Array.prototype.slice.call(this); }
+
+			toString() {
+				return (!this.length) ? "∅" : `{ ${this.join(", ")} }`;
+			}
 	}
 
 
