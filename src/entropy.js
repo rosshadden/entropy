@@ -83,7 +83,7 @@
 				while(k < len) {
 					let kValue, mappedValue;
 					if (k in O) {
-						kValue = O[ k ];
+						kValue = O[k];
 						mappedValue = callback.call(self, kValue, k, O);
 						s.add(mappedValue);
 					}
@@ -153,15 +153,14 @@
 
 	var entropy = (function() {
 		var entropy = new Set();
-		entropy.version = 0.7
+		entropy.version = 0.7;
 
 		entropy.Set = Set;
 		entropy.Element = Element;
 		entropy.plugins = new Set();
 
-		entropy.create = function(...elements) {
-			return new Set(...elements);
-		}
+		entropy.of = (...items) => new Set(...items);
+		entropy.from = (iterable) => new Set(...iterable);
 
 		entropy.register = function(name, options) {
 			this.plugins.add(options);
