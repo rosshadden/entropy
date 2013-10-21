@@ -90,6 +90,45 @@
 				return set;
 			}
 
+		// SET OPERATIONS
+			union(...sets) {
+				var s = this.slice();
+				sets.forEach((set) => {
+					if (Array.isArray(set)) {
+						set.forEach((element) => s.add(element));
+					} else {
+						s.add(set);
+					}
+				})
+				return s;
+			}
+
+			intersection(...sets) {
+				var s = this.slice();
+				this.forEach((element) => {
+					let inAll = sets.every((set) => {
+						if (Array.isArray(set)) set = new Set(...set);
+						return set && set.type === "set" && set.has(element);
+					});
+					if (!inAll) s.remove(element);
+				});
+				return s;
+			}
+
+			difference(...sets) {
+				var s = this.slice();
+				sets.forEach((set) => {
+					set.forEach((element) => s.remove(element));
+				});
+				return s;
+			}
+
+			symmetricDifference(...sets) {
+				return new Set(...sets).reduce((result, set) => {
+					return result.union(set).difference(result.intersection(set));
+				}, this);
+			}
+
 		// PATCHING
 			pop() {}
 			push() {}
