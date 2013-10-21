@@ -142,6 +142,10 @@
 		}
 
 		get version() { return 0.7; }
+
+		create(...elements) {
+			return new Set(...elements);
+		}
 	};
 
 
