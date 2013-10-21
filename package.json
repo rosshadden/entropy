@@ -26,6 +26,7 @@
   "devDependencies": {
     "grunt": "~0.4.1",
     "traceur": "git://github.com/google/traceur-compiler.git#25f2bed720a137df63c0d68fc31431a144b902e2",
-    "grunt-contrib-watch": "~0.5.3"
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-concat": "~0.3.0"
   }
 }

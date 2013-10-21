@@ -39,6 +39,11 @@
 				return new Set(...spliced);
 			}
 
+			empty() {
+				this.splice(0, this.length);
+				return this;
+			}
+
 			// INDIRECT
 			slice(begin = 0, end = Infinity) {
 				if (begin < 0) begin += this.length;
