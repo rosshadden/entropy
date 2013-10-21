@@ -135,21 +135,20 @@
 	}
 
 
-	var entropy = (function() {
-		var entropy = new Set();
+	class entropy extends Set {
+		constructor() {
+			this.Set = Set;
+			this.plugins = [];
+		}
 
-		entropy.Set = Set;
-		entropy.version = 0.7;
-		entropy.plugins = [];
-
-		return entropy;
-	})();
+		get version() { return 0.7; }
+	};
 
 
 	// Assign globally, whether in a browser or node.js.
 	if (typeof module !== "undefined" && typeof require !== "undefined") {
-		module.exports = entropy;
+		module.exports = new entropy();
 	} else {
-		window.entropy = window.S = entropy;
+		window.entropy = window.S = new entropy();
 	}
 })();
