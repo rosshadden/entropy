@@ -1,13 +1,21 @@
 (function() {
 	"use strict";
 
+	class Element {
+		constructor(value = null) {
+			this.value = value;
+		}
+
+		get type() { return "element" }
+	}
+
 	class Set extends Array {
 		constructor(...args) {
-			this.add(...args)
+			if (args.length) this.add(...args);
 		}
 
 		// PROPERTIES
-			get type() { return "set"; }
+			get type() { return "set" }
 
 		// RETRIEVAL
 			has(element) {
@@ -19,7 +27,7 @@
 			add(...elements) {
 				elements.forEach((element) => {
 					if (!this.has(element)) {
-						Array.prototype.push.call(this, element);
+						Array.prototype.push.call(this, new Element(element)) - 1;
 					}
 				})
 				return this;
@@ -28,6 +36,7 @@
 			remove(...elements) {
 				elements.forEach((element) => {
 					if (this.has(element)) {
+						// TODO: this doesn't work because of Elements.
 						Array.prototype.splice.call(this, this.indexOf(element), 1);
 					}
 				})
@@ -127,7 +136,7 @@
 			concat() {}
 
 		// CONVERSION
-			toArray() { return Array.prototype.slice.call(this); }
+			toArray() { return Array.prototype.slice.call(this) }
 
 			toString() {
 				return (!this.length) ? "∅" : `{ ${this.join(", ")} }`;
@@ -135,24 +144,31 @@
 	}
 
 
-	class entropy extends Set {
-		constructor() {
-			this.Set = Set;
-			this.plugins = [];
-		}
+	var entropy = (function() {
+		var entropy = new Set();
+		entropy.version = 0.7
 
-		get version() { return 0.7; }
+		entropy.Set = Set;
+		entropy.Element = Element;
+		entropy.plugins = new Set();
 
-		create(...elements) {
+		entropy.create = function(...elements) {
 			return new Set(...elements);
 		}
-	};
+
+		entropy.register = function(name, options) {
+			this.plugins.add(options);
+			return this;
+		}
+
+		return entropy;
+	})();
 
 
 	// Assign globally, whether in a browser or node.js.
 	if (typeof module !== "undefined" && typeof require !== "undefined") {
-		module.exports = new entropy();
+		module.exports = entropy;
 	} else {
-		window.entropy = window.S = new entropy();
+		window.entropy = window.S = entropy;
 	}
 })();
