@@ -7,6 +7,11 @@
 		}
 
 		get type() { return "element" }
+		toString() {
+			if (Array.isArray(this.value)) return `[${this.value.toString()}]`;
+			if (typeof this.value === "object") return `{${Object.keys(this.value)}}`;
+			return ""+this.value;
+		}
 	}
 
 	class Set extends Array {
@@ -16,6 +21,13 @@
 
 		// PROPERTIES
 			get type() { return "set" }
+
+		// CONVERSION
+			toArray() { return Array.prototype.slice.call(this) }
+
+			toString() {
+				return (!this.length) ? "∅" : `{ ${this.join(", ")} }`;
+			}
 
 		// RETRIEVAL
 			has(value) {
@@ -141,13 +153,6 @@
 			shift() {}
 			unshift() {}
 			concat() {}
-
-		// CONVERSION
-			toArray() { return Array.prototype.slice.call(this) }
-
-			toString() {
-				return (!this.length) ? "∅" : `{ ${this.join(", ")} }`;
-			}
 	}
 
 
