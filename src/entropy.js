@@ -93,33 +93,23 @@
 		// SET OPERATIONS
 			union(...sets) {
 				var s = this.slice();
-				sets.forEach((set) => {
-					if (Array.isArray(set)) {
-						set.forEach((element) => s.add(element));
-					} else {
-						s.add(set);
-					}
-				})
+				sets.forEach((set) => set.forEach((element) => s.add(element)))
 				return s;
 			}
 
 			intersection(...sets) {
-				var s = this.slice();
-				this.forEach((element) => {
-					let inAll = sets.every((set) => {
-						if (Array.isArray(set)) set = new Set(...set);
-						return set && set.type === "set" && set.has(element);
-					});
-					if (!inAll) s.remove(element);
-				});
-				return s;
+				return this.slice()
+					.filter((element) =>
+						sets.every((set) => {
+							if (Array.isArray(set)) set = new Set(...set);
+							return set && set.type === "set" && set.has(element);
+						})
+					);
 			}
 
 			difference(...sets) {
 				var s = this.slice();
-				sets.forEach((set) => {
-					set.forEach((element) => s.remove(element));
-				});
+				sets.forEach((set) => set.forEach((element) => s.remove(element)));
 				return s;
 			}
 
