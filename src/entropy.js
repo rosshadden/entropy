@@ -28,7 +28,7 @@
 			remove(...elements) {
 				elements.forEach((element) => {
 					if (this.has(element)) {
-						Array.prototype.splice(null, this.indexOf(element), 1);
+						Array.prototype.splice.call(this, this.indexOf(element), 1);
 					}
 				})
 				return this;
