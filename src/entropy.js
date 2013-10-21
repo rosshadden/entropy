@@ -18,8 +18,16 @@
 			get type() { return "set" }
 
 		// RETRIEVAL
-			has(element) {
-				return !!~this.indexOf(element);
+			has(value) {
+				return !!~this.indexOf(value);
+			}
+
+			indexOf(value) {
+				if (value && value.type === "element") return Array.prototype.indexOf.call(this, value);
+				for (let element in this) {
+					if (this[element].value === value) return +element;
+				}
+				return -1;
 			}
 
 		// MANIPULATION
@@ -36,7 +44,6 @@
 			remove(...elements) {
 				elements.forEach((element) => {
 					if (this.has(element)) {
-						// TODO: this doesn't work because of Elements.
 						Array.prototype.splice.call(this, this.indexOf(element), 1);
 					}
 				})
