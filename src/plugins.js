@@ -8,9 +8,11 @@
 
 	entropy.register("id", {
 		check: /^#([\w\-_]+)$/,
-		filter() { return true }
+		filter(element, e, $id) {
+			return element.data.id === $id;
+		}
 		hooks: {
-			create() {
+			"create-element"() {
 				this.data.id = "";
 			}
 		}

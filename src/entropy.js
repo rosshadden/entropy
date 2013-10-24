@@ -10,12 +10,13 @@
 			this.@hooks[event].push(handler);
 		}
 
-		trigger(event, self) {
+		trigger(event, self, ...data) {
 			if (event in this.@hooks) {
-				this.@hooks[event].forEach((hook) => hook.call(self));
+				this.@hooks[event].forEach((hook) => hook.apply(self, data));
 			}
 		}
 	};
+
 	var isSet = (value = null) => {
 		return value != null && value.type === "set";
 	};
@@ -26,7 +27,15 @@
 
 	class Element {
 		constructor(value = null) {
+			Object.defineProperty(this, "data", {
+				writable: true,
+				enumerable: false,
+				configurable: false,
+				value: {}
+			});
+
 			this.value = value;
+			hooks.trigger("create-element", this);
 		}
 
 		get type() { return "element" }
@@ -89,7 +98,7 @@
 					if (!this.has(element)) {
 						if (!isElement(element)) element = new Element(element);
 						Array.prototype.push.call(this, element) - 1;
-						hooks.trigger("add", this);
+						hooks.trigger("add", this, element);
 					}
 				})
 				return this;
@@ -163,7 +172,9 @@
 					entropy.plugins.forEach((plugin) => {
 						let match = (""+selector).match(plugin.value.check);
 						if (match) {
-							s = s.filter(plugin.value.filter);
+							s = s.filter((element, e) => {
+								return plugin.value.filter.call(this, element, e, ...match.slice(1));
+							});
 						}
 					});
 				}
