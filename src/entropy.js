@@ -186,19 +186,48 @@
 
 	var entropy = (function() {
 		var entropy = new Set();
-		entropy.version = 0.7;
 
-		entropy.Set = Set;
-		entropy.Element = Element;
-		entropy.plugins = new Set();
+		let writable = false, configurable = false, enumerable = false;
+		Object.defineProperties(entropy, {
+			version: {
+				value: 0.7,
+				writable, configurable, enumerable
+			},
 
-		entropy.of = (...items) => new Set(...items);
-		entropy.from = (iterable) => new Set(...iterable);
+			Set: {
+				value: Set,
+				writable, configurable, enumerable
+			},
+			Element: {
+				value: Element,
+				writable, configurable, enumerable
+			},
+			plugins: {
+				value: new Set(),
+				writable, configurable, enumerable
+			},
 
-		entropy.register = function(name, options) {
-			this.plugins.add(options);
-			return this;
-		}
+			create: {
+				value: (...items) => new Set(...items),
+				writable, configurable, enumerable
+			},
+			of: {
+				value: (...items) => new Set(...items),
+				writable, configurable, enumerable
+			},
+			from: {
+				value: (iterable) => new Set(...iterable),
+				writable, configurable, enumerable
+			},
+
+			register: {
+				value: function(name, options) {
+					this.plugins.add(options);
+					return this;
+				},
+				writable, configurable, enumerable
+			}
+		})
 
 		return entropy;
 	})();
