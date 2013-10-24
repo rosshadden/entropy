@@ -35,7 +35,11 @@
 			});
 
 			this.value = value;
-			hooks.trigger("create-element", this, value, ...args);
+			hooks.trigger("element.create", this, value, ...args);
+		}
+
+		get() {
+			return this.value;
 		}
 
 		get type() { return "element" }
@@ -64,7 +68,7 @@
 				value: {}
 			});
 
-			hooks.trigger("create", this);
+			hooks.trigger("set.create", this);
 			if (args.length) this.addAll(...args);
 		}
 
@@ -97,7 +101,7 @@
 				if (!this.has(element)) {
 					if (!isElement(element)) element = new Element(element, ...args);
 					Array.prototype.push.call(this, element) - 1;
-					hooks.trigger("add", this, element, ...args);
+					hooks.trigger("set.add", this, element, ...args);
 				}
 				return this;
 			}
@@ -110,6 +114,7 @@
 				elements.forEach((element) => {
 					if (this.has(element)) {
 						Array.prototype.splice.call(this, this.indexOf(element), 1);
+						hooks.trigger("set.remove", this, element);
 					}
 				})
 				return this;
