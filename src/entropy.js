@@ -5,14 +5,14 @@
 	var hooks = {
 		@hooks: {},
 
-		on(event, handler) {
+		on(event, handler, plugin) {
 			if (!(event in this.@hooks)) this.@hooks[event] = [];
-			this.@hooks[event].push(handler);
+			this.@hooks[event].push({ handler, plugin });
 		}
 
-		trigger(event, self, ...data) {
+		trigger(event, ...data) {
 			if (event in this.@hooks) {
-				this.@hooks[event].forEach((hook) => hook.apply(self, data));
+				this.@hooks[event].forEach((hook) => hook.handler.apply(hook.plugin, data));
 			}
 		}
 	};
@@ -26,7 +26,7 @@
 
 
 	class Element {
-		constructor(value = null) {
+		constructor(value = null, ...args) {
 			Object.defineProperty(this, "data", {
 				writable: true,
 				enumerable: false,
@@ -35,7 +35,7 @@
 			});
 
 			this.value = value;
-			hooks.trigger("create-element", this);
+			hooks.trigger("create-element", this, value, ...args);
 		}
 
 		get type() { return "element" }
@@ -65,7 +65,7 @@
 			});
 
 			hooks.trigger("create", this);
-			if (args.length) this.add(...args);
+			if (args.length) this.addAll(...args);
 		}
 
 		// PROPERTIES
@@ -93,14 +93,16 @@
 
 		// MANIPULATION
 			// DIRECT
-			add(...elements) {
-				elements.forEach((element) => {
-					if (!this.has(element)) {
-						if (!isElement(element)) element = new Element(element);
-						Array.prototype.push.call(this, element) - 1;
-						hooks.trigger("add", this, element);
-					}
-				})
+			add(element, ...args) {
+				if (!this.has(element)) {
+					if (!isElement(element)) element = new Element(element, ...args);
+					Array.prototype.push.call(this, element) - 1;
+					hooks.trigger("add", this, element, ...args);
+				}
+				return this;
+			}
+			addAll(...elements) {
+				elements.forEach(this.add, this);
 				return this;
 			}
 
@@ -261,10 +263,10 @@
 			},
 
 			register: {
-				value: function(name, options) {
-					this.plugins.add(options);
-					for (let hook in options.hooks) {
-						hooks.on(hook, options.hooks[hook]);
+				value: function(name, plugin) {
+					this.plugins.add(plugin);
+					for (let hook in plugin.hooks) {
+						hooks.on(hook, plugin.hooks[hook], plugin);
 					}
 					return this;
 				},

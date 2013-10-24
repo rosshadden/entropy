@@ -12,8 +12,11 @@
 			return element.data.id === $id;
 		}
 		hooks: {
-			"create-element"() {
-				this.data.id = "";
+			"create-element"(element, value, ...args) {
+				args.forEach((arg) => {
+					let match = (""+arg).match(this.check);
+					if (match) element.data.id = match[1];
+				});
 			}
 		}
 	});
