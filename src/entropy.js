@@ -15,6 +15,7 @@
 				this.@hooks[event].forEach((hook) => hook.handler.apply(hook.plugin, data));
 			}
 		}
+		get list() {return this.@hooks}
 	};
 
 	var isSet = (value = null) => {
@@ -273,6 +274,7 @@
 					for (let hook in plugin.hooks) {
 						hooks.on(hook, plugin.hooks[hook], plugin);
 					}
+					if (plugin.init) plugin.init();
 					return this;
 				},
 				writable, configurable, enumerable

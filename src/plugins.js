@@ -33,8 +33,34 @@
 				});
 			}
 		},
+		init() {
+			entropy.Element.prototype.hasClass = function(klass) {
+				return !!~this.data.classes.indexOf(klass);
+			};
+			entropy.Element.prototype.addClass = function(...classes) {
+				classes.forEach((klass) => {
+					if (!this.hasClass(klass)) this.data.classes.push(klass);
+				});
+				return this;
+			};
+			entropy.Element.prototype.removeClass = function(...classes) {
+				classes.forEach((klass) => {
+					let index = this.data.classes.indexOf(klass);
+					if (!!~index) this.data.classes.splice(index, 1);
+				});
+				return this;
+			};
+			entropy.Element.prototype.toggleClass = function(...classes) {
+				classes.forEach((klass) => {
+					let hasClass = this.hasClass(klass);
+					if (!hasClass) return this.addClass(klass);
+					if (hasClass) return this.removeClass(klass);
+				});
+				return this;
+			};
+		}
 		filter(element, e, $class) {
-			return !!~element.data.classes.indexOf($class);
+			return element.hasClass($class);
 		}
 	});
 })();
