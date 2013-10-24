@@ -1,6 +1,15 @@
 (function() {
 	"use strict";
 
+	var
+		isSet = (value = null) => {
+			return value != null && value.type === "set";
+		},
+		isElement = (value = null) => {
+			return value != null && value.type === "element";
+		}
+	;
+
 	class Element {
 		constructor(value = null) {
 			this.value = value;
@@ -55,7 +64,8 @@
 			add(...elements) {
 				elements.forEach((element) => {
 					if (!this.has(element)) {
-						Array.prototype.push.call(this, new Element(element)) - 1;
+						if (!isElement(element)) element = new Element(element);
+						Array.prototype.push.call(this, element) - 1;
 					}
 				})
 				return this;
@@ -112,18 +122,28 @@
 				return s;
 			}
 
-			filter(callback, self) {
+			filter(selector, self) {
 				if (this == null) throw new TypeError();
-				if (typeof callback !== "function") throw new TypeError();
 
-				var set = new Set();
-				var O = Object(this);
-				for (let i in O) {
-					if (O.hasOwnProperty(i) && callback.call(self, O[i], i, O)) {
-						set.add(O[i]);
+				var s;
+				if (typeof selector === "function") {
+					s = new Set();
+					let O = Object(this);
+					for (let i in O) {
+						if (O.hasOwnProperty(i) && selector.call(self, O[i], i, O)) {
+							s.add(O[i]);
+						}
 					}
+				} else {
+					s = this.slice();
+					entropy.plugins.forEach((plugin) => {
+						let match = (""+selector).match(plugin.value.check);
+						if (match) {
+							s = s.filter(plugin.value.filter);
+						}
+					});
 				}
-				return set;
+				return s;
 			}
 
 		// SET OPERATIONS

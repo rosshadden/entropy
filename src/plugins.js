@@ -2,10 +2,8 @@
 	"use strict";
 
 	entropy.register("all", {
-		selector: /^\*$/,
+		check: /^\*$/,
 
-		filter() {
-			return true;
-		}
+		filter() { return true }
 	});
 })();
