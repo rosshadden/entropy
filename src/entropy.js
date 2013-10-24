@@ -16,8 +16,15 @@
 
 	class Set extends Array {
 		constructor(...args) {
+			Object.defineProperty(this, "length", {
+				enumerable: false,
+				configurable: false,
+				get() {
+					return Object.keys(this).filter((key) => /^\d+$/.test(key)).length;
+				}
+			});
+
 			if (args.length) this.add(...args);
-			Object.defineProperty(this, "length", { enumerable: false });
 		}
 
 		// PROPERTIES
