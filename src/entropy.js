@@ -1,14 +1,28 @@
 (function() {
 	"use strict";
 
-	var
-		isSet = (value = null) => {
-			return value != null && value.type === "set";
-		},
-		isElement = (value = null) => {
-			return value != null && value.type === "element";
+	private @hooks;
+	var hooks = {
+		@hooks: {},
+
+		on(event, handler) {
+			if (!(event in this.@hooks)) this.@hooks[event] = [];
+			this.@hooks[event].push(handler);
 		}
-	;
+
+		trigger(event, self) {
+			if (event in this.@hooks) {
+				this.@hooks[event].forEach((hook) => hook.call(self));
+			}
+		}
+	};
+	var isSet = (value = null) => {
+		return value != null && value.type === "set";
+	};
+	var isElement = (value = null) => {
+		return value != null && value.type === "element";
+	};
+
 
 	class Element {
 		constructor(value = null) {
@@ -23,6 +37,7 @@
 		}
 	}
 
+
 	class Set extends Array {
 		constructor(...args) {
 			Object.defineProperty(this, "length", {
@@ -33,6 +48,14 @@
 				}
 			});
 
+			Object.defineProperty(this, "data", {
+				writable: true,
+				enumerable: false,
+				configurable: false,
+				value: {}
+			});
+
+			hooks.trigger("create", this);
 			if (args.length) this.add(...args);
 		}
 
@@ -66,6 +89,7 @@
 					if (!this.has(element)) {
 						if (!isElement(element)) element = new Element(element);
 						Array.prototype.push.call(this, element) - 1;
+						hooks.trigger("add", this);
 					}
 				})
 				return this;
@@ -207,6 +231,11 @@
 				writable, configurable, enumerable
 			},
 
+			hooks: {
+				value: hooks,
+				writable: true, configurable, enumerable
+			},
+
 			create: {
 				value: (...items) => new Set(...items),
 				writable, configurable, enumerable
@@ -223,11 +252,14 @@
 			register: {
 				value: function(name, options) {
 					this.plugins.add(options);
+					for (let hook in options.hooks) {
+						hooks.on(hook, options.hooks[hook]);
+					}
 					return this;
 				},
 				writable, configurable, enumerable
 			}
-		})
+		});
 
 		return entropy;
 	})();
