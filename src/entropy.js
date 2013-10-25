@@ -178,15 +178,17 @@
 				} else {
 					s = this.slice();
 					entropy.plugins.forEach((plugin) => {
-						let match = (
-								plugin.value.type === "array" && Array.isArray(selector) ||
-								plugin.value.type === typeof selector
-							) &&
-							(""+selector).match(plugin.value.check);
-						if (match) {
-							s = s.filter((element, e) => {
-								return plugin.value.filter.call(this, element, e, ...match.slice(1));
-							});
+						if (typeof plugin.value.filter === "function") {
+							let match = (
+									plugin.value.type === "array" && Array.isArray(selector) ||
+									plugin.value.type === typeof selector
+								) &&
+								(""+selector).match(plugin.value.check);
+							if (match) {
+								s = s.filter((element, e) => {
+									return plugin.value.filter.call(this, element, e, ...match.slice(1));
+								});
+							}
 						}
 					});
 				}

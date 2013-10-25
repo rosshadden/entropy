@@ -26,8 +26,8 @@
 		check: /^\.([\w\-_]+)$/,
 		hooks: {
 			"element.create"(element, value, ...args) {
+				element.data.classes = [];
 				args.forEach((arg) => {
-					element.data.classes = [];
 					let match = (""+arg).match(this.check);
 					if (match) element.data.classes.push(match[1]);
 				});
@@ -144,6 +144,27 @@
 		type: "number",
 		filter(element, e, $index) {
 			return e == $index;
+		}
+	});
+
+	entropy.register("children", {
+		hooks: {
+			"element.create"(element, value, ...args) {
+				var children;
+				if (typeof value === "object") {
+					children = entropy.from(value);
+				} else {
+					children = new entropy.Set();
+				}
+				element.data.children = children;
+			}
+		},
+		init() {
+			entropy.Element.prototype.cd = function(...selectors) {
+				let children = this.data.children.filter(...selectors);
+				if (children.length) return children[0];
+				return new entropy.Element(new Error("The requested child does not exist."));
+			};
 		}
 	});
 })();
