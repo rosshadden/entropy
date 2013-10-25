@@ -178,7 +178,11 @@
 				} else {
 					s = this.slice();
 					entropy.plugins.forEach((plugin) => {
-						let match = (""+selector).match(plugin.value.check);
+						let match = (
+								plugin.value.type === "array" && Array.isArray(selector) ||
+								plugin.value.type === typeof selector
+							) &&
+							(""+selector).match(plugin.value.check);
 						if (match) {
 							s = s.filter((element, e) => {
 								return plugin.value.filter.call(this, element, e, ...match.slice(1));
@@ -270,6 +274,7 @@
 
 			register: {
 				value: function(name, plugin) {
+					if (!plugin.type) plugin.type = "string";
 					this.plugins.add(plugin);
 					for (let hook in plugin.hooks) {
 						hooks.on(hook, plugin.hooks[hook], plugin);

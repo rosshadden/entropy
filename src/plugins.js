@@ -63,4 +63,87 @@
 			return element.hasClass($class);
 		}
 	});
+
+	entropy.register("key", {
+		check: /^([\w\-_]+)$/,
+		hooks: {
+			"element.create"(element, value, ...args) {
+				args.forEach((arg) => {
+					element.data.key = "";
+					let match = (""+arg).match(this.check);
+					if (match) element.data.key = match[1];
+				});
+			}
+		},
+		filter(element, e, $key) {
+			return element.data.key === $key;
+		}
+	});
+
+	entropy.register("property-presence", {
+		check: /^\[\s*(!?[\w+\-]+)\s*\]$/,
+		filter(element, e, $property) {
+			return $property in element.value;
+		}
+	});
+
+	entropy.register("property-comparison", {
+		check: /^\[\s*(!?[\w\-_]+)\s*(!?)(=|\^=|\$=|\*=|<|>)(=?)\s*([""]?)(.*)\5\s*\]$/,
+		filter(element, e, $property, $not, $operator, $isStrict, $quote, $value) {
+			var property = element.value[$property];
+			var test = ($isStrict) ? property : !!element.value && (""+property).toLowerCase(),
+				control = ($isStrict) ? $value : (""+$value).toLowerCase(),
+				isNegated = !!$not;
+
+			var cases = {
+				// Equality:
+				"=": function(){
+					return test == control;
+				},
+				// Starts with:
+				"^=": function(){
+					var regex = new RegExp("^" + control);
+					return regex.test(test, ($isStrict) ? "" : "i");
+				},
+				// Ends with:
+				"$=": function(){
+					var regex = new RegExp(control + "$");
+					return regex.test(test, ($isStrict) ? "" : "i");
+				},
+				// Contains:
+				"*=": function(){
+					var regex = new RegExp(control);
+					return regex.test(test, ($isStrict) ? "" : "i");
+				},
+				// Less than:
+				"<": function(){
+					return ($isStrict) ? parseInt(test, 10) <= parseInt(control, 10) : parseInt(test, 10) < parseInt(control, 10);
+				},
+				// Greater than:
+				">": function(){
+					return ($isStrict) ? parseInt(test, 10) >= parseInt(control, 10) : parseInt(test, 10) > parseInt(control, 10);
+				}
+			};
+
+			// Run the relevant function based on the operator, and return pass/fail.
+			var result = cases[$operator]();
+			return (isNegated) ? !result : result;
+		}
+	});
+
+	entropy.register("type", {
+		check: /^~(\w+)$/,
+		filter(element, e, $type) {
+			var type = Object.prototype.toString.call(element.value).replace(/\[object (\w+)\]/, "$1");
+			return type.toLowerCase() === $type.toLowerCase();
+		}
+	});
+
+	entropy.register("index", {
+		check: /^(\d+)$/,
+		type: "number",
+		filter(element, e, $index) {
+			return e == $index;
+		}
+	});
 })();
