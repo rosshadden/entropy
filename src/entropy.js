@@ -39,10 +39,6 @@
 			hooks.trigger("element.create", this, value, ...args);
 		}
 
-		get() {
-			return this.value;
-		}
-
 		get type() { return "element" }
 		toString() {
 			if (Array.isArray(this.value)) return `[${this.value.toString()}]`;
@@ -84,6 +80,10 @@
 			}
 
 		// RETRIEVAL
+			get(index) {
+				return this[index].value;
+			}
+
 			has(value) {
 				return !!~this.indexOf(value);
 			}
