@@ -268,7 +268,15 @@
 				writable, configurable, enumerable
 			},
 			from: {
-				value: (iterable) => new Set(...iterable),
+				value: (iterable) => {
+					var s = new Set(...iterable);
+					if (!Array.isArray(iterable)) {
+						for (let item in iterable) {
+							s.add(iterable[item], item);
+						}
+					}
+					return s;
+				},
 				writable, configurable, enumerable
 			},
 
