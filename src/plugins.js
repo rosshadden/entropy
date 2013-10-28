@@ -165,7 +165,7 @@
 				var addChildren = function() {
 					let filter = this.filter(...args);
 					s.addAll(filter);
-					this.forEach((element) => addChildren.call(element.data.children);
+					this.forEach((element) => addChildren.call(element.data.children));
 				};
 				addChildren.call(this);
 				return s;
@@ -174,6 +174,18 @@
 				let children = this.data.children.filter(...selectors);
 				if (children.length) return children[0];
 				return new entropy.Element(new Error("The requested child does not exist."));
+			};
+			entropy.Element.prototype.addChild = function(...args) {
+				this.data.children.add(...args);
+				return this;
+			};
+			entropy.Element.prototype.addChildren = function(...args) {
+				this.data.children.addAll(...args);
+				return this;
+			};
+			entropy.Element.prototype.removeChild = function(...args) {
+				this.data.children.remove(...args);
+				return this;
 			};
 		}
 	});
