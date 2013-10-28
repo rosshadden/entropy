@@ -140,33 +140,31 @@
 			}
 
 		// ITERATION
-			map(callback, self) {
-				if (this == null) throw new TypeError(" this is null or not defined");
+			map(key, self) {
+				if (typeof key === "function") {
+					var O = Object(this);
+					var len = O.length >>> 0;
 
-				var O = Object(this);
-				var len = O.length >>> 0;
-
-				if (typeof callback !== "function") {
-					throw new TypeError(callback + " is not a function");
-				}
-
-				let s = new Set();
-				let k = 0;
-				while(k < len) {
-					let kValue, mappedValue;
-					if (k in O) {
-						kValue = O[k];
-						mappedValue = callback.call(self, kValue, k, O);
-						s.add(mappedValue);
+					let s = new Set();
+					let k = 0;
+					while(k < len) {
+						let kValue, mappedValue;
+						if (k in O) {
+							kValue = O[k];
+							mappedValue = key.call(self, kValue, k, O);
+							s.add(mappedValue);
+						}
+						k++;
 					}
-					k++;
+					return s;
+				} else if (typeof key === "undefined") {
+					return this.toArray().map((element) => element.value);
+				} else {
+					return this.toArray().map((element) => element.value[key]);
 				}
-				return s;
 			}
 
 			filter(selector, self) {
-				if (this == null) throw new TypeError();
-
 				var s;
 				if (typeof selector === "function") {
 					s = new Set();
