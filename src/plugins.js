@@ -160,6 +160,16 @@
 			}
 		},
 		init() {
+			entropy.Set.prototype.find = function(...args) {
+				var s = new entropy.Set();
+				var addChildren = function() {
+					let filter = this.filter(...args);
+					s.addAll(filter);
+					this.forEach((element) => addChildren.call(element.data.children);
+				};
+				addChildren.call(this);
+				return s;
+			};
 			entropy.Element.prototype.cd = function(...selectors) {
 				let children = this.data.children.filter(...selectors);
 				if (children.length) return children[0];
