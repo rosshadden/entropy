@@ -107,6 +107,7 @@
 				return this;
 			}
 			addAll(...elements) {
+				if (elements.length === 1 && (Array.isArray(elements[0]) || isSet(elements[0]))) elements = elements[0];
 				elements.forEach(this.add, this);
 				return this;
 			}
