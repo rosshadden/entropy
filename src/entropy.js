@@ -170,9 +170,13 @@
 				} else if (typeof to === "object") {
 					return this.toArray().map((element) => {
 						return Object.keys(to).reduce((output, property) => {
-							output[property] = to[property].replace(/\{\{([\w .-]*)\}\}/g, function(string, $property) {
-								return element.value[$property] || "";
-							});
+							if (property == to[property]) {
+								output[property] = element.value[property];
+							} else {
+								output[property] = to[property].replace(/\[([\w .-]*)\]/g, function(string, $property) {
+									return element.value[$property] || "";
+								});
+							}
 							return output;
 						}, {});
 					});
