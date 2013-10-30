@@ -180,32 +180,30 @@
 				return this.toArray().map((element) => element.value);
 			}
 
-			filter(selector, self) {
+			filter(...selectors) {
 				var s;
-				if (typeof selector === "function") {
+				if (typeof selectors[0] === "function") {
 					s = new Set();
 					let O = Object(this);
 					for (let i in O) {
-						if (O.hasOwnProperty(i) && selector.call(self, O[i], i, O)) {
+						if (O.hasOwnProperty(i) && selectors[0].call(selectors[1], O[i], i, O)) {
 							s.add(O[i]);
 						}
 					}
 				} else {
 					s = this.slice();
-					entropy.plugins.forEach((plugin) => {
-						if (typeof plugin.value.filter === "function") {
-							let match = (
-									plugin.value.type === "array" && Array.isArray(selector) ||
-									plugin.value.type === typeof selector
-								) &&
-								(""+selector).match(plugin.value.check);
-							if (match) {
+					let existRelevantPlugins = entropy.plugins.map().some((plugin) => {
+						if (typeof plugin.filter === "function") {
+							let match = plugin.relevance(...selectors);
+							if (match && match.length) {
 								s = s.filter((element, e) => {
-									return plugin.value.filter.call(this, element, e, ...match.slice(1));
+									return plugin.filter.call(this, element, e, ...match);
 								});
+								return true;
 							}
 						}
 					});
+					if (!existRelevantPlugins) s = new Set();
 				}
 				return s;
 			}
@@ -300,6 +298,20 @@
 			register: {
 				value: function(name, plugin) {
 					if (!plugin.type) plugin.type = "string";
+					if (!plugin.relevance) {
+						plugin.relevance = function(...selectors) {
+							let match = (""+selectors[0]).match(plugin.check);
+							return (
+								selectors.length === 1 && (
+									plugin.type === "array" && Array.isArray(selectors[0]) ||
+									plugin.type === typeof selectors[0]
+								) &&
+								match && match.slice(1) ||
+								[]
+							);
+						}
+					}
+
 					this.plugins.add(plugin);
 					for (let hook in plugin.hooks) {
 						hooks.on(hook, plugin.hooks[hook], plugin);
