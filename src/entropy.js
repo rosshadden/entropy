@@ -81,7 +81,7 @@
 
 		// RETRIEVAL
 			get(index) {
-				return this[index].value;
+				return this[index] && this[index].value || undefined;
 			}
 
 			has(value) {
@@ -140,8 +140,8 @@
 			}
 
 		// ITERATION
-			map(key, self) {
-				if (typeof key === "function") {
+			map(to, self) {
+				if (typeof to === "function") {
 					var O = Object(this);
 					var len = O.length >>> 0;
 
@@ -151,17 +151,33 @@
 						let kValue, mappedValue;
 						if (k in O) {
 							kValue = O[k];
-							mappedValue = key.call(self, kValue, k, O);
+							mappedValue = to.call(self, kValue, k, O);
 							s.add(mappedValue);
 						}
 						k++;
 					}
 					return s;
-				} else if (typeof key === "undefined") {
-					return this.toArray().map((element) => element.value);
-				} else {
-					return this.toArray().map((element) => element.value[key]);
+				} else if (~["string", "number", "date"].indexOf(typeof to)) {
+					return this.toArray().map((element) => element.value[to]);
+				} else if (Array.isArray(to)) {
+					return this.toArray().map((element) => {
+						return to.reduce((output, property) => {
+							output[property] = element.value[property];
+							return output;
+						}, {});
+					});
+					return this.toArray().map((element) => element.value[to]);
+				} else if (typeof to === "object") {
+					return this.toArray().map((element) => {
+						return Object.keys(to).reduce((output, property) => {
+							output[property] = to[property].replace(/\{\{([\w .-]*)\}\}/g, function(string, $property) {
+								return element.value[$property] || "";
+							});
+							return output;
+						}, {});
+					});
 				}
+				return this.toArray().map((element) => element.value);
 			}
 
 			filter(selector, self) {
