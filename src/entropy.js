@@ -45,6 +45,11 @@
 			if (typeof this.value === "object") return `{${Object.keys(this.value)}}`;
 			return ""+this.value;
 		}
+
+		set(key, value) {
+			this.value[key] = value;
+			return this;
+		}
 	}
 
 
@@ -98,6 +103,12 @@
 
 		// MANIPULATION
 			// DIRECT
+			set(...args) {
+				return this.forEach(function(element) {
+					this.set(...args)
+				});
+			}
+
 			add(element, ...args) {
 				if (!this.has(element)) {
 					if (!isElement(element)) element = new Element(element, ...args);
@@ -210,6 +221,22 @@
 					if (!existRelevantPlugins) s = new Set();
 				}
 				return s;
+			}
+
+			forEach(fn, self) {
+				let e, length = this.length;
+				for(e = 0; e < length; e++) {
+					let element = this[e];
+					if (typeof fn === "function") {
+						try {
+							fn.call(self || element, element.value, e);
+						} catch(error) {
+							// Allows for s.forEach(console.log, console), s.forEach(alert), etc.
+							fn.call(self || null, element.value, e);
+						}
+					}
+				}
+				return this;
 			}
 
 		// SET OPERATIONS
