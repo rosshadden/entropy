@@ -85,7 +85,7 @@
 			}
 
 		// RETRIEVAL
-			get(index) {
+			get(index = 0) {
 				return this[index] && this[index].value || undefined;
 			}
 
@@ -151,7 +151,7 @@
 			}
 
 		// ITERATION
-			map(to, self) {
+			map(to, self = this) {
 				if (typeof to === "function") {
 					var O = Object(this);
 					var len = O.length >>> 0;
@@ -159,10 +159,9 @@
 					let s = new Set();
 					let k = 0;
 					while(k < len) {
-						let kValue, mappedValue;
+						let mappedValue;
 						if (k in O) {
-							kValue = O[k];
-							mappedValue = to.call(self, kValue, k, O);
+							mappedValue = to.call(self, O[k], k, O);
 							s.add(mappedValue);
 						}
 						k++;
@@ -201,7 +200,7 @@
 					s = new Set();
 					let O = Object(this);
 					for (let i in O) {
-						if (O.hasOwnProperty(i) && selectors[0].call(selectors[1], O[i], i, O)) {
+						if (O.hasOwnProperty(i) && selectors[0].call(selectors[1] || this, O[i], i, O)) {
 							s.add(O[i]);
 						}
 					}
