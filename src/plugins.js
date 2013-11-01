@@ -174,6 +174,11 @@
 				addChildren.call(this);
 				return s;
 			};
+			entropy.Set.prototype.cd = function(...selectors) {
+				let s = this.filter(...selectors);
+				if (s.length) return s[0].data.children;
+				return new entropy.Element(new Error("The requested child does not exist."));
+			};
 			entropy.Element.prototype.cd = function(...selectors) {
 				let children = this.data.children.filter(...selectors);
 				if (children.length) return children[0];
