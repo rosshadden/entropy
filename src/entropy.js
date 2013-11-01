@@ -314,6 +314,7 @@
 			},
 			from: {
 				value: (iterable) => {
+					if (iterable == null) iterable = [];
 					var s = new Set(...iterable);
 					if (!Array.isArray(iterable)) {
 						for (let item in iterable) {

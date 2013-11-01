@@ -151,7 +151,7 @@
 		hooks: {
 			"element.create"(element, value, ...args) {
 				var children;
-				if (typeof value === "object") {
+				if (typeof value === "object" && value !== null) {
 					children = entropy.from(value);
 				} else {
 					children = new entropy.Set();
