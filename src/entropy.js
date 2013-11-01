@@ -93,6 +93,10 @@
 				return !!~this.indexOf(value);
 			}
 
+			contains(value) {
+				return !!this.filter(value).length;
+			}
+
 			indexOf(value) {
 				if (value && value.type === "element") return Array.prototype.indexOf.call(this, value);
 				for (let element in this) {

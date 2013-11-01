@@ -165,7 +165,11 @@
 				var addChildren = function() {
 					let filter = this.filter(...args);
 					s.addAll(filter);
-					this.forEach((element) => addChildren.call(element.data.children));
+					this.forEach((element) => {
+						if (element != null && element.data != null) {
+							addChildren.call(element.data.children);
+						}
+					});
 				};
 				addChildren.call(this);
 				return s;
