@@ -46,6 +46,16 @@
 			return ""+this.value;
 		}
 
+		get(key) {
+			if (typeof key === "undefined") return this.value;
+			if (/^!/.test(key)) {
+				key = (""+key).slice(1);
+				if (~["type"].indexOf(key)) return this[key];
+				return this.data[key];
+			}
+			return this.value[key];
+		}
+
 		set(key, value) {
 			this.value[key] = value;
 			return this;
@@ -172,11 +182,11 @@
 					}
 					return s;
 				} else if (~["string", "number", "date"].indexOf(typeof to)) {
-					return this.toArray().map((element) => element.value[to]);
+					return this.toArray().map((element) => element.get(to));
 				} else if (Array.isArray(to)) {
 					return this.toArray().map((element) => {
 						return to.reduce((output, property) => {
-							output[property] = element.value[property];
+							output[property] = element.get(property);
 							return output;
 						}, {});
 					});
