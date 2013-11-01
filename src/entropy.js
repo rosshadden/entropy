@@ -118,30 +118,30 @@
 		// MANIPULATION
 			// DIRECT
 			set(...args) {
-				return this.forEach(function(element) {
+				return this.forEach(function() {
 					this.set(...args)
 				});
 			}
 
-			add(element, ...args) {
-				if (!this.has(element)) {
-					if (!isElement(element)) element = new Element(element, ...args);
-					Array.prototype.push.call(this, element) - 1;
-					hooks.trigger("set.add", this, element, ...args);
+			add(item, ...args) {
+				if (!this.has(item)) {
+					if (!isElement(item)) item = new Element(item, ...args);
+					Array.prototype.push.call(this, item) - 1;
+					hooks.trigger("set.add", this, item, ...args);
 				}
 				return this;
 			}
-			addAll(...elements) {
-				if (elements.length === 1 && (Array.isArray(elements[0]) || isSet(elements[0]))) elements = elements[0];
-				elements.forEach(this.add, this);
+			addAll(...items) {
+				if (items.length === 1 && (Array.isArray(items[0]) || isSet(items[0]))) items = items[0];
+				items.forEach(this.add, this);
 				return this;
 			}
 
-			remove(...elements) {
-				elements.forEach((element) => {
-					if (this.has(element)) {
-						Array.prototype.splice.call(this, this.indexOf(element), 1);
-						hooks.trigger("set.remove", this, element);
+			remove(...items) {
+				items.forEach((item) => {
+					if (this.has(item)) {
+						Array.prototype.splice.call(this, this.indexOf(item), 1);
+						hooks.trigger("set.remove", this, item);
 					}
 				})
 				return this;
@@ -161,11 +161,11 @@
 			slice(begin = 0, end = Infinity) {
 				if (begin < 0) begin += this.length;
 				if (end < 0) end += this.length;
-				return this.filter((element, e) => (e >= begin && e < end));
+				return this.filter((item, i) => (i >= begin && i < end));
 			}
 
 		// ITERATION
-			map(to, self = this) {
+			map(to) {
 				if (typeof to === "function") {
 					var O = Object(this);
 					var len = O.length >>> 0;
@@ -175,7 +175,7 @@
 					while(k < len) {
 						let mappedValue;
 						if (k in O) {
-							mappedValue = to.call(self, O[k], k, O);
+							mappedValue = to.call(self || O[k], O[k].value, k, this);
 							s.add(mappedValue);
 						}
 						k++;
@@ -190,15 +190,14 @@
 							return output;
 						}, {});
 					});
-					return this.toArray().map((element) => element.value[to]);
 				} else if (typeof to === "object") {
 					return this.toArray().map((element) => {
 						return Object.keys(to).reduce((output, property) => {
 							if (property == to[property]) {
-								output[property] = element.value[property];
+								output[property] = element.get(property);
 							} else {
 								output[property] = to[property].replace(/\[([\w .-]*)\]/g, function(string, $property) {
-									return element.value[$property] || "";
+									return element.get($property) || "";
 								});
 							}
 							return output;
@@ -214,7 +213,7 @@
 					s = new Set();
 					let O = Object(this);
 					for (let i in O) {
-						if (O.hasOwnProperty(i) && selectors[0].call(selectors[1] || this, O[i], i, O)) {
+						if (O.hasOwnProperty(i) && selectors[0].call(selectors[1] || O[i], O[i].value, i, this)) {
 							s.add(O[i]);
 						}
 					}
@@ -224,8 +223,8 @@
 						if (typeof plugin.filter === "function") {
 							let match = plugin.relevance(...selectors);
 							if (match && match.length) {
-								s = s.filter((element, e) => {
-									return plugin.filter.call(this, element, e, ...match);
+								s = s.filter(function(item, i) {
+									return plugin.filter.call(this, item, i, ...match);
 								});
 								return true;
 							}
@@ -236,16 +235,16 @@
 				return s;
 			}
 
-			forEach(fn, self = this) {
+			forEach(fn, self) {
 				let e, length = this.length;
 				for(e = 0; e < length; e++) {
 					let element = this[e];
 					if (typeof fn === "function") {
 						try {
-							fn.call(self, element, e);
+							fn.call(self || element, element.value, e, this);
 						} catch(error) {
 							// Allows for s.forEach(console.log, console), s.forEach(alert), etc.
-							fn.call(self || null, element.value, e);
+							fn.call(self || null, element.value, e, this);
 						}
 					}
 				}
@@ -255,23 +254,23 @@
 		// SET OPERATIONS
 			union(...sets) {
 				var s = this.slice();
-				sets.forEach((set) => set.forEach((element) => s.add(element)))
+				sets.forEach((set) => set.forEach(function(item) { s.add(this) }));
 				return s;
 			}
 
 			intersection(...sets) {
 				return this.slice()
-					.filter((element) =>
+					.filter(function(item) {
 						sets.every((set) => {
 							if (Array.isArray(set)) set = new Set(...set);
-							return set && set.type === "set" && set.has(element);
+							return set && set.type === "set" && set.has(this);
 						})
-					);
+					});
 			}
 
 			difference(...sets) {
 				var s = this.slice();
-				sets.forEach((set) => set.forEach((element) => s.remove(element)));
+				sets.forEach((set) => set.forEach(function(item) { s.remove(this) }));
 				return s;
 			}
 

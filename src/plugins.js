@@ -17,8 +17,8 @@
 				});
 			}
 		},
-		filter(element, e, $id) {
-			return element.data.id === $id;
+		filter(item, i, $id) {
+			return this.data.id === $id;
 		}
 	});
 
@@ -59,8 +59,8 @@
 				return this;
 			};
 		}
-		filter(element, e, $class) {
-			return element.hasClass($class);
+		filter(item, i, $class) {
+			return this.hasClass($class);
 		}
 	});
 
@@ -75,23 +75,23 @@
 				});
 			}
 		},
-		filter(element, e, $key) {
-			return element.data.key === $key;
+		filter(item, i, $key) {
+			return this.data.key === $key;
 		}
 	});
 
 	entropy.register("property-presence", {
 		check: /^\[\s*(!?[\w+\-]+)\s*\]$/,
-		filter(element, e, $property) {
-			return $property in element.value;
+		filter(item, i, $property) {
+			return $property in item;
 		}
 	});
 
 	entropy.register("property-comparison", {
 		check: /^\[\s*(!?[\w\-_]+)\s*(!?)(=|\^=|\$=|\*=|<|>)(=?)\s*([""]?)(.*)\5\s*\]$/,
-		filter(element, e, $property, $not, $operator, $isStrict, $quote, $value) {
-			var property = element.value[$property];
-			var test = ($isStrict) ? property : !!element.value && (""+property).toLowerCase(),
+		filter(item, i, $property, $not, $operator, $isStrict, $quote, $value) {
+			var property = item[$property];
+			var test = ($isStrict) ? property : !!item && (""+property).toLowerCase(),
 				control = ($isStrict) ? $value : (""+$value).toLowerCase(),
 				isNegated = !!$not;
 
@@ -133,8 +133,8 @@
 
 	entropy.register("type", {
 		check: /^~(\w+)$/,
-		filter(element, e, $type) {
-			var type = Object.prototype.toString.call(element.value).replace(/\[object (\w+)\]/, "$1");
+		filter(item, i, $type) {
+			var type = Object.prototype.toString.call(item).replace(/\[object (\w+)\]/, "$1");
 			return type.toLowerCase() === $type.toLowerCase();
 		}
 	});
@@ -142,8 +142,8 @@
 	entropy.register("index", {
 		check: /^(\d+)$/,
 		type: "number",
-		filter(element, e, $index) {
-			return e == $index;
+		filter(item, i, $index) {
+			return i == $index;
 		}
 	});
 
