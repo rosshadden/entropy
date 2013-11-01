@@ -226,13 +226,13 @@
 				return s;
 			}
 
-			forEach(fn, self) {
+			forEach(fn, self = this) {
 				let e, length = this.length;
 				for(e = 0; e < length; e++) {
 					let element = this[e];
 					if (typeof fn === "function") {
 						try {
-							fn.call(self || element, element.value, e);
+							fn.call(self, element, e);
 						} catch(error) {
 							// Allows for s.forEach(console.log, console), s.forEach(alert), etc.
 							fn.call(self || null, element.value, e);
