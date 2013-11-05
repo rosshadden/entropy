@@ -251,6 +251,80 @@
 				return this;
 			}
 
+			every(fn, self) {
+				let e, length = this.length;
+				for(e = 0; e < length; e++) {
+					let element = this[e];
+					if (typeof fn === "function") {
+						if (!fn.call(self || element, element.value, e, this)) return false;
+					}
+				}
+				return true;
+			}
+
+			some(fn, self) {
+				let e, length = this.length;
+				for(e = 0; e < length; e++) {
+					let element = this[e];
+					if (typeof fn === "function") {
+						if (fn.call(self || element, element.value, e, this)) return true;
+					}
+				}
+				return false;
+			}
+
+			reduce(fn, initial) {
+				if (typeof fn === "function") {
+					var i, value,
+						length = this.length >>> 0,
+						isValueSet = false;
+					if (typeof initial !== "undefined") {
+						value = initial;
+						isValueSet = true;
+					}
+					for (i = 0; i < length; i++) {
+						if (this.hasOwnProperty(i)) {
+							if (isValueSet) {
+								value = fn.call(this[i], value, this[i].value, i, this);
+							} else {
+								value = this[i].value;
+								isValueSet = true;
+							}
+						}
+					}
+					if (!isValueSet) {
+						throw new TypeError("Reduce of empty array with no initial value");
+					}
+				}
+				return value;
+			}
+
+			reduceRight(fn, initial) {
+				if (typeof fn === "function") {
+					var i, value,
+						length = this.length >>> 0,
+						isValueSet = false;
+					if (typeof initial !== "undefined") {
+						value = initial;
+						isValueSet = true;
+					}
+					for (i = length; i >= 0; i--) {
+						if (this.hasOwnProperty(i)) {
+							if (isValueSet) {
+								value = fn.call(this[i], value, this[i].value, i, this);
+							} else {
+								value = this[i].value;
+								isValueSet = true;
+							}
+						}
+					}
+					if (!isValueSet) {
+						throw new TypeError("Reduce of empty array with no initial value");
+					}
+				}
+				return value;
+			}
+
 		// SET OPERATIONS
 			union(...sets) {
 				var s = this.slice();
